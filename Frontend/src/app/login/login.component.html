@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="blur-login">
+
+  </div>
+  <div class ="pop-login">
+<!--    <div class = "img-circle">-->
+    <img class="mb-4" title = "Idle Adventure Online" src="assets/img/logo1.png" width="125" height="125">
+<!--    </div>-->
+      <form name = "loginForm" #f = "ngForm" (ngSubmit) = "loginUser()">
+      <div class = "errLogin" *ngIf="failedLogin">
+        <p>Username/Password was incorrect. Please try again.</p>
+      </div>
+      <div class="form-group row">
+        <input class="form-control bg-transparent shadow-none" type="text" placeholder="Username" name = "username" [(ngModel)]="model.username">
+      </div>
+      <div class="form-group row">
+        <input class="form-control bg-transparent shadow-none" type="password" placeholder="Password" name = "password" [(ngModel)]="model.password">
+      </div>
+      <button class="btn btn-dark" type ="submit">Log in</button>
+
+    </form>
+
+    <span>Don't have an account? <a routerLink="/signup">Sign up</a></span>
+  </div>
+</div>
+
+

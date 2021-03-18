@@ -1,0 +1,70 @@
+<app-navigation></app-navigation>
+<div class ="container" *ngIf="authorized">
+
+
+    <div class ="header-info">
+    </div>
+  <div class="transparent-box">
+
+    <div class="usernameBox">
+      {{model.username}}
+    </div>
+
+  </div>
+  <div class="transparent-box">
+
+      <div class="form-row">
+        <div class="progress-label" >Level: {{model.level}}</div>
+        <div class="progress level">
+          <div class="progress-bar levelBar" role="progressbar" style="width:{{(model.xp_current/model.xp_lvl_up)*100}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          <span>{{model.xp_current}}/{{model.xp_lvl_up}}</span>
+        </div>
+      </div>
+
+  </div>
+
+    <div class="transparent-box">
+
+      <div class ="free-progress">
+        <div class="form-row">
+        <div class="progress-label" ><img src="/assets/img/gold_coin.png" title="Gold"></div>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width:{{dataService.counter}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          <span>{{dataService.gold_progress}}</span>
+        </div>
+
+        <button class="btn btn-gold" data-toggle="tooltip" title="Collect Gold" (click)="collectGold()"></button>
+        </div>
+
+        <div class="form-row">
+        <div class="progress-label" ><img src="/assets/img/xp.png" title="Exp."></div>
+        <div class="progress">
+          <div class="progress-bar barXp" role="progressbar" style="width:{{dataService.xpBarWidth}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          <span>{{dataService.xp_progress}}</span>
+        </div>
+
+        <button class="btn btn-xp" data-toggle="tooltip" title="Collect Exp" (click)="collectXp()"></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!--<div id = "dailies" class = "overflow-auto">-->
+      <!--<h3>Daily Quest</h3>-->
+
+
+    <!--</div>-->
+
+
+    <!--<form name = "itemForm" #f = "ngForm" (ngSubmit) = "getItem()">-->
+
+      <!--<button class="btn btn-outline-secondary" type ="submit">get item</button>-->
+
+    <!--</form>-->
+
+    <div [ngClass]="{'show':showGoldCollected}" class="goldCollect">Gold Collected!</div>
+    <div [ngClass]="{'show':showXpCollected}" class="xpCollect">Exp Collected!</div>
+
+  </div>
+
+

@@ -1,0 +1,84 @@
+<app-navigation></app-navigation>
+<div class="container">
+
+  <nav class="navbar navbar-light justify-content-between">
+    <div class="buttons">
+      <div class="buttonsContainer">
+        <button class="btnMenu effect01" (click)="displayShop()" (mouseenter)="showShopPreview=true" (mouseleave)="displayShopPreview()">Shop</button>
+      </div>
+      <div class="buttonsContainer">
+        <button class="btnMenu effect01" (click)="displayShop()">Forge</button>
+      </div>
+      <div class="buttonsContainer">
+        <button class="btnMenu effect01" (click)="displayShop()">Craft</button>
+      </div>
+      <div class="buttonsContainer">
+        <button class="btnMenu effect01" (click)="displayShop()">Lucky Wheel</button>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class= "contentBox" *ngIf="showShop || showShopPreview" [ngClass]="{'preview':showShopPreview}">
+    <div class="form-group row">
+      <button class="btn groupBtn rounded-0" (click)="displayShopBuy()">Buy</button>
+      <button class="btn groupBtn rounded-0" (click)="displayShopSell()">Sell</button>
+    </div>
+
+    <div class="shopContents rounded">
+    <!---------------------------------------->
+      <div class ="d-flex flex-row flex-wrap" *ngIf="showShopBuy">
+
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of shopInventory;let i = index">
+          <div class = "p-2 mb-auto justify-content-center align-self-center">{{item.itemName}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+            <div class="shopImg align-self-center" *ngIf="item.item_type==='Potion'" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
+          </div>
+          <div class="p-2 align-self-center">
+            <div class = "indent">
+              {{item.price}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemBuy(item,i)">Buy</button>
+          </div>
+        </div>
+      </div>
+      <!---------------------------------------->
+      <div class ="d-flex flex-row flex-wrap" *ngIf="showShopSell">
+
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory">
+          <div class = "p-2 mb-auto justify-content-center align-self-center">{{item.itemName}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+            <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+            <div class="shopImg align-self-center" *ngIf="item.item_type==='Potion'" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
+            <div class="sellAmount">x{{item.amount}}</div>
+            </div>
+          </div>
+          <div class="p-2 align-self-center">
+            <div class = "indent">
+              {{item.sell}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemBuy(item)">Sell</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <br><br>
+
+
+
+  <div class="contentBox" *ngIf="showCraft"></div>
+
+  <div [ngClass]="{'show':showBought}" class="purchaseItem">Item bought!</div>
+  <div [ngClass]="{'show':showSell}" class="purchaseItem">Item Sold!</div>
+  <div [ngClass]="{'show':notEnoughGold}" class="purchaseItemFailed">Not enough gold!</div>
+</div>
+
+

@@ -1,0 +1,394 @@
+.container{
+min-height:100vh;
+
+}
+
+
+a{
+      text-decoration:none;
+}
+a:hover{
+border-bottom: 1px solid red;
+}
+img{
+filter: drop-shadow(0 0 10px #333);
+}
+.form-group{
+justify-content: space-evenly;
+padding-bottom:20px;
+}
+::-webkit-scrollbar {
+    width: 5px;
+    height: 15px;
+}
+.purchaseItem{
+  visibility: hidden;
+  min-width: 250px;
+  min-height:40px;
+  margin-left: -125px;
+  background-color: #5cb85c;
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+  padding: 10px;
+  position: fixed;
+  left: 50%;
+  bottom: 50px;
+}
+.purchaseItem.show{
+  visibility: visible;
+  -webkit-animation: fadeinout 1s;
+  animation: fadeinout 1s;
+}
+
+.purchaseItemFailed{
+  visibility: hidden;
+  min-width: 250px;
+  min-height:40px;
+  margin-left: -125px;
+  background-color: red;
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+  padding: 10px;
+  position: fixed;
+  left: 50%;
+  bottom: 50px;
+}
+.purchaseItemFailed.show{
+  visibility: visible;
+  -webkit-animation: fadeinout 1.5s;
+  animation: fadeinout 1.5s;
+}
+
+.sellAmount{
+position: relative;
+top: 25px;
+color: white;
+left: 10px;
+font-size: 16px;
+}
+
+@-webkit-keyframes fadeinout {
+  0%{bottom: 50px; opacity: 0;}
+  50% {bottom: 80px; opacity: 1;}
+  100% {bottom: 50px; opacity:0}
+}
+
+@keyframes fadeinout {
+  0%{bottom: 50; opacity: 0;}
+  50% {bottom: 80px; opacity: 1;}
+  100% {bottom: 50px; opacity:0}
+}
+
+::-webkit-scrollbar-track-piece  {
+    background-color: #212121;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 15px;
+    background-color: #2E2E2E;
+}
+
+.shopContents{
+  scrollbar-color: #2E2E2E #212121;
+  scrollbar-width: thin;
+  overflow:auto;
+  height:500px;
+  background: rgba(0, 0, 0, .3);
+  box-shadow: inset 0px 0px 10px black;
+  padding:10px;
+}
+
+.shopBox{
+width:175px;
+height:200px;
+border-style:groove;
+margin:20px;
+background-color:#0F0F0F;
+box-shadow: 0px 0px 8px black;
+border-radius:10px;
+margin-right:25px;
+margin-left:35px;
+
+}
+.shopBox:hover{
+background-color:#0000003b;
+cursor:pointer;
+}
+
+.darker{
+color:white;
+background-color:#212121;
+border-radius:1px;
+}
+
+
+.contentBox{
+  padding:10px;
+  border-radius: 5px;
+  box-shadow: 0px 3px 5px #1F1F1F;
+  font-size:120%;
+  font-family: CronosPro;
+  max-width: 1000px;
+  max-height: 600px;
+  margin: auto;
+  background: rgba(0, 0, 0, .8);
+}
+
+.table > tbody > tr:first-child > td {
+    border-top: none;
+}
+.table>tbody>tr>td:first-child{
+  padding-left:20px;
+}
+
+.table>tbody>tr:first-child{
+    border-top:none;
+}
+
+.buyTdElement{
+width:150px;
+color:white;
+font-size:13px;
+}
+.groupBuyTd{
+text-align:left;
+height:20px;
+}
+
+.flexExample{
+display:flex;
+}
+.testFlex{
+border:1px blue solid;
+  margin: 10px;
+}
+
+
+.iconBtn:hover{
+transform:scale(1.3);}
+.iconBtn{
+transition:.2s linear;
+}
+.groupBtn:hover{
+border-bottom:1px solid white;
+}
+
+.groupBtn:focus{
+outline-color:red;
+-webkit-box-shadow: none;
+border-bottom:1px solid white;
+}
+.groupBtn:active{
+outline:0;
+}
+.fa{
+color:white;
+}
+.buyBtn{
+width:150px;
+}
+.groupBtn{
+color:white;
+flex-grow:1;
+display:block;
+}
+
+.uncommon{
+  color: #00FF00;
+  filter: drop-shadow(0px 0px 3px rgba(0,255,0));
+}
+
+.common{
+  filter: drop-shadow(0px 0px 3px rgba(255,255,255));
+}
+
+.rare{
+  font-style:italic;
+  filter: drop-shadow(0px 0px 3px rgba(0,255,255));
+  color:cyan;
+}
+
+.mythic{
+  color:purple;
+  filter: drop-shadow(0px 0px 3px rgba(127,0,255));
+}
+
+.legendary{
+  color:#FF8000;
+  filter: drop-shadow(0px 0px 3px rgba(255,128,0));
+  font-style:italic;
+}
+
+.artifact{
+  color:#CC0000;
+  filter: drop-shadow(0px 0px 3px rgba(204,0,0));
+  font-style:italic;
+}
+
+.Weapon{
+background: url('/assets/img/sword_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+
+.Ring{
+background: url('/assets/img/ring_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+.Chest{
+background: url('/assets/img/chest_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+.Helmet{
+background: url('/assets/img/helm_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+.Legging{
+background: url('/assets/img/legs_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+.Boots{
+background: url('/assets/img/boots_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+.Potion{
+background: url('/assets/img/potion_shop.png') no-repeat;
+height:50px;
+width:50px;
+}
+
+.testShop{
+height:475px;
+  background-color:#2E2E2E;
+  }
+
+
+.indent{
+box-shadow: inset 0px 0px 3px #0F0F0F;
+background-color:#1F1F1F;
+width:150px;
+text-align:right;
+border-radius:5px;
+color:grey;
+padding-right:5px;
+}
+
+.shopImg{
+height:50px;
+width:50px;
+
+}
+
+.buttons {
+
+  display: flex;
+  flex-direction: row;
+      flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.buttonsContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: #FFF0;
+  padding:  40px 0px;
+  width: 240px;
+}
+
+
+
+
+
+.btnMenu {
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 45px;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+  color:white;
+}
+.btnMenu:hover {
+  text-decoration: none;
+  color:black;
+}
+
+.effect01 {
+  color: #FFF;
+  border: 4px solid #000;
+  box-shadow:0px 0px 0px 1px #000 inset;
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.effect01:hover {
+  border: 4px solid #666;
+  background-color: #FFF;
+  box-shadow:0px 0px 0px 4px #EEE inset;
+}
+
+.effect01 span {
+  transition: all 0.2s ease-out;
+  z-index: 2;
+}
+.effect01:hover span{
+  letter-spacing: 0.13em;
+  color: #333;
+}
+
+.effect01:after {
+  background: #FFF;
+  border: 0px solid #000;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: .8;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+          transform: rotate(35deg);
+  width: 50px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 1;
+}
+.effect01:hover:after {
+  background: #FFF;
+  border: 20px solid #000;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+          transform: rotate(40deg);
+}
+
+
+.preview{
+animation: show 1s forwards;
+}
+
+@keyframes show{
+0%{
+opacity:0;
+}
+100%{
+opacity:1;
+}
+}

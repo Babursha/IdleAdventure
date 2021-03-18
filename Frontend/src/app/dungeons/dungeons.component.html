@@ -1,0 +1,180 @@
+<app-navigation></app-navigation>
+<div class ="container">
+<!--  <div class="row noMargins">
+    <div class="split d-flex" [ngClass]="{'peakL': peak, 'unpeakL': unpeak,'uncoverL':uncover}">
+    </div>
+    <div class ="split d-flex" [ngClass]="{'peakR': peak, 'unpeakR': unpeak,'uncoverR':uncover}">
+    </div>
+  </div>-->
+
+<!--  <div [ngClass]="hidden ? 'borderBtn':'disappearBox'" (click)="hidden=!hidden;uncover=true;unpeak=false;peak=false;dungeonsOpened=true" (mouseover)="peak=true;unpeak=false" (mouseleave)="unpeak=true;peak=false">
+  </div>-->
+  <!--<div class="text">-->
+    <!--<h3>Bub World Dungeons</h3>-->
+    <!--<p>Automate the battle and take on the dungeons of BubWorld to earn great rewards! Take down boss monsters for exclusive loot and stacks of gold.</p>-->
+  <!--</div>-->
+
+<!------------------------------------Start Forest Card--------------------------------------------------->
+  <div class ="row">
+  <div class="cardContainerForest" (click)="showDetailsForest=true" (mouseleave)="showDetailsForest=false">
+    <div class="card" (mouseenter)="pulse=true"[ngClass]="{'pulseF':pulse}">
+      <div class="frontCardForest" [ngClass]="{'flipCard':showDetailsForest}">
+        <img class="area" src ="/assets/img/forestbattle.jpg">
+      </div>
+
+      <div class="backCardForest" [ngClass]="{'flipBack':showDetailsForest}">
+        <div class="backInfo">
+          <div class="d-flex flex-row justify-content-center">
+            <div class="" *ngFor="let monster of forest">
+              <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+              <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+          </div>
+          </div>
+          <button class="btn btnForest" routerLink="/dungeons/forest">Explore</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    <!------------------------------------Start Desert Card--------------------------------------------------->
+  <div class="cardContainerDesert desertCard" (click)="showDetailsDesert=true" (mouseleave)="showDetailsDesert=false">
+    <div class="card" (mouseenter)="pulse=true"[ngClass]="{'pulseD':pulse}">
+      <div class="frontCardDesert" [ngClass]="{'flipCard':showDetailsDesert}">
+        <img class="area" src ="/assets/img/desert.jpg">
+      </div>
+
+      <div class="backCardDesert" [ngClass]="{'flipBack':showDetailsDesert}">
+        <div class="backInfo">
+          <div class="d-flex flex-row justify-content-center">
+            <div class="p-2" *ngFor="let monster of desert">
+              <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="bottom-left">
+              <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="bottom-left">
+            </div>
+
+          </div>
+          <button class="btn btnDesert" routerLink="/dungeons/desert">Explore</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    <!------------------------------------Start Cave Card--------------------------------------------------->
+    <div class="cardContainerCave" (click)="showDetailsCave=true" (mouseleave)="showDetailsCave=false">
+      <div class="card" (mouseenter)="pulse=true" [ngClass]="{'pulseC':pulse}">
+        <div class="frontCardCave" [ngClass]="{'flipCard':showDetailsCave}">
+          <img class="area" src ="/assets/img/cave.jpg">
+        </div>
+
+        <div class="backCardCave" [ngClass]="{'flipBack':showDetailsCave}">
+          <div class="backInfo">
+            <div class="d-flex flex-row justify-content-center">
+              <div class="p-2" *ngFor="let monster of cave">
+                <img class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showWolf(monster)" [ngbPopover]="wolfPop" #wolfPopover="ngbPopover" triggers="hover" placement="bottom-left"></div>
+            </div>
+            <button class="btn btnCave" routerLink="/dungeons/cave">Explore</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!------------------------------------Start Volcano Card--------------------------------------------------->
+    <div class="cardContainerVolcano" (click)="showDetailsVolcano=true" (mouseleave)="showDetailsVolcano=false">
+      <div class="card" (mouseenter)="pulse=true"[ngClass]="{'pulseV':pulse}">
+        <div class="frontCardVolcano" [ngClass]="{'flipCard':showDetailsVolcano}">
+          <img class="area" src ="/assets/img/volcano.jpg">
+        </div>
+
+        <div class="backCardVolcano" [ngClass]="{'flipBack':showDetailsVolcano}">
+          <div class="backInfo">
+            <div class="d-flex flex-row justify-content-center">
+              <div class="p-2" *ngFor="let monster of volcano">
+                <img class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showWolf(monster)" [ngbPopover]="wolfPop" #wolfPopover="ngbPopover" triggers="hover" placement="bottom-left"></div>
+            </div>
+            <button class="btn btnVolcano" routerLink="/dungeons/volcano">Explore</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+
+  <ng-template #monsterPop>
+    <section id="monsterPopover">
+      <div class="monsterName">{{monster.name}}</div>
+      <p class="popupText"><img src="assets/img/heart.png"> &nbsp;{{monster.hp}}</p>
+      <p class="popupText"><img src="assets/img/attack.png"> &nbsp;{{monster.attack}}</p>
+      <p class="popupText"><img src="assets/img/shield.png"> &nbsp;{{monster.defense}}</p>
+
+      <p class="popupText"><img class="sellGold" src="assets/img/gold_coin.png"> &nbsp;{{monster.goldDrop}}</p>
+
+    </section>
+  </ng-template>
+    <!--<img src="/assets/img/forest_dungeon.png">-->
+<!--    <div class="cardF pulseF" style="width: 25rem;">
+      <img class="card-img-top" src="/assets/img/forest.jpg" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Bub o' Forest</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Rec. Lv. 1</h6>
+        <p class="card-text">The guardian of Bub o' Forest is a slumbering serpent. Explore now to reap rewards!</p>
+        <form (ngSubmit)="getForestDetails()">
+          <button type = "submit" class="btn btn-block btn-dark btn-secondary" data-toggle="modal" data-target="#forestModal">View Dungeon Details</button>
+        </form>
+
+      </div>
+    </div>-->
+    <!--__________________________________START DESERT______________________________________________________ -->
+<!--
+
+    <div class="cardD pulseD" style="width: 25rem;">
+      <img class="card-img-top"  alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Barren Sands</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Rec. Lv. 14</h6>
+        <p class="card-text">The sands of the Barren Sands rumble with the movement of the Sand Wrym!</p>
+        <form (ngSubmit)="getDesertDetails()">
+          <button type = "submit" class="btn btn-block btn-dark btn-secondary" data-toggle="modal" data-target="#desertModal">View Dungeon Details</button>
+        </form>
+        <div class="modal fade" id="desertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalLongTitle">Barren Sands</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class = "toggleMonsters" data-toggle="collapse" data-target="#desertMonsters" aria-expanded="false" aria-controls="collapseExample">
+                  Desert Monster Encounters <i class="fa fa-angle-down"></i>
+                </p>
+
+                <div class="collapse" id="desertMonsters">
+
+                  <div class="d-flex flex-row">
+                    <div class="p-2" *ngFor="let monster of data">{{monster.monsterName}}</div>
+                  </div>
+
+                </div>
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" routerLink="/dungeons/desert" routerLinkActive="active" data-dismiss="modal">Explore</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+-->
+
+      <!--___________________________________START CAVE_____________________________________________________ -->
+
+
+</div>

@@ -1,0 +1,71 @@
+<div class = "container">
+
+  <div class="blur-success" *ngIf="successfulRegister">
+
+  </div>
+  <div class ="success-pop" *ngIf="successfulRegister">
+    <div class ="register-success">
+      <p>Successfully Registered!</p>
+      <button class="btn btn-dark btn-login" routerLink="/login">Login Now</button>
+    </div>
+  </div>
+  <div class="blur-signup" *ngIf="!successfulRegister">
+
+  </div>
+  <div class ="pop-out" *ngIf="!successfulRegister">
+    <div class="register">
+    <img class="mb-4" title = "Bubby World Online" src="assets/img/logo1.png" width="125" height="125">
+
+    <form name = "signUpForm" #f = "ngForm" (ngSubmit) = "createUser()">
+
+      <div class="formInputs">
+        <div class="d-flex">
+          <label for="username">Username</label>
+        </div>
+        <input class = "form-control" (focus)="clearUserErrors()"[ngClass]= "{'is-invalid': usernameErrorCheck || usernameExistCheck}" id = "username" name="username" [(ngModel)]="model.username"/>
+        <div class="error" *ngIf="usernameErrorCheck">
+          <span>Username should be between 2 and 20 characters.</span>
+        </div>
+        <div class="error" *ngIf="usernameExistCheck">
+          <span>Username is already taken.</span>
+        </div>
+        <div class="d-flex">
+          <label for="email">Email</label>
+        </div>
+          <input class = "form-control" (focus)="clearEmailErrors()" [ngClass]= "{'is-invalid': emailErrorCheck || emailExistCheck}" ngModel id = "email" name="email" [(ngModel)]="model.email"/>
+        <div class="error" *ngIf="emailErrorCheck">
+          <span>Enter a valid email address.</span>
+        </div>
+        <div class="error" *ngIf="emailExistCheck">
+          <span>Email is registered to an account.</span>
+        </div>
+
+          <div class="d-flex">
+          <label for="password">Password</label>
+          </div>
+          <input class = "form-control" [ngClass]= "{'is-invalid': passwordErrorCheck}" type="password" id = "password" name="password" [(ngModel)]="model.password"  (focus)="tooltip.show();passwordErrorCheck=false;" />
+          <div class="hiddenTooltip"
+               matTooltipPosition="right"
+               matTooltipClass="pass-tooltip"
+               matTooltip='{{passwordDescription()}}'
+               #tooltip="matTooltip">
+          </div>
+        <div class="error" *ngIf="passwordErrorCheck">
+          <span>Password requirements not met.</span>
+        </div>
+
+        <div class="d-flex">
+          <label for="confirmPassword">Confirm Password</label>
+        </div>
+          <input class = "form-control" [ngClass]= "{'is-invalid': !samePasswordCheck}" (focus)="samePasswordCheck =true" type = "password" id = "confirmPassword" name="password" [(ngModel)]="model.password2" required />
+        <div class="error" *ngIf="!samePasswordCheck">
+          <span>The confirmation password doesn't match.</span>
+        </div>
+      </div>
+
+        <button type="submit" class  = "btn btn-dark">Sign up</button>
+      </form>
+
+  </div>
+  </div>
+</div>

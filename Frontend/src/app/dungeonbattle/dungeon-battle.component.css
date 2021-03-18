@@ -1,0 +1,411 @@
+.container{
+padding-top:50px;
+position:relative;
+min-height:100vh;
+min-width:100%;
+}
+
+
+.battleLog{
+margin:auto;
+padding:25px;
+background-color:#0003;
+opacity:.8;
+box-shadow: 0px 0px 20px black;
+min-height:400px;
+min-width:300px;
+max-width:1600px;
+max-height:400px;
+overflow-y:scroll;
+color:white;
+margin-bottom:10px;
+scrollbar-color: #212121 #5B5B5B;
+margin-top:50px;
+margin-bottom:40px;
+}
+
+.playerBox{
+min-width:300px;
+min-height:300px;
+position:relative;
+text-align:center;
+font-family: CronosPro;
+}
+.battleGraphic{
+min-width:300px;
+}
+#playerName{
+color:white;
+display:flex;
+justify-content:center;
+background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(181, 49, 255, 0.23), rgba(0, 0, 0, 0));
+height:35px;
+padding-top:5px;
+}
+#monName{
+color:white;
+display:flex;
+justify-content:center;
+background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 0, 0, 0.23), rgba(0, 0, 0, 0));
+height:35px;
+padding-top:5px;
+}
+#playerInfo{
+min-width:300px;
+box-shadow: 0px 0px 20px rgb(0, 0, 0);
+background-color: #0003;
+margin-right:50px;
+margin-left:50px;
+border-radius:5px;
+border:1px solid black;
+
+}
+#monsterInfo{
+min-width:300px;
+box-shadow: 0px 0px 20px rgb(0, 0, 0);
+background-color: #0003;
+margin-right:50px;
+margin-left:50px;
+border-radius:5px;
+border:1px solid black;
+}
+.playerRow{
+margin-left:15px;
+margin-top:10px;
+color:white;
+}
+.monsterRow{
+margin-left:15px;
+margin-top:10px;
+color:white;
+
+}
+.townDialog{
+color:#b964ff;
+}
+.heart{
+color:red;
+filter: drop-shadow(0px 0px 5px rgba(255,0,0));
+}
+.gold{
+color:#ffe300;
+filter: drop-shadow(0px 0px 5px rgba(255, 227, 0));
+}
+.xp{
+color:#db00db;
+filter: drop-shadow(0px 0px 5px rgba(217, 0, 203));
+}
+
+.basic{
+filter: drop-shadow(0px 0px 2px rgba(255,255,255));
+}
+#boss{
+filter: drop-shadow(0px 0px 5px rgba(255, 120, 0));
+}
+.btnRow{
+margin-top:10px;
+}
+.monsterBox{
+min-width:300px;
+min-height:300px;
+position:relative;
+text-align:center;
+font-family: CronosPro;
+}
+
+.monName{
+text-align:center;
+font-family: CronosPro;
+}
+.d-flex{
+justify-content: center;
+}
+#potion{
+color:white;
+}
+#dungeonActions{
+margin:auto;
+justify-content:left;
+max-width:1600px;
+}
+
+.progress-bar{
+box-shadow: 0px 0px 5px #888888;
+height: 100%;
+position: absolute;
+bottom: 0px;
+margin: auto;
+}
+
+.progress{
+box-shadow: 0px 0px 5px black;
+position: absolute;
+bottom: 0px;
+width: 100%;
+height:1.5rem;
+line-height:unset;
+font-size:1rem;
+display:block;
+border:1px red solid;
+}
+.separate{
+color:white;
+height: 1px;
+background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+margin:20px;
+}
+
+.mat-slider-horizontal {
+  margin-top:20px;
+  width: 300px;
+}
+
+img{
+margin-right:3px;
+}
+span{
+z-index:1;
+position:relative;
+margin:10px;
+font-size:14px;
+}
+p{
+filter:drop-shadow(0px 0px 7px rgba(255,255,255));
+}
+
+::-webkit-scrollbar-track-piece  {
+    background-color: #2E2E2E;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 15px;
+    background-color: #212121;
+}
+.healEffect{
+position:absolute;
+min-width:132px;
+min-height:124px;
+left:25%;
+top:25%;
+background-image:url("/assets/img/healing.png");
+animation:heal 1s forwards;
+}
+
+
+.hitEffectMonster{
+min-width:83px;
+min-height:86px;
+position:absolute;
+left:40%;
+top:25%;
+background-image:url("/assets/img/monsterSlash.png");
+filter: drop-shadow(0px 0px 3px rgba(255,0,0));
+animation:effect 1s forwards;
+}
+
+.hitEffectPlayer{
+min-width:116px;
+min-height:120px;
+position:absolute;
+right:30%;
+top:18%;
+background-image:url("/assets/img/effect2.png");
+animation:effect 1s forwards;
+
+}
+
+.attackL{
+    position:relative;
+    width: 182px;
+    height: 142px;
+    background-image : url("/assets/img/rsz_wolf.png");
+    animation:attackMotion .5s linear;
+
+}
+.attackR{
+    position:relative;
+    animation:attackMotionP .3s linear;
+
+}
+
+.hit{
+
+      animation:hitMotion .8s linear;
+
+}
+.player{
+    position:relative;
+    width:123px;
+    height:134px;
+    background-image:url("/assets/img/character.png");
+    top:60px;
+    left:30%;
+
+}
+.playerCrit{
+color:green;
+filter:drop-shadow(0px 0px 5px rgba(2, 204, 2));
+}
+.monsterCrit{
+color:red;
+filter:drop-shadow(0px 0px 5px rgba(255,0,0));
+}
+
+.monster{
+  position:relative;
+  top:30px;
+  left:30%;
+
+}
+
+.idleMotion{
+animation: moveX 2s infinite;
+
+}
+
+.Wolf{
+      width: 149px;
+      height: 116px;
+      background-image : url("/assets/img/wolf.png");
+      background-repeat:no-repeat;
+
+}
+
+.Slime{
+  width:135px;
+  height:120px;
+  background-image: url("/assets/img/slime.png");
+  animation: slime .8s steps(5) infinite;
+
+
+}
+.Golem{
+  width:148px;
+  height:171px;
+  background-image:url("/assets/img/golem.png");
+
+}
+
+.Fairy{
+  width:70px;
+  height:120px;
+  background-image:url("/assets/img/fairy.png");
+  animation: fairy 1s steps(4) infinite;
+}
+
+@keyframes attackMotion{
+      0%{
+        transform:translate(0px,0px);
+      }
+      50%{
+        transform:translate(-60px,0px);
+      }
+
+      100%{
+        transform:translate(0px,opx);
+      }
+
+}
+@keyframes attackMotionP{
+       0%{
+         transform:translate(0px,0px);
+       }
+       50%{
+         transform:translate(60px,0px);
+       }
+
+       100%{
+         transform:translate(0px,opx);
+       }
+
+ }
+
+@keyframes hitMotion{
+    0%{
+      opacity:1;
+
+    }
+    40%{
+      opacity:0;
+
+    }
+    42%{
+      opacity:1;
+
+    }
+
+    50%{
+      opacity:0;
+
+    }
+    52%{
+      opacity:1;
+
+    }
+    60%{
+      opacity:0;
+
+    }
+    62%{
+      opacity:1;
+    }
+}
+
+@keyframes effect{
+0%{
+transform:scaleX(.8);
+transform:scaleY(.8);
+z-index:1;
+}
+20%{
+transform:scaleX(1.0);
+transform:scaleX(1.0);
+}
+50%{
+opacity:0;
+}
+100%{
+opacity:0;
+}
+}
+@keyframes heal{
+0%{
+transform:scaleX(.8);
+transform:scaleY(.8);
+z-index:1;
+}
+20%{
+opacity:0;
+}
+50%{
+opacity:1;
+}
+100%{
+opacity:0;
+z-index:1;
+}
+}
+@keyframes moveX{
+      0%{
+        transform:translate(0px,0px);
+        z-index: -1;
+      }
+      50%{
+        transform:translate(0px,5px);
+        transform:scaleY(.95);
+      }
+      100%{
+        transform:translate(0px,0px);
+        z-index: -1;
+      }
+}
+
+@keyframes slime{
+      from{background-position-x:0px;}
+      to{background-position-x:-677px;}
+
+}
+@keyframes fairy{
+  from{background-position-x:0px;}
+  to{background-position-x:-280px;}
+}

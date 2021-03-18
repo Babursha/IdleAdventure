@@ -1,0 +1,18 @@
+<app-navigation></app-navigation>
+  <div class="container">
+    <div class="accountInfoBox">
+    <h3>Account Information</h3>
+    <form name="changePasswordForm" (ngSubmit)="changePassword()">
+      <div class="form-group col-md-4">
+        <label for ="password">Change Password:</label>
+        <input id = "password" class="form-control" type="password" placeholder="New Password" name = "password" [(ngModel)]="model.password">
+        <button class="btn btn-outline-secondary" type ="submit">Submit</button>
+      </div>
+
+    </form>
+    </div>
+    <div class="achievementsBox">
+      <h3>Achievements</h3>
+    </div>
+</div>
+

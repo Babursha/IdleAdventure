@@ -1,0 +1,120 @@
+
+.container{
+  height:100vh;
+  width:100vw;
+  padding-top: 100px;
+  text-align: center;
+  background-size:   cover;
+  background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url('/assets/img/bg.jpg');
+  background-repeat: no-repeat;
+  position: fixed;
+  min-width: 100%;
+  background-position: center;
+}
+
+.blur-login{
+    width: 400px;
+    height: 500px;
+    box-shadow: 0 0 200px 0 rgba(0,0,0, 0.3);
+    border-radius: 5px;
+    position:absolute;
+    background: inherit;
+    overflow: hidden;
+    margin-left:-200px;
+    margin-top:-250px;
+    left:50%;
+    top:50%;
+    overflow:hidden;
+}
+
+.blur-login:before{
+  content: "";
+  position: absolute;
+  background:inherit;
+  border-radius: 5px;
+  padding:10px;
+  font-family: CronosPro;
+  width: 400px;
+  height:500px;
+  position:absolute;
+  top:50%;
+  margin-top:-250px;
+  left:50%;
+  margin-left:-200px;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .3);
+  filter:blur(10px);
+}
+
+.pop-login{
+
+  width: 400px;
+  min-height:480px;
+  position:absolute;
+  top:50%;
+  margin-top:-240px;
+  left:50%;
+  margin-left:-200px;
+
+}
+.title{
+padding-bottom:25px;
+font-size:large;
+}
+.form-control{
+  margin:auto;
+  margin-bottom:-8px;
+  width:300px;
+  border:none;
+  border-bottom:1px solid purple;
+  color:white;
+  border-radius:0px;
+  transition:all .1s;
+  padding-top:15px;
+}
+.form-control:hover{
+  border-bottom:3px solid purple;
+}
+.form-control:focus{
+  border-bottom:3px solid purple;
+}
+
+.form-group{
+margin-top:10px;
+padding-top:10px;
+}
+.btn{
+  margin-top:30px;
+  margin-bottom:50px;
+  width:200px;
+  border:1px solid purple;
+  background-color:none;
+}
+.errLogin{
+color:red;
+}
+span{
+color:white;
+}
+
+@keyframes focused{
+100%{
+  border-bottom:10px solid blue;
+  }
+}
+
+@keyframes hovered{
+100%{
+  border-bottom:2px solid purple;
+  }
+}
+.img-circle{
+border-radius:50%;
+box-shadow: 0 0 2000px rgba(255, 255, 255, .5);
+width:200px;
+height:200px;
+margin:auto;
+}
+img{
+filter: drop-shadow(0px 0px 1px rgba(147,71,205));
+margin-top:10px;
+}

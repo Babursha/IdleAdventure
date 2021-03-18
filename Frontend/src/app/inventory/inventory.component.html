@@ -1,0 +1,421 @@
+<app-navigation></app-navigation>
+<div class="container">
+
+  <div class="characterView">
+    <div class="charStats">
+      Equipment Level: {{itemLevel}}<br>
+      Health: {{model.hp}}<br>
+      Defense: {{model.defense}}<br>
+      Attack: {{model.attack}}<br>
+      Critical Hit Chance: {{model.crit_chance}}%<br>
+      Critical Hit Damage: 150%<br>
+      Evasion: 0%<br>
+      Hit Chance: 100%<br>
+    </div>
+
+    <div class="characterTitle">
+      {{model.username}}
+    </div>
+
+    <div class="itemSlot">
+      <div class="popCheck"[ngbPopover]="helmetPopEquip" #helmetPopoverEquip="ngbPopover" triggers="hover" placement="right" *ngIf="helmetEquipped">
+        <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[helmet.rarity]"
+          src="/assets/img/rsz_helm.png" (click)="unequipItem(helmet)">
+      </div>
+    </div>
+
+    <div class="itemSlot">
+      <div class="popCheck"[ngbPopover]="chestPopEquip" #chestPopoverEquip="ngbPopover" triggers="hover" placement="right" *ngIf="chestEquipped">
+        <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[chest.rarity]"
+          src="/assets/img/rsz_chest.png" (click)="unequipItem(chest)">
+      </div>
+    </div>
+
+    <div class="itemSlot">
+      <div class="popCheck"[ngbPopover]="leggingPopEquip" #leggingPopoverEquip="ngbPopover" triggers="hover" placement="right" *ngIf="leggingEquipped">
+        <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[legging.rarity]"
+          src="/assets/img/rsz_legs.png" (click)="unequipItem(legging)">
+      </div>
+    </div>
+
+    <div class="itemSlot">
+      <div class="popCheck"[ngbPopover]="bootsPopEquip" #bootsPopoverEquip="ngbPopover" triggers="hover" placement="right" *ngIf="bootsEquipped">
+        <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic','Legendary':'legendary', 'Artifact':'artifact'}[boots.rarity]"
+          src="/assets/img/rsz_boots.png" (click)="unequipItem(boots)">
+      </div>
+    </div>
+
+    <div class="itemSlotRight">
+         <div class="popCheck"[ngbPopover]="weaponPopEquip" #weaponPopoverEquip="ngbPopover" triggers="hover" placement="left" *ngIf="weaponEquipped">
+          <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[weapon.rarity]"
+            src="/assets/img/rsz_sword.png" (click)="unequipItem(weapon)">
+         </div>
+    </div>
+
+    <div class="itemSlotRight">
+       <div class="popCheck"  [ngbPopover]="ringPopEquip" #ringPopoverEquip="ngbPopover" triggers="hover" placement="left" *ngIf="ringEquipped">
+      <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[ring.rarity]"
+        src="/assets/img/rsz_ring.png" (click)="unequipItem(ring)">
+    </div>
+  </div>
+  </div>
+  <div class="inventoryBag">
+    <mat-tab-group [disableRipple]=true>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_inv_bag.png" title="Inventory">
+        </ng-template>
+        <div class="flex-test">
+          <div class = "group">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Weapon'" (mouseenter)="showTempWeapon(item)" [ngbPopover]="weaponPop" #weaponPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_sword.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Weapon'" (click)="equipItem(item)">Equip</button>
+              </div>
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Helmet'" (mouseenter)="showTempHelmet(item)" [ngbPopover]="helmetPop" #helmetPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_helm.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Helmet'" (click)="equipItem(item)">Equip</button>
+              </div>
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Chest'" (mouseenter)="showTempChest(item)" [ngbPopover]="chestPop" #chestPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_chest.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Chest'" (click)="equipItem(item)">Equip</button>
+              </div>
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Legging'" (mouseenter)="showTempLegging(item)" [ngbPopover]="leggingPop" #leggingPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_legs.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Legging'" (click)="equipItem(item)">Equip</button>
+              </div>
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Boots'" (mouseenter)="showTempBoots(item)" [ngbPopover]="bootsPop" #bootsPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_boots.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Boots'" (click)="equipItem(item)">Equip</button>
+              </div>
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Ring'" (mouseenter)="showTempRing(item)" [ngbPopover]="ringPop" #ringPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_ring.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_sword.png" title="Weapons">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+              <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Weapon'" (mouseenter)="showTempWeapon(item)" [ngbPopover]="weaponPop" #weaponPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                  src="/assets/img/rsz_sword.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+              </div>
+              <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Weapon'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_helm.png" title="Helmets">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Helmet'" (mouseenter)="showTempHelmet(item)" [ngbPopover]="helmetPop" #helmetPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_helm.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Helmet'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_chest.png" title="Chest Armor">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Chest'" (mouseenter)="showTempChest(item)" [ngbPopover]="chestPop" #chestPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic' ,'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_chest.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Chest'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_legs.png" title="Leg Armor">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Legging'" (mouseenter)="showTempLegging(item)" [ngbPopover]="leggingPop" #leggingPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic' ,'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_legs.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Legging'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_boots.png" title="Boots">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Boots'" (mouseenter)="showTempBoots(item)" [ngbPopover]="bootsPop" #bootsPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_boots.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Boots'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/rsz_ring.png" title="Rings">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Ring'" (mouseenter)="showTempRing(item)" [ngbPopover]="ringPop" #ringPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_ring.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+
+<!--    TEMP ITEM HOVER INFO    -->
+    <ng-template #weaponPop>
+      <section id="weaponPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempWeapon.rarity]">
+        <div class="itemName">{{tempWeapon.name}}</div>
+        <p class="popupText">Item Level {{tempWeapon.level}}</p>
+        <p class="popupText" *ngIf="tempWeapon.hp > 0">+{{tempWeapon.hp}} hp</p>
+        <p class="popupText" *ngIf="tempWeapon.defense > 0">+{{tempWeapon.defense}} defense</p>
+        <p class="popupText" *ngIf="tempWeapon.attack > 0">+{{tempWeapon.attack}} attack</p>
+        <p class="popupText" *ngIf="tempWeapon.crit_chance > 0">+{{tempWeapon.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{tempWeapon.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+    <ng-template #helmetPop>
+      <section id="helmetPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempHelmet.rarity]">
+        <div class="itemName">{{tempHelmet.name}}</div>
+        <p class="popupText">Item Level {{tempHelmet.level}}</p>
+          <p class="popupText" *ngIf="tempHelmet.hp > 0">+{{tempHelmet.hp}} hp</p>
+          <p class="popupText" *ngIf="tempHelmet.defense > 0">+{{tempHelmet.defense}} defense</p>
+        <p class="popupText" *ngIf="tempHelmet.attack > 0">+ {{tempHelmet.attack}} attack</p>
+        <p class="popupText" *ngIf="tempHelmet.crit_chance > 0">+{{tempHelmet.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{tempHelmet.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+    <ng-template #chestPop>
+      <section id="chestPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempChest.rarity]">
+        <div class="itemName">{{tempChest.name}}</div>
+        <p class="popupText">Item Level {{tempChest.level}}</p>
+          <p class="popupText" *ngIf="tempChest.hp > 0">+{{tempChest.hp}} hp</p>
+          <p class="popupText" *ngIf="tempChest.defense > 0">+{{tempChest.defense}} defense</p>
+          <p class="popupText" *ngIf="tempChest.attack > 0">+{{tempChest.attack}} attack</p>
+          <p class="popupText" *ngIf="tempChest.crit_chance > 0">+{{tempChest.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{tempChest.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+    <ng-template #leggingPop>
+      <section id="leggingPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempLegging.rarity]">
+        <div class="itemName">{{tempLegging.name}}</div>
+        <p class="popupText">Item Level {{tempLegging.level}}</p>
+          <p class="popupText" *ngIf="tempLegging.hp > 0">+{{tempLegging.hp}} hp</p>
+          <p class="popupText" *ngIf="tempLegging.defense > 0">+{{tempLegging.defense}} defense</p>
+          <p class="popupText" *ngIf="tempLegging.attack > 0">+{{tempLegging.attack}} attack</p>
+          <p class="popupText" *ngIf="tempLegging.crit_chance > 0">+{{tempLegging.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{tempLegging.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+    <ng-template #bootsPop>
+      <section id="bootsPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempBoots.rarity]">
+        <div class="itemName">{{tempBoots.name}}</div>
+        <p class="popupText">Item Level {{tempBoots.level}}</p>
+          <p class="popupText" *ngIf="tempBoots.hp > 0">+{{tempBoots.hp}} hp</p>
+          <p class="popupText" *ngIf="tempBoots.defense > 0">+{{tempBoots.defense}} defense</p>
+          <p class="popupText" *ngIf="tempBoots.attack > 0">+{{tempBoots.attack}} attack</p>
+          <p class="popupText" *ngIf="tempBoots.crit_chance > 0">+{{tempBoots.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{tempBoots.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+    <ng-template #ringPop>
+      <section id="ringPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempRing.rarity]">
+        <div class="itemName">{{tempRing.name}}</div>
+        <p class="popupText">Item Level {{tempRing.level}}</p>
+          <p class="popupText" *ngIf="tempRing.hp > 0">+{{tempRing.hp}} hp</p>
+          <p class="popupText" *ngIf="tempRing.defense > 0">+{{tempRing.defense}} defense</p>
+          <p class="popupText" *ngIf="tempRing.attack > 0">+{{tempRing.attack}} attack</p>
+          <p class="popupText" *ngIf="tempRing.crit_chance > 0">+{{tempRing.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{tempRing.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+<!----------------------------------------------------------------------------->
+<!---------- EQUIPED ITEM INFO    -->
+    <ng-template #weaponPopEquip>
+      <section id="weaponPopoverEquip">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[weapon.rarity]">
+        <div class="itemName">{{weapon.name}}</div>
+        <p class="popupText">Item Level {{weapon.level}}</p>
+          <p class="popupText" *ngIf="weapon.hp > 0">+{{weapon.hp}} hp</p>
+          <p class="popupText" *ngIf="weapon.defense > 0">+{{weapon.defense}} defense</p>
+          <p class="popupText" *ngIf="weapon.attack > 0">+{{weapon.attack}} attack</p>
+          <p class="popupText" *ngIf="weapon.crit_chance > 0">+{{weapon.crit_chance}}% critical hit chance</p>
+        </div>
+        <div class="popupTextGold"> {{weapon.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
+      </section>
+    </ng-template>
+
+    <ng-template #helmetPopEquip>
+      <section id="helmetPopoverEquip">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[helmet.rarity]">
+        <div class="itemName">{{helmet.name}}</div>
+        <p class="popupText">Item Level {{helmet.level}}</p>
+          <p class="popupText" *ngIf="helmet.hp > 0">+{{helmet.hp}} hp</p>
+          <p class="popupText" *ngIf="helmet.defense > 0">+{{helmet.defense}} defense</p>
+          <p class="popupText" *ngIf="helmet.attack > 0">+{{helmet.attack}} attack</p>
+          <p class="popupText" *ngIf="helmet.crit_chance > 0">+{{helmet.crit_chance}}% critcal hit chance</p>
+        </div>
+        <p class="popupTextGold">  {{helmet.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></p>
+      </section>
+    </ng-template>
+
+    <ng-template #chestPopEquip>
+      <section id="chestPopoverEquip">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[chest.rarity]">
+        <div class="itemName">{{chest.name}}</div>
+        <p class="popupText">Item Level {{chest.level}}</p>
+          <p class="popupText" *ngIf="chest.hp > 0">+{{chest.hp}} hp</p>
+          <p class="popupText" *ngIf="chest.defense > 0">+{{chest.defense}} defense</p>
+          <p class="popupText" *ngIf="chest.attack > 0">+{{chest.attack}} attack</p>
+          <p class="popupText" *ngIf="chest.crit_chance > 0">+{{chest.crit_chance}}% critcal hit chance</p>
+        </div>
+        <p class="popupTextGold">  {{chest.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></p>
+      </section>
+    </ng-template>
+
+    <ng-template #leggingPopEquip>
+      <section id="leggingPopoverEquip">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[legging.rarity]">
+        <div class="itemName">{{legging.name}}</div>
+        <p class="popupText">Item Level {{legging.level}}</p>
+          <p class="popupText" *ngIf="legging.hp > 0">+{{legging.hp}} hp</p>
+          <p class="popupText" *ngIf="legging.defense > 0">+{{legging.defense}} defense</p>
+          <p class="popupText" *ngIf="legging.attack > 0">+{{legging.attack}} attack</p>
+          <p class="popupText" *ngIf="legging.crit_chance > 0">+{{legging.crit_chance}}% critcal hit chance</p>
+        </div>
+        <p class="popupTextGold">  {{legging.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></p>
+      </section>
+    </ng-template>
+
+    <ng-template #bootsPopEquip>
+      <section id="bootsPopoverEquip">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[boots.rarity]">
+        <div class="itemName">{{boots.name}}</div>
+        <p class="popupText">Item Level {{boots.level}}</p>
+          <p class="popupText" *ngIf="boots.hp > 0">+{{boots.hp}} hp</p>
+          <p class="popupText" *ngIf="boots.defense > 0">+{{boots.defense}} defense</p>
+          <p class="popupText" *ngIf="boots.attack > 0">+{{boots.attack}} attack</p>
+          <p class="popupText" *ngIf="boots.crit_chance > 0">+{{boots.crit_chance}}% critcal hit chance</p>
+        </div>
+        <p class="popupTextGold">  {{boots.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></p>
+      </section>
+    </ng-template>
+
+    <ng-template #ringPopEquip>
+      <section id="ringPopoverEquip">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[ring.rarity]">
+        <div class="itemName">{{ring.name}}</div>
+        <p class="popupText">Item Level {{ring.level}}</p>
+          <p class="popupText" *ngIf="ring.hp > 0">+{{ring.hp}} hp</p>
+          <p class="popupText" *ngIf="ring.defense > 0">+{{ring.defense}} defense</p>
+          <p class="popupText" *ngIf="ring.attack > 0">+{{ring.attack}} attack</p>
+          <p class="popupText" *ngIf="ring.crit_chance > 0">+{{ring.crit_chance}}% critcal hit chance</p>
+        </div>
+        <p class="popupTextGold">  {{ring.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></p>
+      </section>
+    </ng-template>
+<!---------------------------------------------------------------------------------------->
+  </div>
+</div>
+
+

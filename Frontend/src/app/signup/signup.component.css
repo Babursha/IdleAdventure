@@ -1,0 +1,149 @@
+.container{
+  height:100vh;
+  width:100vw;
+  padding-top: 100px;
+  text-align: center;
+  background-size:   cover;
+  background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url('/assets/img/bg.jpg');
+  background-repeat: no-repeat;
+  position: fixed;
+  min-width: 100%;
+  background-position: center;
+
+}
+
+img{
+margin-top:5px;
+}
+.blur-signup{
+    width: 400px;
+    height: 650px;
+    box-shadow: 0 0 200px 0 rgba(0, 0, 0, .4);
+    border-radius: 5px;
+    position:absolute;
+    background: inherit;
+    overflow: hidden;
+    margin-left:-200px;
+    margin-top:-325px;
+    left:50%;
+    top:50%;
+    overflow:hidden;
+}
+
+.blur-signup:before{
+  content: "";
+  position: absolute;
+  background:inherit;
+  border-radius: 5px;
+  padding:10px;
+  font-family: CronosPro;
+  width: 400px;
+  height:650px;
+  position:absolute;
+  top:50%;
+  margin-top:-325px;
+  left:50%;
+  margin-left:-200px;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .3);
+  filter:blur(10px);
+}
+
+.pop-out{
+
+  width: 400px;
+  min-height:650px;
+  position:absolute;
+  top:50%;
+  margin-top:-325px;
+  left:50%;
+  margin-left:-200px;
+
+}
+.blur-sucess{
+    width: 400px;
+    height: 300px;
+    box-shadow: 0 0 200px 0 rgba(0, 0, 0, .4);
+    border-radius: 5px;
+    position:absolute;
+    background: inherit;
+    overflow: hidden;
+    margin-left:-200px;
+    margin-top:-150px;
+    left:50%;
+    top:50%;
+    overflow:hidden;
+
+}
+.success-pop{
+  width: 400px;
+  min-height:300px;
+  position:absolute;
+  top:50%;
+  margin-top:-150px;
+  left:50%;
+  margin-left:-200px;
+background-color:#000000a6;
+
+}
+
+
+.hiddenTooltip {
+  position: relative;
+  visibility: hidden;
+  left: 23vw;
+  width: 0;
+  top: 0px;
+}
+
+.d-flex{
+    margin-left: 50px;
+    color:white;
+    margin-top:20px;
+}
+.error{
+  display:flex;
+  margin-left:50px;
+  margin-top:3px;
+}
+label{
+margin-bottom:3px;
+position:relative;
+
+}
+
+::ng-deep .mat-tooltip  {
+  white-space: pre-line;
+}
+
+
+.register-success{
+width: 400px;
+height: 400px;
+color:purple;
+font-size:18px;
+margin-top:20px;
+}
+
+.btn{
+  margin-top:30px;
+  margin-bottom:50px;
+  width:200px;
+}
+
+span{
+margin-top:3px;
+color:red;
+margin-bottom:3px;
+}
+.btn{
+border:1px solid purple;
+}
+.btn-login{
+  border:1px solid purple;
+}
+
+.form-control{
+width:75%;
+margin:auto;
+
+}
