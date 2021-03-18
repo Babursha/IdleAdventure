@@ -48,6 +48,8 @@ export class DungeonBattleComponent implements OnInit {
   basic:number = 0;
   boss:number = 0;
   scrollDown:number = 0;
+  buttonText:string = "Leave Dungeon";
+  interval;
 
   @ViewChild('div') div: ElementRef;
 
@@ -66,7 +68,6 @@ export class DungeonBattleComponent implements OnInit {
 
   ngOnDestroy(){
 
-    this.updateLoot();
   }
 
 
@@ -74,6 +75,23 @@ export class DungeonBattleComponent implements OnInit {
     return value + '%';
   }
 
+  changeText(){
+    this.interval = setInterval(() => {
+      if(this.step > 0){
+        this.step--;
+        this.buttonText = this.step.toString();
+      }
+      if(this.step == 0){
+        this.router.navigateByUrl("/dungeons");
+      }
+    },1500)
+  }
+  exitMessage(){
+     const combatInfo: HTMLParagraphElement = this.renderer.createElement('p');
+     combatInfo.innerHTML = "Preparing to leave the dungeon... awaiting result of last fight.";
+     this.renderer.appendChild(this.div.nativeElement, combatInfo);
+     this.renderer.addClass(combatInfo, 'townDialog');
+  }
 
   updateLoot(){
     this.count = 3;
@@ -271,8 +289,8 @@ export class DungeonBattleComponent implements OnInit {
         }
         else{
           this.mData[this.monsterNum].hp = this.mData[this.monsterNum].hp - ((this.pData.attack*1.5)-this.mData[this.monsterNum].defense);
-          combatInfo.innerHTML = "**CRITICAL STRIKE** "+ this.pData.username+" hit the " + this.mData[this.monsterNum].name + " for  " + ((Math.ceil(this.pData.attack*1.5))-this.mData[this.monsterNum].defense) + " hp!"
-          this.renderer.appendChild(this.div.nativeElement, combatInfo)
+          combatInfo.innerHTML = "**CRITICAL STRIKE** "+ this.pData.username+" hit the " + this.mData[this.monsterNum].name + " for  " + ((Math.ceil(this.pData.attack*1.5))-this.mData[this.monsterNum].defense) + " hp!";
+          this.renderer.appendChild(this.div.nativeElement, combatInfo);
           this.renderer.addClass(combatInfo, 'playerCrit');
           this.mCurrentHp= this.mData[this.monsterNum].hp;
           this.pauseOneSecond();
@@ -288,13 +306,13 @@ export class DungeonBattleComponent implements OnInit {
         }
         else{
           if(this.pData.attack-this.mData[this.monsterNum].defense <= 0){
-            combatInfo.innerHTML = this.pData.username +" attacks! " + this.mData[this.monsterNum].name + " for 0 hp!"
+            combatInfo.innerHTML = this.pData.username +" attacks! " + this.mData[this.monsterNum].name + " for 0 hp!";
             this.renderer.appendChild(this.div.nativeElement, combatInfo);
             this.pauseOneSecond();
           }
           else{
-            combatInfo.innerHTML = this.pData.username +" attacked the " + this.mData[this.monsterNum].name + " for  " + (this.pData.attack-this.mData[this.monsterNum].defense) + " hp!"
-            this.renderer.appendChild(this.div.nativeElement, combatInfo)
+            combatInfo.innerHTML = this.pData.username +" attacked the " + this.mData[this.monsterNum].name + " for  " + (this.pData.attack-this.mData[this.monsterNum].defense) + " hp!";
+            this.renderer.appendChild(this.div.nativeElement, combatInfo);
             this.mData[this.monsterNum].hp -= (this.pData.attack-this.mData[this.monsterNum].defense);
             this.mCurrentHp=this.mData[this.monsterNum].hp;
             this.pauseOneSecond();
@@ -309,22 +327,22 @@ export class DungeonBattleComponent implements OnInit {
 
       if (d < this.mData[this.monsterNum].critChance){
         if(((this.mData[this.monsterNum].attack*1.5)-this.pData.defense) >= this.pData.hp){
-          combatInfo.innerHTML = "**CRITICAL HIT**" + this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + ((Math.ceil(this.mData[this.monsterNum].attack*1.5))-this.pData.defense) + " hp!"
-          this.renderer.appendChild(this.div.nativeElement, combatInfo)
+          combatInfo.innerHTML = "**CRITICAL HIT**" + this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + ((Math.ceil(this.mData[this.monsterNum].attack*1.5))-this.pData.defense) + " hp!";
+          this.renderer.appendChild(this.div.nativeElement, combatInfo);
           this.renderer.addClass(combatInfo, 'monsterCrit');
           this.pData.hp=0;
           this.pauseOneSecond();
         }
         else{
            if(((this.mData[this.monsterNum].attack*1.5)-this.pData.defense) <=0){
-              combatInfo.innerHTML = "**CRITICAL HIT**" + this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for 0 hp!"
-              this.renderer.appendChild(this.div.nativeElement, combatInfo)
+              combatInfo.innerHTML = "**CRITICAL HIT**" + this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for 0 hp!";
+              this.renderer.appendChild(this.div.nativeElement, combatInfo);
               this.renderer.addClass(combatInfo, 'monsterCrit');
               this.pauseOneSecond();
            }
            else{
-              combatInfo.innerHTML = "**CRITICAL HIT**" + this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + ((Math.ceil(this.mData[this.monsterNum].attack*1.5))-this.pData.defense) + " hp!"
-              this.renderer.appendChild(this.div.nativeElement, combatInfo)
+              combatInfo.innerHTML = "**CRITICAL HIT**" + this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + ((Math.ceil(this.mData[this.monsterNum].attack*1.5))-this.pData.defense) + " hp!";
+              this.renderer.appendChild(this.div.nativeElement, combatInfo);
               this.renderer.addClass(combatInfo, 'monsterCrit');
               this.pData.hp = this.pData.hp - ((Math.ceil(this.mData[this.monsterNum].attack*1.5))-this.pData.defense);
               this.pauseOneSecond();
@@ -333,19 +351,19 @@ export class DungeonBattleComponent implements OnInit {
       }
       else{
         if(this.mData[this.monsterNum].attack-this.pData.defense >= this.pData.hp){
-          combatInfo.innerHTML = this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + (this.mData[this.monsterNum].attack-this.pData.defense) + " hp!"
-          this.renderer.appendChild(this.div.nativeElement, combatInfo)
+          combatInfo.innerHTML = this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + (this.mData[this.monsterNum].attack-this.pData.defense) + " hp!";
+          this.renderer.appendChild(this.div.nativeElement, combatInfo);
           this.pData.hp=0;
           this.pauseOneSecond();
           }
         else{
           if(this.mData[this.monsterNum].attack-this.pData.defense < 0){
-            combatInfo.innerHTML = this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for 0 hp!"
+            combatInfo.innerHTML = this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for 0 hp!";
             this.renderer.appendChild(this.div.nativeElement, combatInfo);
           }
           else{
-            combatInfo.innerHTML = this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + (this.mData[this.monsterNum].attack-this.pData.defense) + " hp!"
-            this.renderer.appendChild(this.div.nativeElement, combatInfo)
+            combatInfo.innerHTML = this.mData[this.monsterNum].name +" attacks! " + this.mData[this.monsterNum].name + " hits you for " + (this.mData[this.monsterNum].attack-this.pData.defense) + " hp!";
+            this.renderer.appendChild(this.div.nativeElement, combatInfo);
             this.pData.hp = this.pData.hp - (this.mData[this.monsterNum].attack-this.pData.defense);
           }
            this.pauseOneSecond();
@@ -375,6 +393,7 @@ export class DungeonBattleComponent implements OnInit {
     if(this.count == 1 || this.count == 0 || this.count == 2){
       if(this.exit == true && this.mData[this.monsterNum].hp == 0){
         this.updateLoot();
+        this.changeText();
       }
       else if(this.mData[this.monsterNum].hp == 0){
         setTimeout(() => {

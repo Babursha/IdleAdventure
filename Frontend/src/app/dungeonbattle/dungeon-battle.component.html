@@ -3,7 +3,7 @@
     <div class = "d-flex flex-row">
       <div id="playerInfo">
         <div id="playerName">{{pData.username}}</div>
-        <p class="playerRow heart"><img src="assets/img/heart.png"> &nbsp;{{count}}</p>
+        <p class="playerRow heart"><img src="assets/img/heart.png"> &nbsp;{{pMaxHp}}</p>
         <p class="playerRow"><img src="assets/img/attack.png"> &nbsp;{{pData.attack}}</p>
         <p class="playerRow"><img src="assets/img/shield.png">  {{pData.defense}}</p>
         <p class = "separate"></p>
@@ -84,7 +84,7 @@
           [vertical]="vertical">
         </mat-slider>
     </div>
-    <button class="btn btnRow" (click)="exit=true">Leave Dungeon</button>
+    <button class="btn btn-outline-light btnRow" (click)="exit=true;exitMessage()">{{buttonText}}</button>
   </div>
 
 </div>
