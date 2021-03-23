@@ -83,6 +83,9 @@ color:white;
 .townDialog{
 color:#b964ff;
 }
+.townDialogRare{
+color:orange;
+}
 .heart{
 color:red;
 filter: drop-shadow(0px 0px 5px rgba(255,0,0));
@@ -286,7 +289,7 @@ animation: moveX 2s infinite;
   width:148px;
   height:171px;
   background-image:url("/assets/img/golem.png");
-
+  background-repeat:no-repeat;
 }
 
 .Fairy{
@@ -294,6 +297,13 @@ animation: moveX 2s infinite;
   height:120px;
   background-image:url("/assets/img/fairy.png");
   animation: fairy 1s steps(4) infinite;
+}
+
+.Serpent{
+  width:195px;
+  height:195px;
+  background-image:url("/assets/img/serpent.png");
+  background-repeat:no-repeat;
 }
 
 @keyframes attackMotion{

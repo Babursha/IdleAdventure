@@ -67,7 +67,7 @@ export class DungeonBattleComponent implements OnInit {
   }
 
   ngOnDestroy(){
-
+    clearInterval(this.interval);
   }
 
 
@@ -87,10 +87,15 @@ export class DungeonBattleComponent implements OnInit {
     },1500)
   }
   exitMessage(){
-     const combatInfo: HTMLParagraphElement = this.renderer.createElement('p');
-     combatInfo.innerHTML = "Preparing to leave the dungeon... awaiting result of last fight.";
-     this.renderer.appendChild(this.div.nativeElement, combatInfo);
-     this.renderer.addClass(combatInfo, 'townDialog');
+      if(this.pData.hp == 0){
+        this.changeText();
+      }
+      else{
+       const combatInfo: HTMLParagraphElement = this.renderer.createElement('p');
+       combatInfo.innerHTML = "Preparing to leave the dungeon... awaiting result of last encounter.";
+       this.renderer.appendChild(this.div.nativeElement, combatInfo);
+       this.renderer.addClass(combatInfo, 'townDialog');
+       }
   }
 
   updateLoot(){
@@ -99,7 +104,9 @@ export class DungeonBattleComponent implements OnInit {
     if(this.pData.hp <= 0){
       this.goldCollected = Math.floor(this.goldCollected / 2);
       this.xpCollected = Math.floor(this.xpCollected / 2);
-      combatInfo.innerHTML = "You faint and drop half of your resources.";
+      this.basic = Math.floor(this.basic / 2);
+      this.boss = Math.floor(this.boss / 2);
+      combatInfo.innerHTML = "You faint and drop half of your gained loot...";
       this.renderer.appendChild(this.div.nativeElement, combatInfo);
       this.renderer.addClass(combatInfo, 'monsterCrit');
     }
@@ -142,7 +149,20 @@ export class DungeonBattleComponent implements OnInit {
       err=>{
 
       }
-      );
+     );
+
+    let lootData = {'type':this.area,'basic':this.basic,'rare':this.boss};
+    url = "/api/dungeons/collectLoot";
+    this.http.post(url,lootData).subscribe(
+    (rest:any)=>{
+      console.log('sent bags');
+
+    },
+    (err)=>{
+
+
+    }
+    );
   }
 
   forestBattle(){
@@ -396,15 +416,30 @@ export class DungeonBattleComponent implements OnInit {
         this.changeText();
       }
       else if(this.mData[this.monsterNum].hp == 0){
+        let d = Math.random() * 100;
+        const combatInfo: HTMLParagraphElement = this.renderer.createElement('p');
+
+        if(d < 25){
+          combatInfo.innerHTML = "A forest loot bag drops."
+          this.renderer.appendChild(this.div.nativeElement, combatInfo);
+          this.renderer.addClass(combatInfo, 'townDialog');
+          this.basic++;
+        }
+        if(d < 5 && this.mData[this.monsterNum].lootType === "Boss"){
+          combatInfo.innerHTML = "A Rare forest loot bag drops!"
+          this.renderer.appendChild(this.div.nativeElement, combatInfo);
+          this.renderer.addClass(combatInfo, 'townDialogRare');
+          this.boss++;
+        }
         setTimeout(() => {
               this.goldCollected = this.goldCollected + this.mData[this.monsterNum].goldDrop;
               this.xpCollected = this.xpCollected + this.mData[this.monsterNum].xpDrop;
-                this.count = 1;
-                this.monsterNum++;
-                this.mMaxHp = this.mData[this.monsterNum].hp;
-                this.mCurrentHp=this.mData[this.monsterNum].hp;
-                this.mCurrentName = this.mData[this.monsterNum].name;
-                this.startBattle();
+              this.count = 1;
+              this.monsterNum++;
+              this.mMaxHp = this.mData[this.monsterNum].hp;
+              this.mCurrentHp=this.mData[this.monsterNum].hp;
+              this.mCurrentName = this.mData[this.monsterNum].name;
+              this.startBattle();
         },1000);
       }
       else if(this.pData.hp <= 0){
@@ -414,6 +449,7 @@ export class DungeonBattleComponent implements OnInit {
         this.count = 1;
         this.monsterNum = 0;
         this.forestBattle();
+        this.startBattle();
 
 
       }
