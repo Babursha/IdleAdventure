@@ -1,8 +1,6 @@
 package com.IdleAdventure.adventuregame.repository;
 
-import com.IdleAdventure.adventuregame.model.Inventory;
-import com.IdleAdventure.adventuregame.model.ItemEquipment;
-import com.IdleAdventure.adventuregame.model.ItemPotion;
+import com.IdleAdventure.adventuregame.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +22,11 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
             "item inner join potion on item.id = potion.item_id inner join inventory i on i.item_id = item.id where user_id = :u_id ";
     @Query(value = Q_GET_USER_POTIONS,nativeQuery = true)
     List<ItemPotion> getAllPotionItems(@Param("u_id") int u_id);
+
+    String Q_GET_USER_LOOTBAGS = "select name,description,level,item_type,price,sell,rarity,craftable,amount from" +
+            " item inner join inventory on item.id = inventory.item_id and item_type=\"Mystery\" where user_id = :u_id ";
+    @Query(value = Q_GET_USER_LOOTBAGS,nativeQuery = true)
+    List<ItemLootBag> getAllLootBagItems(@Param("u_id") int u_id);
 
     String Q_ITEM_EXISTS = "SELECT (EXISTS (SELECT 1 FROM inventory WHERE user_id = :u_id and item_id = :i_id))";
     @Query(value = Q_ITEM_EXISTS,nativeQuery = true)

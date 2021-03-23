@@ -81,9 +81,11 @@ public class GameController {
         GameUser userInv = userRepository.findByUsername(username);
         List<ItemEquipment> equips = inventoryRepository.getAllEquipItems(userInv.getId());
         List<ItemPotion> potions = inventoryRepository.getAllPotionItems(userInv.getId());
+        List<ItemLootBag> lootBags = inventoryRepository.getAllLootBagItems(userInv.getId());
         List<Object> inventory = new ArrayList<>();
         inventory.addAll(equips);
         inventory.addAll(potions);
+        inventory.addAll(lootBags);
         
         return inventory;
     }
