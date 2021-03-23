@@ -128,8 +128,12 @@ public class GameController {
         List<Monster> monsters = new ArrayList<>();
         int pick;
         for (int i = 0; i < 100; i++) {
+            double bossEncounter = Math.random();
             List<Monster> monster = monsterRepository.getForestMonsters();
             pick = new Random().nextInt(4);
+            if(bossEncounter < .10){
+                pick = 4;
+            }
             monsters.add(monster.get(pick));
         }
 
@@ -328,13 +332,41 @@ public class GameController {
 
     }
 
-    @RequestMapping("/api/dungeons/get_potions")
+    @RequestMapping("api/dungeons/get_potions")
     public List<ItemPotion> getPotions() throws Exception{
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser userInv = userRepository.findByUsername(username);
         List<ItemPotion> potions = inventoryRepository.getAllPotionItems(userInv.getId());
 
         return potions;
+    }
+
+    @RequestMapping("/api/dungeons/collectLoot")
+    public void collectLoot(@RequestBody CollectLoot bag){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser userInv = userRepository.findByUsername(username);
+        Item search_basic = new Item();
+        Item search_boss = new Item();
+        if(bag.getType().equals("forest")){
+            search_basic = itemRepository.findByName("Forest Loot Bag");
+            search_boss = itemRepository.findByName("Rare Forest Loot Bag");
+        }
+
+        if(inventoryRepository.itemExists(userInv.getId(),search_basic.getId()) == 1){
+            inventoryRepository.addItemAmount(userInv.getId(),search_basic.getId(),bag.getBasic());
+        }
+        else{
+            if(bag.getBasic() !=0)
+                inventoryRepository.addNewItemAmount(userInv.getId(),search_basic.getId(),bag.getBasic());
+        }
+        if(inventoryRepository.itemExists(userInv.getId(),search_boss.getId())==1){
+            inventoryRepository.addItemAmount(userInv.getId(),search_boss.getId(),bag.getRare());
+        }
+        else{
+            if(bag.getRare() != 0)
+                inventoryRepository.addNewItemAmount(userInv.getId(),search_boss.getId(),bag.getRare());
+        }
+
     }
 
     @RequestMapping("api/tavern/shop/buyItem")
