@@ -60,11 +60,11 @@
   </div>
   </div>
   <div class="inventoryBag">
-    <mat-tab-group [disableRipple]=true>
+    <mat-tab-group [disableRipple]=false>
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <img src="/assets/img/rsz_inv_bag.png" title="Inventory">
+          <img id = "bag" src="/assets/img/inv.png" title="Inventory">
         </ng-template>
         <div class="flex-test">
           <div class = "group">
@@ -231,6 +231,26 @@
             <ng-container *ngFor="let item of inventory">
               <div>
                 <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Ring'" (mouseenter)="showTempRing(item)" [ngbPopover]="ringPop" #ringPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                  <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
+                       src="/assets/img/rsz_ring.png">
+                  <p class="itemAmount">x{{item.amount}}</p>
+                </div>
+                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <img src="/assets/img/misc.png" title="Miscellaneous">
+        </ng-template>
+        <div class="d-flex flex-test">
+          <div class = "group row">
+            <ng-container *ngFor="let item of inventory">
+              <div>
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Potion'" (mouseenter)="showTempRing(item)" [ngbPopover]="ringPop" #ringPopover="ngbPopover" triggers="hover" placement="bottom-left">
                   <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
                        src="/assets/img/rsz_ring.png">
                   <p class="itemAmount">x{{item.amount}}</p>
