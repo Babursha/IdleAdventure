@@ -35,11 +35,23 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Query(value= Q_ITEM_ADD,nativeQuery = true)
     int addItem(@Param("u_id") int u_id, @Param("i_id") int i_id);
 
+    String Q_ITEM_ADD_AMOUNT = "UPDATE inventory i set i.amount = i.amount + :amount where user_id = :u_id and item_id = :i_id";
+    @Modifying
+    @Transactional
+    @Query(value= Q_ITEM_ADD_AMOUNT,nativeQuery = true)
+    int addItemAmount(@Param("u_id") int u_id, @Param("i_id") int i_id,@Param("amount")int amount);
+
     String Q_ITEM_ADD_NEW = "INSERT INTO inventory (amount,item_id,user_id) VALUES (1,:i_id,:u_id)";
     @Modifying
     @Transactional
     @Query(value=Q_ITEM_ADD_NEW,nativeQuery = true)
     int addNewItem(@Param("i_id")int i_id,@Param("u_id")int u_id);
+
+    String Q_ITEM_ADD_NEW_AMOUNT = "INSERT INTO inventory (amount,item_id,user_id) VALUES (:quantity,:i_id,:u_id)";
+    @Modifying
+    @Transactional
+    @Query(value=Q_ITEM_ADD_NEW_AMOUNT,nativeQuery = true)
+    int addNewItemAmount(@Param("u_id")int u_id,@Param("i_id")int i_id,@Param("quantity")int quantity);
 
     String Q_ITEM_REMOVE = "UPDATE inventory i set i.amount = i.amount-1 where user_id = :u_id and item_id = :i_id";
     @Modifying
