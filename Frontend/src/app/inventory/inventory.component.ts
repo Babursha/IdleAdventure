@@ -28,12 +28,7 @@ export class InventoryComponent implements OnInit {
 
   public inventory = [];
 
-  tempWeapon=[];
-  tempHelmet=[];
-  tempChest=[];
-  tempLegging=[];
-  tempBoots=[];
-  tempRing=[];
+  tempEquipment=[];
 
   helmet = [];
   chest = [];
@@ -54,24 +49,8 @@ export class InventoryComponent implements OnInit {
 
   }
 
-  showTempWeapon(item){
-    this.tempWeapon=item;
-  }
-
-  showTempHelmet(item){
-    this.tempHelmet=item;
-  }
-  showTempChest(item){
-    this.tempChest=item;
-  }
-  showTempLegging(item){
-    this.tempLegging=item;
-  }
-  showTempBoots(item){
-    this.tempBoots=item;
-  }
-  showTempRing(item){
-    this.tempRing=item;
+  showTempEquipment(item){
+    this.tempEquipment=item;
   }
 
     getUser(){
