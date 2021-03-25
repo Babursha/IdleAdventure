@@ -9,11 +9,11 @@
         <p class = "separate"></p>
         <div class="row">
           <p class ="playerRow gold col"><img title="Gold obtained" src="/assets/img/gold_coin.png"> {{goldCollected}}</p>
-          <p class = "playerRow col"><img class="basic" title="Basic loot bag" src="/assets/img/rsz_inv_bag.png"><span>x {{basic}}</span></p>
+          <p class = "playerRow col"><img class="basic" title="Basic loot bag" src="/assets/img/misc.png"><span>x {{basic}}</span></p>
         </div>
         <div class="row">
           <p class = "playerRow xp col"><img title ="XP obtained" src="/assets/img/xp.png"> {{xpCollected}}</p>
-          <p class = "playerRow col" id="boss"><img title="Boss loot bag" src="/assets/img/rsz_inv_bag.png"><span>x {{boss}}</span></p>
+          <p class = "playerRow col" id="boss"><img title="Boss loot bag" src="/assets/img/misc.png"><span>x {{boss}}</span></p>
         </div>
 
       </div>
@@ -84,7 +84,7 @@
           [vertical]="vertical">
         </mat-slider>
     </div>
-    <button class="btn btn-outline-light btnRow" (click)="exit=true;exitMessage()">{{buttonText}}</button>
+    <button class="btn btn-outline-light btnRow" (click)="exit=true;exitMessage()" [disabled]="exit">{{buttonText}}</button>
   </div>
 
 </div>
