@@ -85,8 +85,10 @@ background-color:purple;
 }
 
 .free-progress{
-width:450px;
-height:100px;
+}
+
+#wrappedRow{
+flex-wrap:wrap;
 }
 
 .progress::-webkit-progress-value {
@@ -200,7 +202,7 @@ position:relative;
 }
 .form-row{
 margin:auto;
-
+flex-wrap:nowrap;
 }
 
 @-webkit-keyframes fadeinout {
