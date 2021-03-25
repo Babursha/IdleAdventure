@@ -15,9 +15,9 @@
   <!--</div>-->
 
 <!------------------------------------Start Forest Card--------------------------------------------------->
-  <div class ="row">
+  <div class ="shapes">
   <div class="cardContainerForest" (click)="showDetailsForest=true" (mouseleave)="showDetailsForest=false">
-    <div class="card" (mouseenter)="pulse=true"[ngClass]="{'pulseF':pulse}">
+    <div class="card" id="forestCard" (mouseenter)="pulse=true"[ngClass]="{'pulseF':pulse}">
       <div class="frontCardForest" [ngClass]="{'flipCard':showDetailsForest}">
         <img class="area" src ="/assets/img/forestbattle.jpg">
       </div>
@@ -38,7 +38,7 @@
   </div>
     <!------------------------------------Start Desert Card--------------------------------------------------->
   <div class="cardContainerDesert desertCard" (click)="showDetailsDesert=true" (mouseleave)="showDetailsDesert=false">
-    <div class="card" (mouseenter)="pulse=true"[ngClass]="{'pulseD':pulse}">
+    <div class="card" id="desertCard" (mouseenter)="pulse=true"[ngClass]="{'pulseD':pulse}">
       <div class="frontCardDesert" [ngClass]="{'flipCard':showDetailsDesert}">
         <img class="area" src ="/assets/img/desert.jpg">
       </div>
@@ -60,7 +60,7 @@
   </div>
     <!------------------------------------Start Cave Card--------------------------------------------------->
     <div class="cardContainerCave" (click)="showDetailsCave=true" (mouseleave)="showDetailsCave=false">
-      <div class="card" (mouseenter)="pulse=true" [ngClass]="{'pulseC':pulse}">
+      <div class="card" id="caveCard" (mouseenter)="pulse=true" [ngClass]="{'pulseC':pulse}">
         <div class="frontCardCave" [ngClass]="{'flipCard':showDetailsCave}">
           <img class="area" src ="/assets/img/cave.jpg">
         </div>
@@ -80,7 +80,7 @@
 
     <!------------------------------------Start Volcano Card--------------------------------------------------->
     <div class="cardContainerVolcano" (click)="showDetailsVolcano=true" (mouseleave)="showDetailsVolcano=false">
-      <div class="card" (mouseenter)="pulse=true"[ngClass]="{'pulseV':pulse}">
+      <div class="card" id="volcanoCard" (mouseenter)="pulse=true"[ngClass]="{'pulseV':pulse}">
         <div class="frontCardVolcano" [ngClass]="{'flipCard':showDetailsVolcano}">
           <img class="area" src ="/assets/img/volcano.jpg">
         </div>
@@ -98,6 +98,25 @@
       </div>
     </div>
 
+    <!------------------------------------Start Sea temple Card--------------------------------------------------->
+    <div class="cardContainerSea" (click)="showDetailsSea=true" (mouseleave)="showDetailsSea=false">
+      <div class="card" id="seaCard" (mouseenter)="pulse=true"[ngClass]="{'pulseS':pulse}">
+        <div class="frontCardSea" [ngClass]="{'flipCard':showDetailsSea}">
+          <img class="area" src ="/assets/img/sea.jpg">
+        </div>
+
+        <div class="backCardSea" [ngClass]="{'flipBack':showDetailsSea}">
+          <div class="backInfo">
+            <div class="d-flex flex-row justify-content-center">
+              <div class="p-2" *ngFor="let monster of sea">
+                <img class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showWolf(monster)" [ngbPopover]="wolfPop" #wolfPopover="ngbPopover" triggers="hover" placement="bottom-left"></div>
+            </div>
+            <button class="btn btnSea" routerLink="/dungeons/Sea">Explore</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
 
   </div>

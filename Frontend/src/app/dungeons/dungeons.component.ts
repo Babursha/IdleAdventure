@@ -12,11 +12,13 @@ export class DungeonsComponent implements OnInit {
   desert = [];
   cave=[];
   volcano=[];
+  sea=[];
 
   showDetailsForest=false;
   showDetailsDesert=false;
   showDetailsCave=false;
   showDetailsVolcano=false;
+  showDetailsSea=false;
   pulse = false;
   monster=[];
   monsterBasic = false;
