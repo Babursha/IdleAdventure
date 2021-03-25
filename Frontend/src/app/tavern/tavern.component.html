@@ -61,7 +61,7 @@
               {{item.sell}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
           </div>
           <div class ="p-2 align-self-center">
-            <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemBuy(item)">Sell</button>
+            <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemSell(item)">Sell</button>
           </div>
         </div>
       </div>
@@ -76,9 +76,13 @@
 
   <div class="contentBox" *ngIf="showCraft"></div>
 
-  <div [ngClass]="{'show':showBought}" class="purchaseItem">Item bought!</div>
-  <div [ngClass]="{'show':showSell}" class="purchaseItem">Item Sold!</div>
-  <div [ngClass]="{'show':notEnoughGold}" class="purchaseItemFailed">Not enough gold!</div>
+  <div class = "attemptPurchase" #div>
+
+  </div>
+
+<!--  <div [ngClass]="{'show':showBought}" class="purchaseItem">Item bought!</div>
+  <div [ngClass]="{'show':showSell}" class="purchaseItem">Item Sold!</div>-->
+<!--  <div [ngClass]="{'show':notEnoughGold}" class="purchaseItemFailed">Not enough gold!</div>-->
 </div>
 
 

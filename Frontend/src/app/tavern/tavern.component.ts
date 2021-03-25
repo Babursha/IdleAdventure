@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
@@ -17,16 +17,14 @@ export class TavernComponent implements OnInit {
   showShopBuy = false;
   showShopSell = false;
 
-  showBought = false;
-  showSell = false;
-
   shopInventory = [];
-  notEnoughGold=false;
   showShopPreview=false;
   inventory = [];
   user=[];
 
-  constructor(private http:HttpClient,private router:Router,private dataService:DataService) { }
+  @ViewChild('div') div: ElementRef;
+
+  constructor(private http:HttpClient,private router:Router,private renderer: Renderer2,private dataService:DataService) { }
   ngOnInit() {
     this.getUser();
   }
@@ -43,25 +41,34 @@ export class TavernComponent implements OnInit {
       );
   }
 
+
   shopItemBuy(item,index){
     console.log(index);
     let url = '/api/tavern/shop/buyItem';
     this.http.post(url,item).subscribe(
       (rest:number)=>{
         if(rest == -1){
-          this.notEnoughGold = true;
+          const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+          shopInfo.innerHTML = "Not enough Gold!";
+          this.renderer.appendChild(this.div.nativeElement, shopInfo);
+          this.renderer.removeClass(shopInfo,'attemptPurchase');
+          this.renderer.addClass(shopInfo, 'purchaseItemFailedShow');
           setTimeout(() => {
-            this.notEnoughGold = false;
-          }, 1500);
+            this.renderer.removeChild(this.div.nativeElement,shopInfo);
+          }, 1400);
         }
         else{
           this.dataService.gold = rest;
           this.shopInventory.splice(index, 1);
           this.shopInventory = this.shopInventory.slice(0);
-          this.showBought = true;
+          const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+          shopInfo.innerHTML = "Item bought!";
+          this.renderer.appendChild(this.div.nativeElement, shopInfo);
+          this.renderer.removeClass(shopInfo,'attemptPurchase');
+          this.renderer.addClass(shopInfo, 'purchaseItemShow');
           setTimeout(() => {
-            this.showBought = false;
-          }, 1500);
+            this.renderer.removeChild(this.div.nativeElement,shopInfo);
+          }, 1400);
         }
       },
       err=>{
@@ -69,16 +76,22 @@ export class TavernComponent implements OnInit {
     );
 
   }
-  shopItemSell(name){
-    this.showSell = true;
-    setTimeout(() => {
-      this.showSell = false;
-    }, 1000);
-    console.log(name);
-    let data = {username:localStorage.getItem('username'),itemName:name};
+
+  shopItemSell(item){
     let url = "/api/tavern/shop/sell";
-    this.http.post(url,data).subscribe(
+    this.http.post(url,item).subscribe(
       (rest:any)=>{
+        this.dataService.gold=rest;
+        const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+        shopInfo.innerHTML = "Item Sold!";
+        this.renderer.appendChild(this.div.nativeElement, shopInfo);
+        this.renderer.removeClass(shopInfo,'attemptPurchase');
+        this.renderer.addClass(shopInfo, 'purchaseItemShow');
+        setTimeout(() => {
+          this.renderer.removeChild(this.div.nativeElement,shopInfo);
+        }, 1400);
+        this.displayShopSell();
+
       },
       err=>{
       }

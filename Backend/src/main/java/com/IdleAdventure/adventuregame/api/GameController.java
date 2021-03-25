@@ -389,15 +389,17 @@ public class GameController {
         return user.getGold();
     }
 
-//
-//    @RequestMapping("api/tavern/shop/sell")
-//    public void sellAtShop(@RequestBody UserItem data){
-//        User player = usersRepository.findByUsername(data.getUsername());
-//        Item item = itemRepository.findByItemName(data.getItemName());
-//        System.out.print(item.getPrice());
-//        usersRepository.updateLoot(player.getId(),player.getGold()+item.getPrice());
-//        inventoryRepository.removeItem(player.getId(),item.getItemId());
-//
-//    }
+
+    @RequestMapping("api/tavern/shop/sell")
+    public int sellAtShop(@RequestBody Item data){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser user = userRepository.findByUsername(username);
+        Item item = itemRepository.findByName(data.getName());
+        System.out.print(item.getPrice());
+        userRepository.updateGold(user.getId(),(int)user.getGold()+item.getSell());
+        inventoryRepository.removeItem(user.getId(),item.getId());
+        inventoryRepository.deleteEntry(user.getId(),item.getId());
+        return (int)user.getGold()+item.getSell();
+    }
 
 }

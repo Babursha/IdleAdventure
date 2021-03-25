@@ -21,12 +21,10 @@ padding-bottom:20px;
     width: 5px;
     height: 15px;
 }
-.purchaseItem{
-  visibility: hidden;
-  min-width: 250px;
-  min-height:40px;
+
+.attemptPurchase{
+  visibility:hidden;
   margin-left: -125px;
-  background-color: #5cb85c;
   color: white;
   text-align: center;
   border-radius: 2px;
@@ -34,29 +32,26 @@ padding-bottom:20px;
   position: fixed;
   left: 50%;
   bottom: 50px;
-}
-.purchaseItem.show{
-  visibility: visible;
-  -webkit-animation: fadeinout 1s;
-  animation: fadeinout 1s;
 }
 
-.purchaseItemFailed{
-  visibility: hidden;
+.purchaseItemShow{
+  visibility: visible;
+  background-color: #5cb85c;
   min-width: 250px;
   min-height:40px;
-  margin-left: -125px;
-  background-color: red;
-  color: white;
-  text-align: center;
   border-radius: 2px;
   padding: 10px;
-  position: fixed;
-  left: 50%;
-  bottom: 50px;
+  -webkit-animation: fadeinout 1.5s;
+  animation: fadeinout 1.5s;
 }
-.purchaseItemFailed.show{
+
+.purchaseItemFailedShow{
   visibility: visible;
+  min-width: 250px;
+  min-height:40px;
+  border-radius: 2px;
+  padding: 10px;
+  background-color: red;
   -webkit-animation: fadeinout 1.5s;
   animation: fadeinout 1.5s;
 }
@@ -127,13 +122,13 @@ border-radius:1px;
 .contentBox{
   padding:10px;
   border-radius: 5px;
-  box-shadow: 0px 3px 5px #1F1F1F;
+  box-shadow: 0px 0px 10px black;
   font-size:120%;
   font-family: CronosPro;
   max-width: 1000px;
   max-height: 600px;
   margin: auto;
-  background: rgba(0, 0, 0, .8);
+  background: rgba(0, 0, 0, 0.37);
 }
 
 .table > tbody > tr:first-child > td {
