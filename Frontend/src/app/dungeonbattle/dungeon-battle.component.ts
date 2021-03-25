@@ -128,11 +128,11 @@ export class DungeonBattleComponent implements OnInit {
       }
     );
     if (this.pData.xp_current + this.xpCollected >= this.pData.xp_lvl_up){
-        let xp_carry = (this.pData.xp_current+this.xpCollected) - this.pData.xp_lvl_up;
+        let xp_carry = (this.pData.xp_current+this.xpCollected);
         while(xp_carry > this.pData.xp_lvl_up){
-          this.pData.level +=1;
-          this.pData.xp_lvl_up = Math.floor((this.pData.xp_lvl_up * 2)/1.5);
           xp_carry = xp_carry - this.pData.xp_lvl_up;
+          this.pData.level = this.pData.level + 1;
+          this.pData.xp_lvl_up = Math.floor((this.pData.xp_lvl_up * 2)/1.5);
           this.pData.xp_current = xp_carry;
         }
     }
@@ -144,10 +144,10 @@ export class DungeonBattleComponent implements OnInit {
     let xpData = {'xpCurrent':this.pData.xp_current,'level':this.pData.level,'xpLvlUp':this.pData.xp_lvl_up};
     this.http.post(url,xpData).subscribe(
       (rest:any)=>{
-
+        console.log("xp collected");
       },
       err=>{
-
+        console.log("error:couldnt collect xp after dungeons");
       }
      );
 
