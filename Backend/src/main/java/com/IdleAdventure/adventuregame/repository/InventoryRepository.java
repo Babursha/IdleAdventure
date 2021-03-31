@@ -48,7 +48,7 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Modifying
     @Transactional
     @Query(value=Q_ITEM_ADD_NEW,nativeQuery = true)
-    int addNewItem(@Param("i_id")int i_id,@Param("u_id")int u_id);
+    int addNewItem(@Param("u_id")int u_id,@Param("i_id")int i_id);
 
     String Q_ITEM_ADD_NEW_AMOUNT = "INSERT INTO inventory (amount,item_id,user_id) VALUES (:quantity,:i_id,:u_id)";
     @Modifying
