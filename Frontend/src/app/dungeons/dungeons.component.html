@@ -47,8 +47,8 @@
         <div class="backInfo">
           <div class="d-flex flex-row justify-content-center">
             <div class="p-2" *ngFor="let monster of desert">
-              <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="bottom-left">
-              <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="bottom-left">
+              <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+              <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
             </div>
 
           </div>

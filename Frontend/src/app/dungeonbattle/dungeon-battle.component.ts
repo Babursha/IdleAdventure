@@ -111,7 +111,7 @@ export class DungeonBattleComponent implements OnInit {
       this.renderer.addClass(combatInfo, 'monsterCrit');
     }
     else{
-       combatInfo.innerHTML = "You quickly gather all your loot and head back to town.";
+       combatInfo.innerHTML = "You quickly gather all your loot and depart for town in 5 seconds...";
        this.renderer.appendChild(this.div.nativeElement, combatInfo);
        this.renderer.addClass(combatInfo, 'townDialog');
     }

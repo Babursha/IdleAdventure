@@ -23,6 +23,7 @@ margin-bottom:0px;
 width:95%;
 height:350px;
 margin:0;
+overflow:auto;
 }
 
 .itemName{
@@ -43,6 +44,7 @@ font-size:12px;
 padding:3px;
 
 }
+
 .popupTextGold{
 position:absolute ;
 top:80% ;
@@ -53,18 +55,19 @@ right:10% ;
 .itemBox{
 width:80px;
 height:60px;
-box-shadow: 0px 0px 3px #fff0, #d7d7d7e6 0px 0px 5px inset;
+box-shadow: 0px 0px 5px #000, #d7d7d730 0px 0px 5px inset;
 margin-left:25px;
 margin-bottom:0px;
 color:white;
 transition: 0.5s;
 border-radius:5px;
 padding-top:20px;
-border: 1px solid grey;
+border: 1px solid #8080805c;
+margin-top:20px;
 }
 .itemBox:hover{
 transform:scale(1.1,1.1);
-box-shadow: 0px 0px 1px black, #000 0px 0px 100px inset;
+box-shadow: 0px 0px 1px black, #dbdbdb21 0px 0px 100px inset;
 }
 :host::ng-deep ngb-popover-window {
     padding:0;
@@ -82,7 +85,7 @@ box-shadow: 0px 0px 1px black, #000 0px 0px 100px inset;
 
 :host ::ng-deep .mat-tab-body-content{
 box-shadow:inset 0px 0px 1px #00000054;
-background-color:#00000082;
+background-color:#0000;
 overflow:visible;
 }
 
@@ -153,11 +156,13 @@ font-size:13px;
 }
 
 .inventoryBag{
-  max-width:50%;
+  max-width:60%;
   min-height:20%;
+  max-height:400px;
   margin-top:60px;
   position:relative;
   border-top:1px #e6e6e6 solid;
+  border-bottom:1px white solid;
   font-family:CronosPro;
 }
 
@@ -185,6 +190,17 @@ font-size:13px;
   color:white;
   border:1px solid black;
   box-shadow:0px 0px 5px black;
+}
+.characterModel{
+  position:absolute;
+  min-width:0px;
+  min-height:0px;
+  left: 35%;
+  top: 30%;
+}
+#charImg{
+    width:123px;
+    height:134px;
 }
 .itemSlot{
   height: 50px;

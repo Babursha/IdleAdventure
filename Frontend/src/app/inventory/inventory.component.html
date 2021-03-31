@@ -16,6 +16,9 @@
     <div class="characterTitle">
       {{model.username}}
     </div>
+    <div class="characterModel">
+      <img id ="charImg" src="/assets/img/character.png">
+    </div>
 
     <div class="itemSlot">
       <div class="popCheck"[ngbPopover]="helmetPopEquip" #helmetPopoverEquip="ngbPopover" triggers="hover" placement="right" *ngIf="helmetEquipped">
@@ -126,8 +129,8 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/rsz_sword.png" title="Weapons">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
+        <div class="flex-test">
+          <div class = "group">
             <ng-container *ngFor="let item of inventory">
               <div>
               <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Weapon'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -146,8 +149,8 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/rsz_helm.png" title="Helmets">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
+        <div class="flex-test">
+          <div class = "group">
             <ng-container *ngFor="let item of inventory">
               <div>
                 <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Helmet'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -166,8 +169,8 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/rsz_chest.png" title="Chest Armor">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
+        <div class="flex-test">
+          <div class = "group">
             <ng-container *ngFor="let item of inventory">
               <div>
                 <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Chest'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -186,8 +189,8 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/rsz_legs.png" title="Leg Armor">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
+        <div class="flex-test">
+          <div class = "group">
             <ng-container *ngFor="let item of inventory">
               <div>
                 <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Legging'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -206,8 +209,8 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/rsz_boots.png" title="Boots">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
+        <div class="flex-test">
+          <div class = "group">
             <ng-container *ngFor="let item of inventory">
               <div>
                 <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Boots'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -226,8 +229,8 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/rsz_ring.png" title="Rings">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
+        <div class="flex-test">
+          <div class = "group">
             <ng-container *ngFor="let item of inventory">
               <div>
                 <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Ring'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -246,16 +249,15 @@
         <ng-template mat-tab-label>
           <img src="/assets/img/misc.png" title="Miscellaneous">
         </ng-template>
-        <div class="d-flex flex-test">
-          <div class = "group row">
-            <ng-container *ngFor="let item of inventory">s
+        <div class="flex-test">
+          <div class = "group">
+            <ng-container *ngFor="let item of inventory">
               <div>
-                <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Potion'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
+                <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Potion' || item.item_type === 'Mystery'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="top-left">
                   <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
-                       src="/assets/img/rsz_ring.png">
+                       src="/assets/img/rsz_potion.png">
                   <p class="itemAmount">x{{item.amount}}</p>
                 </div>
-                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
               </div>
             </ng-container>
           </div>
@@ -268,12 +270,13 @@
     <ng-template #equipmentPop>
       <section id="equipmentPopover">
         <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempEquipment.rarity]">
-        <div class="itemName">{{tempEquipment.name}}</div>
-        <p class="popupText">Item Level {{tempEquipment.level}}</p>
-        <p class="popupText" *ngIf="tempEquipment.hp > 0">+{{tempEquipment.hp}} hp</p>
-        <p class="popupText" *ngIf="tempEquipment.defense > 0">+{{tempEquipment.defense}} defense</p>
-        <p class="popupText" *ngIf="tempEquipment.attack > 0">+{{tempEquipment.attack}} attack</p>
-        <p class="popupText" *ngIf="tempEquipment.crit_chance > 0">+{{tempEquipment.crit_chance}}% critical hit chance</p>
+          <div class="itemName">{{tempEquipment.name}}</div>
+          <p class="popupText">Item Level {{tempEquipment.level}}</p>
+          <p class="popupText" *ngIf="tempEquipment.hp > 0">+{{tempEquipment.hp}} hp</p>
+          <p class="popupText" *ngIf="tempEquipment.defense > 0">+{{tempEquipment.defense}} defense</p>
+          <p class="popupText" *ngIf="tempEquipment.attack > 0">+{{tempEquipment.attack}} attack</p>
+          <p class="popupText" *ngIf="tempEquipment.crit_chance > 0">+{{tempEquipment.crit_chance}}% critical hit chance</p>
+          <p class ="popupText" *ngIf="tempEquipment.item_type === 'Potion' || tempEquipment.item_type === 'Mystery'">{{tempEquipment.description}}</p>
         </div>
         <div class="popupTextGold"> {{tempEquipment.sell|number}} <img class="sellGold" src="assets/img/gold_coin.png"></div>
       </section>
