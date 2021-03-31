@@ -402,4 +402,62 @@ public class GameController {
         return (int)user.getGold()+item.getSell();
     }
 
+    @RequestMapping("/api/tavern/lucky")
+    public void userWonPrize(@RequestBody String prize){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser user = userRepository.findByUsername(username);
+        if(prize.equals("500") || prize.equals("20k") || prize.equals("5k")){
+            userRepository.updateGold(user.getId(),(Integer.valueOf(prize) +(int) user.getGold()));
+        }
+        else if(prize.equals("mystery")){
+            double random = Math.random()*100;
+            if(random >= 90){
+                if(inventoryRepository.itemExists(user.getId(),1001) == 1){
+                    inventoryRepository.addItem(user.getId(),1001);
+                }
+                else
+                    inventoryRepository.addNewItem(user.getId(),1001);
+            }
+            else if (random < 90 && random >=50){
+                if(inventoryRepository.itemExists(user.getId(),17) == 1){
+                    inventoryRepository.addItem(user.getId(),17);
+                }
+                else
+                    inventoryRepository.addNewItem(user.getId(),17);
+            }
+            else if(random <50 && random >=25){
+                userRepository.updateGold(user.getId(), (int)user.getGold()+1000);
+            }
+        }
+        else if(prize.equals("enchant")){
+            if(inventoryRepository.itemExists(user.getId(),15) == 1){
+                inventoryRepository.addItem(user.getId(),15);
+            }
+            else
+                inventoryRepository.addNewItem(user.getId(),15);
+        }
+        else if(prize.equals("lvl")){
+            if(inventoryRepository.itemExists(user.getId(),14) == 1){
+                inventoryRepository.addItem(user.getId(),14);
+            }
+            else
+                inventoryRepository.addNewItem(user.getId(),14);
+        }
+        else if(prize.equals("potion")){
+            if(inventoryRepository.itemExists(user.getId(),4) == 1){
+                inventoryRepository.addItemAmount(user.getId(),4,10);
+            }
+            else
+                inventoryRepository.addNewItemAmount(user.getId(),4,10);
+        }
+        else {
+            if(inventoryRepository.itemExists(user.getId(),16) == 1){
+                inventoryRepository.addItem(user.getId(),16);
+            }
+            else
+                inventoryRepository.addNewItem(user.getId(),16);
+        }
+
+    }
+
 }
