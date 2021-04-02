@@ -11,5 +11,11 @@
     "secure": "false",
     "pathRewrite": {"^/register" : ""},
     "changeOrigin": true
+  },
+  "/logout": {
+    "target": "http://localhost:8080/logout",
+    "secure": "false",
+    "pathRewrite": {"^/logout" : ""},
+    "changeOrigin": true
   }
 }

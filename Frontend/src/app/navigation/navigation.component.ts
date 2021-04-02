@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service'
+import { DataService } from '../data.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navigation',
@@ -14,7 +15,7 @@ export class NavigationComponent implements OnInit {
   gold=0;
   updateGold=false;
 
-  constructor(public dataService:DataService) { }
+  constructor(public dataService:DataService,private http:HttpClient) { }
 
   ngOnInit() {
     this.setData();
@@ -38,7 +39,13 @@ export class NavigationComponent implements OnInit {
 
 
   logout(){
-    localStorage.clear();
+    let url = "/logout";
+    this.http.post(url,{}).subscribe(
+    (rest:any)=>{
+    },
+    err=>{
+    }
+    )
   }
 
 

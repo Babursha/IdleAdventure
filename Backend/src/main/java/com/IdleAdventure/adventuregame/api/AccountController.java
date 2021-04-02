@@ -2,6 +2,10 @@ package com.IdleAdventure.adventuregame.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotEmpty;
 import com.IdleAdventure.adventuregame.model.Inventory;
 import com.IdleAdventure.adventuregame.model.Stats;
@@ -13,12 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.*;
 import com.IdleAdventure.adventuregame.model.GameUser;
 
 
@@ -81,10 +84,11 @@ public class AccountController {
         return this.userRepository.getUserDetails(id);
     }
 
-    @RequestMapping("api/account/changePassword")
+    @RequestMapping("/api/account/changePassword")
     public void changePassword(@RequestBody GameUser user) throws Exception {
         this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String newPassword = this.bCryptPasswordEncoder.encode(user.getPassword());
         this.userRepository.changePassword(user.getUsername(), newPassword);
     }
+
 }
