@@ -64,7 +64,7 @@ public class AccountController {
     }
 
     private void setNewStats(@NotEmpty GameUser user){
-        Stats userStats = new Stats(user.getId(),1,0,20,10,0,0,0,100,0);
+        Stats userStats = new Stats(user.getId(),1,2,2,20,0,0,0,100,0);
         this.statsRepository.save(userStats);
         this.equippedRepository.initalizeEquipped(user.getId());
     }
@@ -74,6 +74,7 @@ public class AccountController {
         starterInv.add(new Inventory(user.getId(), 1, 1));
         starterInv.add(new Inventory(user.getId(), 2, 1));
         starterInv.add(new Inventory(user.getId(), 3, 1));
+        starterInv.add(new Inventory(user.getId(),4,50));
         this.inventoryRepository.saveAll(starterInv);
     }
 
