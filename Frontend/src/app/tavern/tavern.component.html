@@ -77,7 +77,89 @@
 
     <!-------Start Craft box--------->
     <div class="inner-context-box" [ngClass]="{'preview-shop':showCraftPreview}">
-      <img class="box-img-cover" src="/assets/img/anvil.png">
+      <img class="box-img-cover" src="/assets/img/anvil.png" [ngClass]="{'hide-pic':showCraftPreview}">
+
+
+        <div class="craft-menu hidden" [ngClass]="{'display':showCraftPreview}">
+          <div class="craft-equipment-menu" [ngClass]="{'enlarge':showCraftEquipment}">
+            <button class="btn craft-menu-btn" (click)="controlCraft('equipment')" [ngClass]="{'craft-button-clicked':showCraftEquipment}">Equipment</button>
+          </div>
+          <div class="craft-potion-menu" [ngClass]="{'enlarge':showCraftPotions}">
+            <button class="btn craft-menu-btn" (click)="controlCraft('potion')" [ngClass]="{'craft-button-clicked':showCraftPotions}">Potions</button>
+          </div>
+          <div class="craft-misc-menu">
+            <button class="btn craft-menu-btn" (click)="controlCraft('misc')">Misc</button>
+          </div>
+        </div>
+
+      <div class="craft-hidden" *ngIf="showCraftPotions && showCraftPreview" [ngClass]="{'display':showCraftPotions}">
+        <div class="craft-box" *ngFor="let item of craftPotions">
+          <div class="inner-craft-box">
+            <div class ="item-rarity" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+              <div class="item-type" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
+            </div>
+            <p class = "separate"></p>
+            <div class="craft-info-box">
+              <div class="ingredients" title="{{item.ingredient1}}" *ngIf="item.ingredient1Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient1]"></div><span *ngIf="item.ingredient1Amount != 0">x {{item.ingredient1Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient2}}" *ngIf="item.ingredient2Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient2]"></div><span *ngIf="item.ingredient2Amount != 0">x {{item.ingredient2Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient3}}" *ngIf="item.ingredient3Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient3]"></div><span *ngIf="item.ingredient3Amount != 0">x {{item.ingredient3Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient4}}" *ngIf="item.ingredient4Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient4]"></div><span *ngIf="item.ingredient4Amount != 0">x {{item.ingredient4Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient5}}" *ngIf="item.ingredient5Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient5]"></div><span *ngIf="item.ingredient5Amount != 0">x {{item.ingredient5Amount}}</span>
+            </div>
+          </div>
+          <p class = "separate-btn"></p>
+          <button class="btn craft-button" (click)="userCraftItem(item)">Craft</button>
+        </div>
+      </div>
+
+      <div class="craft-hidden" *ngIf="showCraftEquipment && showCraftPreview" [ngClass]="{'display':showCraftEquipment}">
+        <div class="craft-box" *ngFor="let item of craftEquipment">
+          <div class="inner-craft-box">
+            <div class ="item-rarity" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+              <div class="item-type Mystery"></div>
+            </div>
+            <p class = "separate"></p>
+            <div class="craft-info-box">
+              <div class="ingredients" title="{{item.ingredient1}}" *ngIf="item.ingredient1Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient1]"></div><span *ngIf="item.ingredient1Amount != 0">x {{item.ingredient1Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient2}}" *ngIf="item.ingredient2Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient2]"></div><span *ngIf="item.ingredient2Amount != 0">x {{item.ingredient2Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient3}}" *ngIf="item.ingredient3Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient3]"></div><span *ngIf="item.ingredient3Amount != 0">x {{item.ingredient3Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient4}}" *ngIf="item.ingredient4Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient4]"></div><span *ngIf="item.ingredient4Amount != 0">x {{item.ingredient4Amount}}</span>
+              <div class="ingredients" title="{{item.ingredient5}}" *ngIf="item.ingredient5Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient5]"></div><span *ngIf="item.ingredient5Amount != 0">x {{item.ingredient5Amount}}</span>
+            </div>
+          </div>
+          <p class = "separate-btn"></p>
+          <button class="btn craft-button" (click)="userCraftItem(item)">Craft</button>
+        </div>
+      </div>
+
+<!---
+        <div class="craft-potion-menu" [ngClass]="{'enlarge':showCraftPotions}">
+          <button class="btn craft-menu-btn" (click)="controlCraft('potion')">Potions</button>
+
+
+          <div class="craft-hidden-potion" *ngIf="showCraftPotions" [ngClass]="{'display':showCraftPotions}">
+            <div class="craft-box" *ngFor="let item of craftable">
+              <div class="inner-craft-box">
+                <div class ="item-rarity" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+                  <div class="item-type" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+                  <div class="item-type" *ngIf="item.item_type==='Potion'" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
+                </div>
+                <p class = "separate"></p>
+                <div class="craft-info-box">
+                  <div class="ingredients" title="{{item.ingredient1}}" *ngIf="item.ingredient1Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient1]"></div><span *ngIf="item.ingredient1Amount != 0">x {{item.ingredient1Amount}}</span>
+                  <div class="ingredients" title="{{item.ingredient2}}" *ngIf="item.ingredient2Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient2]"></div><span *ngIf="item.ingredient2Amount != 0">x {{item.ingredient2Amount}}</span>
+                  <div class="ingredients" title="{{item.ingredient3}}" *ngIf="item.ingredient3Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient3]"></div><span *ngIf="item.ingredient3Amount != 0">x {{item.ingredient3Amount}}</span>
+                  <div class="ingredients" title="{{item.ingredient4}}" *ngIf="item.ingredient4Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient4]"></div><span *ngIf="item.ingredient4Amount != 0">x {{item.ingredient4Amount}}</span>
+                  <div class="ingredients" title="{{item.ingredient5}}" *ngIf="item.ingredient5Amount != 0" [ngClass]="{'Jar of Slime':'slime-jar','Pixie Dust':'fairy-dust','Wolf Pelt':'wolf-pelt','Golem Artifact':'golem-artifact'}[item.ingredient5]"></div><span *ngIf="item.ingredient5Amount != 0">x {{item.ingredient5Amount}}</span>
+                </div>
+              </div>
+
+              <button class="btn craft-button">Craft</button>
+            </div>
+          </div>
+
+        </div>
+!-->
     </div>
 
     <!-------Start Enchant box--------->

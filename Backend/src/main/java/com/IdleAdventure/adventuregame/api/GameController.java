@@ -4,12 +4,8 @@ package com.IdleAdventure.adventuregame.api;
 import com.IdleAdventure.adventuregame.model.*;
 import com.IdleAdventure.adventuregame.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -233,6 +229,7 @@ public class GameController {
         if(equipType.equals("Weapon")){
             equippedRepository.unequip_weapon(user.getId());
             updateStatsUnequip(user,item);
+
         }
         else if(equipType.equals("Chest")){
             equippedRepository.unequip_chest(user.getId());
@@ -402,6 +399,68 @@ public class GameController {
         return (int)user.getGold()+item.getSell();
     }
 
+    @RequestMapping("/api/tavern/userCraftItem")
+    public int userCraftItem(@RequestBody CraftItem item){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser user = userRepository.findByUsername(username);
+        List<UserCraftMaterial> userMaterials = inventoryRepository.getAllUserMaterials(user.getId());
+        boolean craftSuccess = false;
+        if(item.getIngredient1() != null){
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient1()) && userMaterials.get(j).getAmount() > item.getIngredient1Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient1()).getId(), item.getIngredient1Amount());
+                    craftSuccess = true;
+                    break;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient2() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient2()) && userMaterials.get(j).getAmount() > item.getIngredient2Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient2()).getId(), item.getIngredient2Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient3() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient3()) && userMaterials.get(j).getAmount() > item.getIngredient3Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient3()).getId(), item.getIngredient3Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient4() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient4()) && userMaterials.get(j).getAmount() > item.getIngredient4Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient4()).getId(), item.getIngredient4Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient5() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient5()) && userMaterials.get(j).getAmount() > item.getIngredient5Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient5()).getId(), item.getIngredient5Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+
+        return 0;
+
+    }
+
     @RequestMapping("/api/tavern/lucky")
     public void userWonPrize(@RequestBody String prize){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
@@ -458,6 +517,11 @@ public class GameController {
                 inventoryRepository.addNewItem(user.getId(),16);
         }
 
+    }
+
+    @RequestMapping("/api/tavern/getCraftables")
+    public List<ItemCraftable> getCraftableItems(){
+        return inventoryRepository.getAllCraftableItems();
     }
 
 }

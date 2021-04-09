@@ -17,16 +17,29 @@ export class TavernComponent implements OnInit {
 
   showShopBuy = false;
   showShopSell = false;
+  craftSucceed = false;
+  craftFailed = false;
 
   shopInventory = [];
   inventory = [];
   user=[];
+
+  craftPotions = [];
+  craftEquipment=[];
+  craftMisc=[];
 
   showShopPreview=false;
   showEnchantPreview=false;
   showCraftPreview=false;
   showLuckyPreview=false;
   showForge=false;
+
+  showCraftEquipment=false;
+  showCraftPotions=false;
+  showCraftMisc = false;
+  craftPotionsClicked = false;
+  craftEquipmentClicked = false;
+  craftMiscClicked = false;
 
   spinVal = "";
 
@@ -41,6 +54,34 @@ export class TavernComponent implements OnInit {
   wheelInformation(){
   return "Press the yellow button to spin! \n\n 500 Gold: 35% \n 5,000 Gold: 10% \n 20,000 Gold: 5% \n Potion: 17% \n Level up Scroll: 8% \n Enchant Gems: 10% \n Rare Equipment: 5%\n Mystery: 10%";
   }
+
+  controlCraft(craftType){
+    if(craftType === 'equipment'){
+      this.showCraftEquipment = true;
+      this.showCraftPotions = false;
+      this.showCraftMisc = false;
+      this.craftPotionsClicked = false;
+      this.craftEquipmentClicked = true;
+      this.craftMiscClicked =false;
+    }
+    else if(craftType === 'potion'){
+      this.showCraftEquipment = false;
+      this.showCraftPotions = true;
+      this.showCraftMisc = false;
+      this.craftPotionsClicked = true;
+      this.craftEquipmentClicked = false;
+      this.craftMiscClicked =false;
+    }
+    else if(craftType ==='misc'){
+      this.showCraftEquipment = false;
+      this.showCraftPotions = false;
+      this.showCraftMisc = true;
+      this.craftPotionsClicked = false;
+      this.craftEquipmentClicked = false;
+      this.craftMiscClicked =true;
+    }
+  }
+
   getUser(){
       let url = '/api/home';
       this.http.get<any>(url).subscribe(
@@ -110,6 +151,22 @@ export class TavernComponent implements OnInit {
       );
   }
 
+  userCraftItem(item){
+    let url = "/api/tavern/userCraftItem";
+    this.http.post(url,item).subscribe(
+      (rest:any)=>{
+        if(rest == 0)
+          this.craftSucceed = true;
+        else
+          this.craftFailed = true;
+      },
+      (err)=>{
+        console.log("something wrong with crafting item");
+      }
+
+    );
+
+  }
   luckyWheelSpin(){
 
     let d = (Math.random() * 100);
@@ -196,29 +253,75 @@ export class TavernComponent implements OnInit {
     }
   }
 
-
   displayShop(){
     this.showShop = true;
     this.showLucky = false;
     this.showLuckyPreview = false;
+    this.showCraft = false;
+    this.showCraftPreview=false;
+    this.showEnchant = false;
+    this.showEnchantPreview = false;
   }
+
   displayLucky(){
     this.showLucky = true;
     this.showShopPreview = false;
     this.showShopBuy = false;
     this.showShopSell = false;
+    this.showCraft = false;
+    this.showCraftPreview=false;
+    this.showEnchant = false;
+    this.showEnchantPreview = false;
   }
+
   displayEnchant(){
-    this.showLucky = true;
+    this.showEnchant = true;
     this.showShopPreview = false;
     this.showShopBuy = false;
     this.showShopSell = false;
+    this.showLucky = false;
+    this.showLuckyPreview= false;
+    this.showCraft = false;
+    this.showCraftPreview=false;
   }
+
   displayCraft(){
-    this.showLucky = true;
+    this.showCraft = true;
     this.showShopPreview = false;
     this.showShopBuy = false;
     this.showShopSell = false;
+    this.showLucky = false;
+    this.showLuckyPreview = false;
+    this.showEnchant = false;
+    this.showEnchantPreview = false;
+    if(this.craftPotions.length == 0){
+      let url = "/api/tavern/getCraftables";
+      this.http.get<any>(url).subscribe(
+        (rest:any)=>{
+          this.sortCraftables(rest);
+          console.log(this.craftPotions);
+        },
+        err=>{
+          console.log("error");
+
+        }
+      );
+    }
+  }
+  sortCraftables(rest){
+        for(let i =0;i<rest.length;i++){
+          if(rest[i].item_type === 'Potion'){
+            this.craftPotions.push(rest[i]);
+          }
+          else if(rest[i].item_type === 'Equipment'){
+            this.craftEquipment.push(rest[i]);
+          }
+
+          else{
+            this.craftMisc.push(rest[i]);
+          }
+        }
+
   }
   displayShopPreview(){
     if(this.showShop !=true){

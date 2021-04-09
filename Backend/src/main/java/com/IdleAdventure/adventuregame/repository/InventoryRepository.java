@@ -28,6 +28,20 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Query(value = Q_GET_USER_LOOTBAGS,nativeQuery = true)
     List<ItemLootBag> getAllLootBagItems(@Param("u_id") int u_id);
 
+    String Q_GET_ALL_CRAFT_ITEMS = "select name,description,level,item_type,sell,rarity,ingredient1,ingredient1Amount,ingredient2,ingredient2Amount," +
+            "ingredient3,ingredient3Amount,ingredient4,ingredient4Amount,ingredient5,ingredient5Amount,gold from item i inner join craft_item c where i.id = c.item_id";
+    @Query(value = Q_GET_ALL_CRAFT_ITEMS, nativeQuery = true)
+    List<ItemCraftable> getAllCraftableItems();
+
+    String Q_GET_CRAFT_ITEM = "select name,description,level,item_type,sell,rarity,ingredient1,ingredient1Amount,ingredient2,ingredient2Amount," +
+            "ingredient3,ingredient3Amount,ingredient4,ingredient4Amount,ingredient5,ingredient5Amount,gold from item i inner join craft_item c where i.id = c.item_id and c.item_id = :i_id;";
+    @Query(value = Q_GET_CRAFT_ITEM, nativeQuery = true)
+    List<ItemCraftable> getCraftableItem(@Param("i_id") int i_id);
+
+    String Q_GET_USER_CRAFT_MATERIALS = "select name,amount from inventory inv inner join item i where i.id = inv.item_id and inv.user_id=:u_id and i.item_type = \"Material\";";
+    @Query(value=Q_GET_USER_CRAFT_MATERIALS,nativeQuery = true)
+    List<UserCraftMaterial> getAllUserMaterials(@Param("u_id")int u_id);
+
     String Q_ITEM_EXISTS = "SELECT (EXISTS (SELECT 1 FROM inventory WHERE user_id = :u_id and item_id = :i_id))";
     @Query(value = Q_ITEM_EXISTS,nativeQuery = true)
     int itemExists(@Param("u_id") int u_id, @Param("i_id") int i_id);
@@ -48,7 +62,7 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Modifying
     @Transactional
     @Query(value=Q_ITEM_ADD_NEW,nativeQuery = true)
-    int addNewItem(@Param("u_id")int u_id,@Param("i_id")int i_id);
+    int addNewItem(@Param("i_id")int i_id,@Param("u_id")int u_id);
 
     String Q_ITEM_ADD_NEW_AMOUNT = "INSERT INTO inventory (amount,item_id,user_id) VALUES (:quantity,:i_id,:u_id)";
     @Modifying
@@ -61,6 +75,12 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Transactional
     @Query(value = Q_ITEM_REMOVE,nativeQuery = true)
     void removeItem(@Param("u_id")int u_id, @Param("i_id") int i_id);
+
+    String Q_ITEM_REMOVE_AMOUNT = "UPDATE inventory i set i.amount = i.amount- :amount where user_id = :u_id and item_id = :i_id";
+    @Modifying
+    @Transactional
+    @Query(value = Q_ITEM_REMOVE_AMOUNT,nativeQuery = true)
+    void removeItemAmount(@Param("u_id")int u_id, @Param("i_id") int i_id,@Param("amount")int amount);
 
     String Q_ZERO_LEFT = "DELETE FROM inventory where user_id = :u_id and item_id = :i_id and amount <=0";
     @Modifying
