@@ -78,10 +78,12 @@ public class GameController {
         List<ItemEquipment> equips = inventoryRepository.getAllEquipItems(userInv.getId());
         List<ItemPotion> potions = inventoryRepository.getAllPotionItems(userInv.getId());
         List<ItemLootBag> lootBags = inventoryRepository.getAllLootBagItems(userInv.getId());
+        List<UserCraftMaterial> materials = inventoryRepository.getAllUserMaterials(userInv.getId());
         List<Object> inventory = new ArrayList<>();
         inventory.addAll(equips);
         inventory.addAll(potions);
         inventory.addAll(lootBags);
+        inventory.addAll(materials);
         
         return inventory;
     }
@@ -273,6 +275,49 @@ public class GameController {
         statsRepository.updateStats(userStats.getAttack()-itemEquip.getAttack(),
                 userStats.getDefense()-itemEquip.getDefense(),userStats.getHp()-itemEquip.getHp(),
                 userStats.getCrit_chance()-itemEquip.getCrit_chance(),user.getId());
+
+    }
+
+    @RequestMapping("/api/inventory/openLootBag")
+    public void openLootBag(@RequestBody Item item){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser user = userRepository.findByUsername(username);
+        String[] forestLootChance = {"Jar of Slime","Wolf Pelt","Pixie Dust","Golem Artifact"};
+
+        if(item.getName().equals("Forest Loot Bag")){
+            for(int i = 0;i < 4;i++){
+                Item material = itemRepository.findByName(forestLootChance[i]);
+                double getCheck = Math.random()*100;
+                double amountCheck = Math.random()*100;
+                if(getCheck > 40){
+                    if(amountCheck >= 90){
+                        if(inventoryRepository.itemExists(user.getId(),material.getId()) ==1){
+                            inventoryRepository.addItemAmount(user.getId(),material.getId(),12);
+                        }
+                        else{
+                            inventoryRepository.addNewItemAmount(user.getId(),material.getId(),12);
+                        }
+                    }
+                    else if(amountCheck >60 && amountCheck < 90){
+                        if(inventoryRepository.itemExists(user.getId(),material.getId()) ==1){
+                            inventoryRepository.addItemAmount(user.getId(),material.getId(),6);
+                        }
+                        else{
+                            inventoryRepository.addNewItemAmount(user.getId(),material.getId(),6);
+                        }
+                    }
+                    else {
+                        if(inventoryRepository.itemExists(user.getId(),material.getId()) ==1){
+                            inventoryRepository.addItemAmount(user.getId(),material.getId(),3);
+                        }
+                        else{
+                            inventoryRepository.addNewItemAmount(user.getId(),material.getId(),3);
+                        }
+                    }
+                    }
+                }
+            }
+
 
     }
 /*

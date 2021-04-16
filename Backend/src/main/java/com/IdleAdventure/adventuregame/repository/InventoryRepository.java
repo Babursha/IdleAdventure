@@ -38,7 +38,7 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Query(value = Q_GET_CRAFT_ITEM, nativeQuery = true)
     List<ItemCraftable> getCraftableItem(@Param("i_id") int i_id);
 
-    String Q_GET_USER_CRAFT_MATERIALS = "select name,amount from inventory inv inner join item i where i.id = inv.item_id and inv.user_id=:u_id and i.item_type = \"Material\";";
+    String Q_GET_USER_CRAFT_MATERIALS = "select name,amount,description,level,item_type,price,sell,rarity from inventory inv inner join item i where i.id = inv.item_id and inv.user_id=:u_id and i.item_type = \"Material\";";
     @Query(value=Q_GET_USER_CRAFT_MATERIALS,nativeQuery = true)
     List<UserCraftMaterial> getAllUserMaterials(@Param("u_id")int u_id);
 

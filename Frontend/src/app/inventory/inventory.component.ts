@@ -49,6 +49,20 @@ export class InventoryComponent implements OnInit {
 
   }
 
+  openBag(item){
+  let url = "/api/inventory/openLootBag";
+  this.http.post(url,item).subscribe(
+  (rest:any)=>{
+
+
+  },
+  err=>{
+    console.log("couldn't open loot bag");
+  }
+  );
+
+  }
+
   showTempEquipment(item){
     this.tempEquipment=item;
   }
