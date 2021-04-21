@@ -51,9 +51,9 @@ export class InventoryComponent implements OnInit {
 
   openBag(item){
   let url = "/api/inventory/openLootBag";
-  this.http.post(url,item).subscribe(
+  this.http.post(url,{name:item.name,amount:item.amount}).subscribe(
   (rest:any)=>{
-
+    this.showInventory();
 
   },
   err=>{

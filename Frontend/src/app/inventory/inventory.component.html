@@ -8,7 +8,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img id = "bag" src="/assets/img/inv.png" title="Inventory">
+            <img class ="header" id = "bag" src="/assets/img/inv.png" title="Inventory">
           </ng-template>
             <div class = "group">
               <ng-container *ngFor="let item of inventory">
@@ -18,7 +18,7 @@
                          src="/assets/img/rsz_sword.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Weapon'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Weapon'" (click)="equipItem(item)">Equip</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Helmet'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -26,7 +26,7 @@
                          src="/assets/img/rsz_helm.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Helmet'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Helmet'" (click)="equipItem(item)">Equip</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Chest'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -34,7 +34,7 @@
                          src="/assets/img/rsz_chest.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Chest'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Chest'" (click)="equipItem(item)">Equip</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Legging'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -42,7 +42,7 @@
                          src="/assets/img/rsz_legs.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Legging'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Legging'" (click)="equipItem(item)">Equip</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Boots'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -50,7 +50,7 @@
                          src="/assets/img/rsz_boots.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Boots'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Boots'" (click)="equipItem(item)">Equip</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.equip_type === 'Ring'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -58,7 +58,7 @@
                          src="/assets/img/rsz_ring.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Potion'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -66,6 +66,7 @@
                          src="/assets/img/potion.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.item_type === 'Potion'" disabled>View</button>
                 </div>
                 <div>
                   <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Mystery'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
@@ -81,6 +82,7 @@
                          src="/assets/img/misc.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.item_type === 'Material'" disabled>View</button>
                 </div>
               </ng-container>
             </div>
@@ -88,7 +90,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/rsz_sword.png" title="Weapons">
+            <img class ="header" src="/assets/img/rsz_sword.png" title="Weapons">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
@@ -99,7 +101,7 @@
                     src="/assets/img/rsz_sword.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                 </div>
-                <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Weapon'" (click)="equipItem(item)">Equip</button>
+                <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Weapon'" (click)="equipItem(item)">Equip</button>
                 </div>
               </ng-container>
             </div>
@@ -108,7 +110,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/rsz_helm.png" title="Helmets">
+            <img class ="header" src="/assets/img/rsz_helm.png" title="Helmets">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
@@ -119,7 +121,7 @@
                          src="/assets/img/rsz_helm.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Helmet'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Helmet'" (click)="equipItem(item)">Equip</button>
                 </div>
               </ng-container>
             </div>
@@ -128,7 +130,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/rsz_chest.png" title="Chest Armor">
+            <img class ="header" src="/assets/img/rsz_chest.png" title="Chest Armor">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
@@ -139,7 +141,7 @@
                          src="/assets/img/rsz_chest.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Chest'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Chest'" (click)="equipItem(item)">Equip</button>
                 </div>
               </ng-container>
             </div>
@@ -148,7 +150,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/rsz_legs.png" title="Leg Armor">
+            <img class ="header" src="/assets/img/rsz_legs.png" title="Leg Armor">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
@@ -159,7 +161,7 @@
                          src="/assets/img/rsz_legs.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Legging'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Legging'" (click)="equipItem(item)">Equip</button>
                 </div>
               </ng-container>
             </div>
@@ -168,7 +170,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/rsz_boots.png" title="Boots">
+            <img class ="header" src="/assets/img/rsz_boots.png" title="Boots">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
@@ -179,7 +181,7 @@
                          src="/assets/img/rsz_boots.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Boots'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Boots'" (click)="equipItem(item)">Equip</button>
                 </div>
               </ng-container>
             </div>
@@ -188,7 +190,7 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/rsz_ring.png" title="Rings">
+            <img class ="header" src="/assets/img/rsz_ring.png" title="Rings">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
@@ -199,7 +201,7 @@
                          src="/assets/img/rsz_ring.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
-                  <button class="btn btn-sm btn-outline-success equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.equip_type === 'Ring'" (click)="equipItem(item)">Equip</button>
                 </div>
               </ng-container>
             </div>
@@ -208,17 +210,19 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <img src="/assets/img/misc.png" title="Miscellaneous">
+            <img class ="header" src="/assets/img/misc.png" title="Miscellaneous">
           </ng-template>
           <div class="flex-test">
             <div class = "group">
               <ng-container *ngFor="let item of inventory">
                 <div>
-                  <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Potion' || item.item_type === 'Mystery'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="top-left">
+                  <div class="itemBox d-flex justify-content-center row" *ngIf="item.item_type === 'Potion' || item.item_type === 'Mystery' || item.item_type ==='Material'" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="bottom-left">
                     <img [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[item.rarity]"
                          src="/assets/img/rsz_potion.png">
                     <p class="itemAmount">x{{item.amount}}</p>
                   </div>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.item_type === 'Potion' || item.item_type === 'Material'" disabled>View</button>
+                  <button class="btn btn-sm btn-outline-idle equipButton" *ngIf="item.item_type === 'Mystery'" (click)="openBag(item)">Open</button>
                 </div>
               </ng-container>
             </div>
