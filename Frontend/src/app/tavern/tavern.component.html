@@ -44,7 +44,8 @@
                 {{item.price}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
             </div>
             <div class ="p-2 align-self-center">
-              <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemBuy(item,i)">Buy</button>
+              <p class = "separate-btn"></p>
+              <button class="btn btn-sm buy-button" (click)="shopItemBuy(item,i)">Buy</button>
             </div>
           </div>
         </div>
@@ -67,7 +68,8 @@
                   {{item.sell}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
               </div>
               <div class ="p-2 align-self-center">
-                <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemSell(item)">Sell</button>
+                <p class="separate-btn"></p>
+                <button class="btn btn-sm buy-button" (click)="shopItemSell(item)">Sell</button>
               </div>
             </div>
           </div>
@@ -115,8 +117,8 @@
       <div class="craft-hidden" *ngIf="showCraftEquipment && showCraftPreview" [ngClass]="{'display':showCraftEquipment}">
         <div class="craft-box" *ngFor="let item of craftEquipment">
           <div class="inner-craft-box">
-            <div class ="item-rarity" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
-              <div class="item-type Mystery"></div>
+            <div class ="item-rarity rare-mystery">
+              <div class="item-type" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
             </div>
             <p class = "separate"></p>
             <div class="craft-info-box">
@@ -128,7 +130,7 @@
             </div>
           </div>
           <p class = "separate-btn"></p>
-          <button class="btn craft-button" (click)="userCraftItem(item)">Craft</button>
+          <button class="btn craft-button" (click)="userCraftEquipment(item)">Craft</button>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ public interface ItemCraftable {
     String getDescription();
     Integer getLevel();
     String getItem_type();
+    Integer getGold();
     Integer getSell();
     String getRarity();
     String getIngredient1();
@@ -18,5 +19,4 @@ public interface ItemCraftable {
     int getIngredient4Amount();
     String getIngredient5();
     int getIngredient5Amount();
-    int gold();
 }

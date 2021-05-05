@@ -153,12 +153,30 @@ export class TavernComponent implements OnInit {
 
   userCraftItem(item){
     let url = "/api/tavern/userCraftItem";
+    console.log(item);
     this.http.post(url,item).subscribe(
       (rest:any)=>{
-        if(rest == 0)
-          this.craftSucceed = true;
-        else
-          this.craftFailed = true;
+        if(rest == -1){
+          const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+          shopInfo.innerHTML = "Not Enough Materials!";
+          this.renderer.appendChild(this.div.nativeElement, shopInfo);
+          this.renderer.removeClass(shopInfo,'attemptPurchase');
+          this.renderer.addClass(shopInfo, 'purchaseItemFailedShow');
+          setTimeout(() => {
+            this.renderer.removeChild(this.div.nativeElement,shopInfo);
+          }, 1400);
+        }
+        else{
+          this.dataService.gold = rest;
+          const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+          shopInfo.innerHTML = "Item Crafted!";
+          this.renderer.appendChild(this.div.nativeElement, shopInfo);
+          this.renderer.removeClass(shopInfo,'attemptPurchase');
+          this.renderer.addClass(shopInfo, 'purchaseItemShow');
+          setTimeout(() => {
+            this.renderer.removeChild(this.div.nativeElement,shopInfo);
+          }, 1400);
+        }
       },
       (err)=>{
         console.log("something wrong with crafting item");
@@ -167,10 +185,44 @@ export class TavernComponent implements OnInit {
     );
 
   }
+  userCraftEquipment(item){
+    let url = "/api/tavern/userCraftEquipment";
+    console.log(item);
+    this.http.post(url,item).subscribe(
+      (rest:any)=>{
+        if(rest == -1){
+          const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+          shopInfo.innerHTML = "Not Enough Materials!";
+          this.renderer.appendChild(this.div.nativeElement, shopInfo);
+          this.renderer.removeClass(shopInfo,'attemptPurchase');
+          this.renderer.addClass(shopInfo, 'purchaseItemFailedShow');
+          setTimeout(() => {
+            this.renderer.removeChild(this.div.nativeElement,shopInfo);
+          }, 1400);
+        }
+        else{
+          this.dataService.gold = rest;
+          const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+          shopInfo.innerHTML = "Item Crafted!";
+          this.renderer.appendChild(this.div.nativeElement, shopInfo);
+          this.renderer.removeClass(shopInfo,'attemptPurchase');
+          this.renderer.addClass(shopInfo, 'purchaseItemShow');
+          setTimeout(() => {
+            this.renderer.removeChild(this.div.nativeElement,shopInfo);
+          }, 1400);
+        }
+      },
+      (err)=>{
+        console.log("something wrong with crafting item");
+      }
+
+    );
+
+  }
+
   luckyWheelSpin(){
 
     let d = (Math.random() * 100);
-
     if(d <= 5){
     console.log("20k");
     this.spinVal = "20000";
@@ -210,8 +262,18 @@ export class TavernComponent implements OnInit {
   let url = "/api/tavern/lucky";
   this.http.post(url,this.spinVal).subscribe(
     (rest:any)=>{
-      console.log("prize data sent");
+    if(this.spinVal === "500" || this.spinVal ==="5000" || this.spinVal ==="20000")
+      this.dataService.gold = this.dataService.gold + parseInt(this.spinVal);
 
+      console.log("prize data sent");
+      const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
+      shopInfo.innerHTML = "Congrats you won!" + this.spinVal;
+      this.renderer.appendChild(this.div.nativeElement, shopInfo);
+      this.renderer.removeClass(shopInfo,'attemptPurchase');
+      this.renderer.addClass(shopInfo, 'purchaseItemShow');
+      setTimeout(() => {
+       this.renderer.removeChild(this.div.nativeElement,shopInfo);
+      }, 1400);
     },
     err=>{
 
@@ -300,6 +362,8 @@ export class TavernComponent implements OnInit {
         (rest:any)=>{
           this.sortCraftables(rest);
           console.log(this.craftPotions);
+          console.log(this.craftEquipment);
+          console.log(this.craftMisc);
         },
         err=>{
           console.log("error");
@@ -309,16 +373,13 @@ export class TavernComponent implements OnInit {
     }
   }
   sortCraftables(rest){
-        for(let i =0;i<rest.length;i++){
-          if(rest[i].item_type === 'Potion'){
-            this.craftPotions.push(rest[i]);
+        this.craftEquipment = rest[0];
+        for(let i =0;i<rest[1].length;i++){
+          if(rest[1][i].item_type === 'Potion'){
+            this.craftPotions.push(rest[1][i]);
           }
-          else if(rest[i].item_type === 'Equipment'){
-            this.craftEquipment.push(rest[i]);
-          }
-
           else{
-            this.craftMisc.push(rest[i]);
+            this.craftMisc.push(rest[1][i]);
           }
         }
 

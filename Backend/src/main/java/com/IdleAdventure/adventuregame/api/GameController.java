@@ -8,9 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static javax.management.Query.value;
 
@@ -117,6 +115,20 @@ public class GameController {
     }
 
     /**
+     * Grabs all the monsters in the database with the location field set
+     * as 'cave'.
+     *
+     * @return      List of monsters based on the location from the cave
+     */
+
+    @RequestMapping("/api/dungeons/caveDetails")
+    public List<Monster> caveMonstersDetails() throws Exception{
+        return monsterRepository.getCaveMonsters();
+
+
+    }
+
+    /**
      * Takes a list of random monsters from the database with the 'forest'
      * location and sends it back to the client.
      *
@@ -147,6 +159,20 @@ public class GameController {
         int pick;
         for(int i =0;i <100;i++){
             List<Monster> monster = monsterRepository.getDesertMonsters();
+            pick = new Random().nextInt(3);
+            monsters.add(monster.get(pick));
+        }
+
+        return monsters;
+
+    }
+
+    @RequestMapping("/api/dungeons/cave/battle")
+    public List<Monster> caveBattleSim() throws Exception{
+        List<Monster> monsters = new ArrayList<>();
+        int pick;
+        for(int i =0;i <100;i++){
+            List<Monster> monster = monsterRepository.getCaveMonsters();
             pick = new Random().nextInt(3);
             monsters.add(monster.get(pick));
         }
@@ -279,7 +305,7 @@ public class GameController {
     }
 
     @RequestMapping("/api/inventory/openLootBag")
-    public void openLootBag(@RequestBody Item item){
+    public void openLootBag(@RequestBody ItemLoot item){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
         String[] forestLootChance = {"Jar of Slime","Wolf Pelt","Pixie Dust","Golem Artifact"};
@@ -316,6 +342,12 @@ public class GameController {
                     }
                     }
                 }
+            if(item.getAmount() == 1) {
+                inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName("Forest Loot Bag").getId(), 1);
+                inventoryRepository.deleteEntry(user.getId(), itemRepository.findByName("Forest Loot Bag").getId());
+            }
+            else
+                inventoryRepository.removeItemAmount(user.getId(),itemRepository.findByName("Forest Loot Bag").getId(),1);
             }
 
 
@@ -433,7 +465,7 @@ public class GameController {
 
 
     @RequestMapping("api/tavern/shop/sell")
-    public int sellAtShop(@RequestBody Item data){
+    public double sellAtShop(@RequestBody Item data){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
         Item item = itemRepository.findByName(data.getName());
@@ -441,13 +473,80 @@ public class GameController {
         userRepository.updateGold(user.getId(),(int)user.getGold()+item.getSell());
         inventoryRepository.removeItem(user.getId(),item.getId());
         inventoryRepository.deleteEntry(user.getId(),item.getId());
-        return (int)user.getGold()+item.getSell();
+        return user.getGold();
     }
 
     @RequestMapping("/api/tavern/userCraftItem")
-    public int userCraftItem(@RequestBody CraftItem item){
+    public double userCraftItem(@RequestBody CraftedItem item){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
+        if(user.getGold() < item.getGold())
+            return -1;
+        List<UserCraftMaterial> userMaterials = inventoryRepository.getAllUserMaterials(user.getId());
+        boolean craftSuccess = false;
+        if(item.getIngredient1() != null){
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient1()) && userMaterials.get(j).getAmount() > item.getIngredient1Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient1()).getId(), item.getIngredient1Amount());
+                    craftSuccess = true;
+                    break;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient2() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient2()) && userMaterials.get(j).getAmount() > item.getIngredient2Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient2()).getId(), item.getIngredient2Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient3() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient3()) && userMaterials.get(j).getAmount() > item.getIngredient3Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient3()).getId(), item.getIngredient3Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient4() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient4()) && userMaterials.get(j).getAmount() > item.getIngredient4Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient4()).getId(), item.getIngredient4Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        if (item.getIngredient5() != null) {
+            for (int j = 0; j < userMaterials.size(); j++) {
+                if (userMaterials.get(j).getName().equals(item.getIngredient5()) && userMaterials.get(j).getAmount() > item.getIngredient5Amount()) {
+                    inventoryRepository.removeItemAmount(user.getId(), itemRepository.findByName(item.getIngredient5()).getId(), item.getIngredient5Amount());
+                    craftSuccess = true;
+                }
+            }
+            if(!craftSuccess)
+                return -1;
+        }
+        addCraftedItemToInv(user,item);
+        userRepository.updateGold(user.getId(),(int)user.getGold()-item.getGold());
+        return user.getGold();
+
+    }
+
+    @RequestMapping("/api/tavern/userCraftEquipment")
+    public double userCraftItemEquipment(@RequestBody CraftEquip item){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser user = userRepository.findByUsername(username);
+        if(user.getGold() < item.getGold())
+            return -1;
         List<UserCraftMaterial> userMaterials = inventoryRepository.getAllUserMaterials(user.getId());
         boolean craftSuccess = false;
         if(item.getIngredient1() != null){
@@ -502,15 +601,142 @@ public class GameController {
                 return -1;
         }
 
-        return 0;
+        craftRandomEquip(user,item);
+        userRepository.updateGold(user.getId(),(int)user.getGold()-item.getGold());
+        return user.getGold();
 
+    }
+
+    public void craftRandomEquip(GameUser user,CraftEquip item){
+        double rand = Math.random()*100;
+        String craftedItem = "Test Sword";
+        if(item.getEquip_type().equals("Helmet")) {
+            List<EquippedItem> randomize = itemRepository.getAllHelmets();
+            Collections.shuffle(randomize);
+            if(rand >97)
+                craftedItem = searchCraftArray(randomize,"Artifact");
+            else if(rand <=97 && rand >90)
+                craftedItem = searchCraftArray(randomize,"Legendary");
+            else if(rand <=90 && rand >78)
+                craftedItem = searchCraftArray(randomize,"Mythic");
+            else if(rand <=78 && rand >60)
+                craftedItem = searchCraftArray(randomize,"Rare");
+            else if(rand <=60 && rand >35)
+                craftedItem = searchCraftArray(randomize,"Uncommon");
+            else if(rand <=35 && rand >=0)
+                craftedItem = searchCraftArray(randomize,"Common");
+        }
+        else if(item.getEquip_type().equals("Ring")){
+            List<EquippedItem> randomize = itemRepository.getAllRings();
+            Collections.shuffle(randomize);
+            if(rand >97)
+                craftedItem = searchCraftArray(randomize,"Artifact");
+            else if(rand <=97 && rand >90)
+                craftedItem = searchCraftArray(randomize,"Legendary");
+            else if(rand <=90 && rand >78)
+                craftedItem = searchCraftArray(randomize,"Mythic");
+            else if(rand <=78 && rand >60)
+                craftedItem = searchCraftArray(randomize,"Rare");
+            else if(rand <=60 && rand >35)
+                craftedItem = searchCraftArray(randomize,"Uncommon");
+            else if(rand <=35 && rand >=0)
+                craftedItem = searchCraftArray(randomize,"Common");
+        }
+        else if(item.getEquip_type().equals("Weapon")){
+            List<EquippedItem> randomize = itemRepository.getAllWeapons();
+            Collections.shuffle(randomize);
+            if(rand >97)
+                craftedItem = searchCraftArray(randomize,"Artifact");
+            else if(rand <=97 && rand >90)
+                craftedItem = searchCraftArray(randomize,"Legendary");
+            else if(rand <=90 && rand >78)
+                craftedItem = searchCraftArray(randomize,"Mythic");
+            else if(rand <=78 && rand >60)
+                craftedItem = searchCraftArray(randomize,"Rare");
+            else if(rand <=60 && rand >35)
+                craftedItem = searchCraftArray(randomize,"Uncommon");
+            else if(rand <=35 && rand >=0)
+                craftedItem = searchCraftArray(randomize,"Common");
+        }
+        else if(item.getEquip_type().equals("Chest")){
+            List<EquippedItem> randomize = itemRepository.getAllChests();
+            Collections.shuffle(randomize);
+            if(rand >97)
+                craftedItem = searchCraftArray(randomize,"Artifact");
+            else if(rand <=97 && rand >90)
+                craftedItem = searchCraftArray(randomize,"Legendary");
+            else if(rand <=90 && rand >78)
+                craftedItem = searchCraftArray(randomize,"Mythic");
+            else if(rand <=78 && rand >60)
+                craftedItem = searchCraftArray(randomize,"Rare");
+            else if(rand <=60 && rand >35)
+                craftedItem = searchCraftArray(randomize,"Uncommon");
+            else if(rand <=35 && rand >=0)
+                craftedItem = searchCraftArray(randomize,"Common");
+        }
+        else if(item.getEquip_type().equals("Legging")){
+            List<EquippedItem> randomize = itemRepository.getAllLeggings();
+            Collections.shuffle(randomize);
+            if(rand >97)
+                craftedItem = searchCraftArray(randomize,"Artifact");
+            else if(rand <=97 && rand >90)
+                craftedItem = searchCraftArray(randomize,"Legendary");
+            else if(rand <=90 && rand >78)
+                craftedItem = searchCraftArray(randomize,"Mythic");
+            else if(rand <=78 && rand >60)
+                craftedItem = searchCraftArray(randomize,"Rare");
+            else if(rand <=60 && rand >35)
+                craftedItem = searchCraftArray(randomize,"Uncommon");
+            else if(rand <=35 && rand >=0)
+                craftedItem = searchCraftArray(randomize,"Common");
+        }
+        else if(item.getEquip_type().equals("Boots")){
+            List<EquippedItem> randomize = itemRepository.getAllBoots();
+            Collections.shuffle(randomize);
+            if(rand >97)
+                craftedItem = searchCraftArray(randomize,"Artifact");
+            else if(rand <=97 && rand >90)
+                craftedItem = searchCraftArray(randomize,"Legendary");
+            else if(rand <=90 && rand >78)
+                craftedItem = searchCraftArray(randomize,"Mythic");
+            else if(rand <=78 && rand >60)
+                craftedItem = searchCraftArray(randomize,"Rare");
+            else if(rand <=60 && rand >35)
+                craftedItem = searchCraftArray(randomize,"Uncommon");
+            else if(rand <=35 && rand >=0)
+                craftedItem = searchCraftArray(randomize,"Common");
+        }
+        Item mysteryCraft = itemRepository.findByName(craftedItem);
+        System.out.print(mysteryCraft.getName());
+        if(inventoryRepository.itemExists(user.getId(),mysteryCraft.getId()) !=1)
+            inventoryRepository.addNewItemAmount(user.getId(),mysteryCraft.getId(),1);
+        else
+            inventoryRepository.addItemAmount(user.getId(),mysteryCraft.getId(),1);
+    }
+
+    public String searchCraftArray(List<EquippedItem> craftEquips,String rarity){
+        for(EquippedItem prize: craftEquips){
+            if(prize.getRarity().equals(rarity)){
+                return prize.getName();
+            }
+        }
+        return "Test Sword";
+    }
+
+    public void addCraftedItemToInv(GameUser user, CraftedItem item){
+        Item crafted = itemRepository.findByName(item.getName());
+        if(inventoryRepository.itemExists(user.getId(),crafted.getId()) != 1){
+            inventoryRepository.addNewItemAmount(user.getId(),crafted.getId(),1);
+        }
+        else
+            inventoryRepository.addItemAmount(user.getId(),crafted.getId(),1);
     }
 
     @RequestMapping("/api/tavern/lucky")
     public void userWonPrize(@RequestBody String prize){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
-        if(prize.equals("500") || prize.equals("20k") || prize.equals("5k")){
+        if(prize.equals("500") || prize.equals("20000") || prize.equals("5000")){
             userRepository.updateGold(user.getId(),(Integer.valueOf(prize) +(int) user.getGold()));
         }
         else if(prize.equals("mystery")){
@@ -565,8 +791,24 @@ public class GameController {
     }
 
     @RequestMapping("/api/tavern/getCraftables")
-    public List<ItemCraftable> getCraftableItems(){
-        return inventoryRepository.getAllCraftableItems();
+    public List<Object> getCraftableItems(){
+        List<Object> allCrafts = new ArrayList<>();
+        List<CraftEquip> craftEquips = new ArrayList<>();
+        CraftEquip weapon = new CraftEquip("Weapon","Golem Artifact",3,"Wolf Pelt",4,"Pixie Dust",2,null,0,null,0,750);
+        CraftEquip helmet = new CraftEquip("Helmet","Golem Artifact",1,"Wolf Pelt",2,"Pixie Dust",1,null,0,null,0,750);
+        CraftEquip legging = new CraftEquip("Legging","Golem Artifact",2,"Wolf Pelt",3,"Pixie Dust",1,null,0,null,0,750);
+        CraftEquip chest = new CraftEquip("Chest","Golem Artifact",2,"Wolf Pelt",4,"Pixie Dust",2,null,0,null,0,750);
+        CraftEquip boots = new CraftEquip("Boots","Golem Artifact",1,"Wolf Pelt",2,"Pixie Dust",1,null,0,null,0,750);
+        CraftEquip ring = new CraftEquip("Ring","Golem Artifact",2,"Wolf Pelt",3,"Pixie Dust",2,null,0,null,0,750);
+        craftEquips.add(weapon);
+        craftEquips.add(helmet);
+        craftEquips.add(legging);
+        craftEquips.add(chest);
+        craftEquips.add(boots);
+        craftEquips.add(ring);
+        allCrafts.add(craftEquips);
+        allCrafts.add(inventoryRepository.getAllCraftableItems());
+        return allCrafts;
     }
 
 }

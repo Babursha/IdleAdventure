@@ -20,6 +20,30 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
     @Query(value=GET_EQUIPPED_ITEM_DETAILS,nativeQuery = true)
     EquippedItem getEquippedItemDetails(@Param("i_id")int i_id);
 
+    String GET_ALL_HELMETS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id and equipment.equip_type='Helmet'";
+    @Query(value=GET_ALL_HELMETS,nativeQuery = true)
+    List<EquippedItem> getAllHelmets();
+
+    String GET_ALL_RINGS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id and equipment.equip_type='Ring'";
+    @Query(value=GET_ALL_RINGS,nativeQuery = true)
+    List<EquippedItem> getAllRings();
+
+    String GET_ALL_WEAPONS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id and equipment.equip_type='Weapon'";
+    @Query(value=GET_ALL_WEAPONS,nativeQuery = true)
+    List<EquippedItem> getAllWeapons();
+
+    String GET_ALL_CHESTS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id and equipment.equip_type='Chest'";
+    @Query(value=GET_ALL_CHESTS,nativeQuery = true)
+    List<EquippedItem> getAllChests();
+
+    String GET_ALL_LEGGINGS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id and equipment.equip_type='Legging'";
+    @Query(value=GET_ALL_LEGGINGS,nativeQuery = true)
+    List<EquippedItem> getAllLeggings();
+
+    String GET_ALL_BOOTS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id and equipment.equip_type='Boots'";
+    @Query(value=GET_ALL_BOOTS,nativeQuery = true)
+    List<EquippedItem> getAllBoots();
+
     String GET_SHOP_ITEMS = "SELECT * FROM item ORDER BY RAND() LIMIT 10";
     @Query(value = GET_SHOP_ITEMS,nativeQuery = true)
     List<Item> getShopItems();

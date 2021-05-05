@@ -92,24 +92,24 @@ font-size: 16px;
   scrollbar-color: #2E2E2E #212121;
   scrollbar-width: thin;
   overflow:auto;
-  background: rgba(0, 0, 0, .3);
   padding:10px;
-  border-top: 1px black solid;
-  box-shadow: 0px -3px #0000007a;
+  box-shadow: 0px -2px #0000007a;
   transition:all 1s;
 }
 
 .shopBox{
 width:175px;
 height:200px;
-border-style:groove;
-margin:20px;
-background-color:#0F0F0F;
-box-shadow: 0px 0px 8px black;
-border-radius:10px;
 margin-right:25px;
 margin-left:35px;
-
+margin-bottom:20px;
+border-radius:10px;
+color:white;
+box-shadow: 0 3px 8px rgba(0, 0, 0);
+border:1px solid black;
+border-right: 1px solid rgba(213, 62, 255, 0.32);
+border-bottom: 1px solid rgba(152, 0, 255, 0.24);
+background:linear-gradient(130deg, rgba(0, 0, 0, 0.43) 0%, rgba(248, 0, 255, 0.02) 100%);
 }
 .shopBox:hover{
 background-color:#0000003b;
@@ -194,10 +194,15 @@ outline:0;
 .fa{
 color:white;
 }
-.buyBtn{
+.buy-button{
 width:150px;
+color: #9a00f0;
+border-top:none;
 }
-
+.buy-button:hover{
+border:1px solid;
+border-top:none;
+}
 .groupBtn{
 color:white;
 display:block;
@@ -209,6 +214,10 @@ transition:1s;
 border-bottom:1px solid #9a00f0;
 border-top:none;
 box-shadow:inset 0px 0px 10px black;
+}
+
+.rare-mystery{
+filter:drop-shadow(10px 5px 10px rgb(0, 255, 0)) drop-shadow(-5px 0px 10px rgba(127,0,255)) drop-shadow(-5px -10px 10px rgb(255, 255, 255)) drop-shadow(-10px -10px 10px rgb(0, 207, 255)) drop-shadow(5px 10px 10px rgb(255, 128, 0)) drop-shadow(0px 10px 10px rgb(204, 0, 0));
 }
 .uncommon{
   color: #00FF00;
@@ -291,7 +300,7 @@ background-color:#1F1F1F;
 width:150px;
 text-align:right;
 border-radius:5px;
-color:grey;
+color:#ca8e00;
 padding-right:5px;
 }
 
@@ -356,7 +365,7 @@ width:50px;
   position: relative;
   transition: all 0.3s ease-in-out;
   border: 1px black solid;
-  box-shadow: 0px 0px 10px black;
+  box-shadow: 0px 3px 10px black;
 }
 .effect01:hover {
   border: 3px solid #fff;
@@ -451,7 +460,6 @@ width:100%;
 
 }
 .inner-craft-box{
-margin: auto;
 margin-top: 20px;
 height:25%;
 }
@@ -470,9 +478,8 @@ margin-bottom:0;
 }
 
 .craft-box{
-height:55%;
+height:250px;
 color:white;
-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.58);
 border: 1px solid #ffffff7a;
 border-right: 1px solid rgba(213, 62, 255, 0.32);
 border-bottom: 1px solid rgba(152, 0, 255, 0.24);
@@ -482,9 +489,11 @@ display: flex;
 border-radius: 10px;
 flex-direction:column;
 margin-bottom: 20px;
-margin-left: 20px;
-margin-right: 20px;
+margin-left: 35px;
+margin-right: 25px;
 width: 175px;
+box-shadow: 0 3px 8px rgba(0, 0, 0);
+background:linear-gradient(130deg, rgba(0, 0, 0, 0.43) 0%, rgba(248, 0, 255, 0.02) 100%);
 }
 
 .craft-container{
@@ -502,6 +511,11 @@ transition:1s;
 .craft-info-box{
 flex-direction: row;
 display: flex;
+margin:auto;
+flex-wrap:wrap;
+width:80%;
+scrollbar-width: none;
+overflow:auto;
 }
 
 .craft-menu{
@@ -544,8 +558,7 @@ scrollbar-width: thin;
 overflow:auto;
 transition:1s;
 margin-bottom:auto;
-padding-top:50px;
-padding-top:50px;
+padding-top:10px;
 }
 
 .craft-display{
@@ -576,9 +589,14 @@ box-shadow:0 0 0 .2rem rgba(199, 0, 255, 0.14)
 border-top: 1px solid #9a00f0;
 box-shadow: 0px 2px 10px #000000c9;
 background-color: #00000063;
-transform: scale3d(1.1,1.1,1);
+color: #9a00f0;
 }
+.Mystery{
+width:50px;
+height:50px;
+background:url("/assets/img/inv.png") no-repeat;
 
+}
 .wheel-container {
   display: grid;
   justify-content:center;
@@ -595,7 +613,9 @@ span{
 height:20px;
 position:relative;
 top:5px;
-margin-right: 10px;
+margin-right: 5px;
+line-height:2;
+font-size:15px;
 }
 .spin-wheel{
 transition: 10s;
@@ -637,7 +657,7 @@ transform: rotate(7.4turn);
 transform: rotate(7.68turn);
 }
 .spin-potion{
-transform: rotate(7.8turn);
+transform: rotate(7.56turn);
 }
 .spin-mystery{
 transform: rotate(7.2turn);
@@ -655,6 +675,8 @@ margin-bottom:auto;
 .ingredients{
 flex-direction:row;
 margin-right:3px;
+margin-bottom:20px;
+margin-left: 3px;
 }
 .slime-jar{
 height:35px;
@@ -666,10 +688,16 @@ height:35px;
 width:35px;
 background: url('/assets/img/fairydust.png') no-repeat;
 }
+.wolf-pelt{
+height:35px;
+width:35px;
+background: url('/assets/img/wolf_pelt.png') no-repeat;
+}
 .golem-artifact{
 height:35px;
 width:35px;
-background: url('/assets/img/golem_stone.png') no-repeat;
+background: url('/assets/img/golem_artifact.png') no-repeat;
+filter:drop-shadow(0px 0px 1px red)
 }
 @keyframes hide{
 0%{

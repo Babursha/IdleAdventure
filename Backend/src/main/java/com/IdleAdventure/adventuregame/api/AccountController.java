@@ -55,7 +55,7 @@ public class AccountController {
             this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
             user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
             user.setRole("basic");
-            user.setGold(100.00);
+            user.setGold(1000.00);
             this.userRepository.save(user);
             this.setNewStats(user);
             this.setNewInventory(user);
