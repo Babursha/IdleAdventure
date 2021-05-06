@@ -36,6 +36,15 @@ float:none;
   transform:scale(1.1,1.1);
 }
 
+#t-box1{
+animation:leftToRight1 1s forwards;
+}
+#t-box2{
+animation:leftToRight2 1.5s forwards;
+}
+#t-box3{
+animation:leftToRight3 2s forwards;
+}
 
 .usernameBox{
 height:45px;
@@ -217,3 +226,15 @@ flex-wrap:nowrap;
   50% {bottom: 80px; opacity: 1;}
   100% {bottom: 50px; opacity:0}
 }
+@keyframes leftToRight1 {
+   0%{margin-left:-300px; opacity: 0;}
+   100% { opacity:1;}
+ }
+ @keyframes leftToRight2 {
+    0%{margin-left:-300px; opacity: 0;}
+    100% { opacity:1;}
+  }
+  @keyframes leftToRight3 {
+     0%{margin-left:-300px; opacity: 0;}
+     100% { opacity:1;}
+   }

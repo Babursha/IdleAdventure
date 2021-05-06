@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   showXpCollected = false;
   authorized = false;
 
-  constructor(private http: HttpClient,private router: Router,private dataService: DataService) { }
+  constructor(private http: HttpClient,private router: Router,public dataService: DataService) { }
 
   ngOnInit() {
     this.getUser();

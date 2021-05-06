@@ -1,17 +1,17 @@
 <app-navigation></app-navigation>
-<div class ="container" *ngIf="authorized">
+<div class ="container">
 
 
     <div class ="header-info">
     </div>
-  <div class="transparent-box">
+  <div class="transparent-box" id="t-box1">
 
     <div class="usernameBox">
       {{model.username}}
     </div>
 
   </div>
-  <div class="transparent-box">
+  <div class="transparent-box" id="t-box2">
 
       <div class="form-row" id="wrappedRow">
         <div class="progress-label" >Level: {{model.level}}</div>
@@ -23,7 +23,7 @@
 
   </div>
 
-    <div class="transparent-box">
+    <div class="transparent-box" id="t-box3">
 
       <div class ="free-progress">
         <div class="form-row">
