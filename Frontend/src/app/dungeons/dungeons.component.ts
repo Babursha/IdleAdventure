@@ -30,6 +30,7 @@ export class DungeonsComponent implements OnInit {
   ngOnInit() {
     this.getForestDetails();
     this.getDesertDetails();
+    this.getCaveDetails();
   }
   ngOnDestroy(){
 
@@ -63,5 +64,17 @@ export class DungeonsComponent implements OnInit {
         }
     );
     }
+  getCaveDetails(){
+  let url = "/api/dungeons/caveDetails"
+  this.http.get<any>(url).subscribe(
+      rest=>{
+      console.log(rest);
+      this.cave = rest;
+      },
+      err=>{
+      this.router.navigate(['/error']);
+      }
+  );
+  }
 
 }

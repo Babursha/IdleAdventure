@@ -69,7 +69,9 @@
           <div class="backInfo">
             <div class="d-flex flex-row justify-content-center">
               <div class="p-2" *ngFor="let monster of cave">
-                <img class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showWolf(monster)" [ngbPopover]="wolfPop" #wolfPopover="ngbPopover" triggers="hover" placement="bottom-left"></div>
+                <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+                <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+              </div>
             </div>
             <button class="btn btnCave" routerLink="/dungeons/cave">Explore</button>
           </div>
@@ -89,7 +91,9 @@
           <div class="backInfo">
             <div class="d-flex flex-row justify-content-center">
               <div class="p-2" *ngFor="let monster of volcano">
-                <img class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showWolf(monster)" [ngbPopover]="wolfPop" #wolfPopover="ngbPopover" triggers="hover" placement="bottom-left"></div>
+                <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+                <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+              </div>
             </div>
             <button class="btn btnVolcano" routerLink="/dungeons/volcano">Explore</button>
           </div>
@@ -109,7 +113,9 @@
           <div class="backInfo">
             <div class="d-flex flex-row justify-content-center">
               <div class="p-2" *ngFor="let monster of sea">
-                <img class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showWolf(monster)" [ngbPopover]="wolfPop" #wolfPopover="ngbPopover" triggers="hover" placement="bottom-left"></div>
+                <img *ngIf="monster.lootType==='basic'" class ="monsters" src ="/assets/img/basic_monster.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+                <img *ngIf="monster.lootType==='boss'" class ="monsters" src ="/assets/img/boss.png" title="{{monster.name}}" (mouseenter)="showMonster(monster)" [ngbPopover]="monsterPop" #monsterPopover="ngbPopover" triggers="hover" placement="left">
+              </div>
             </div>
             <button class="btn btnSea" routerLink="/dungeons/Sea">Explore</button>
           </div>

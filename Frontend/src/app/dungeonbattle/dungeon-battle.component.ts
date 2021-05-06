@@ -62,6 +62,8 @@ export class DungeonBattleComponent implements OnInit {
     else if(this.area === 'desert'){
       this.desertBattle();
     }
+    else if(this.area === 'cave')
+      this.caveBattle();
     this.getPlayer();
     this.startBattle();
   }
@@ -183,6 +185,22 @@ export class DungeonBattleComponent implements OnInit {
 
   desertBattle(){
     let url = "/api/dungeons/desert/battle";
+
+    this.http.get<any>(url).subscribe(
+      (rest:any)=>{
+      console.log(rest);
+      this.mData = rest;
+      this.mCurrentName = this.mData[this.monsterNum].name;
+      this.mMaxHp = this.mData[this.monsterNum].hp;
+      this.mCurrentHp = this.mData[this.monsterNum].hp;
+      },
+      err=>{
+      }
+      );
+  }
+
+  caveBattle(){
+    let url = "/api/dungeons/cave/battle";
 
     this.http.get<any>(url).subscribe(
       (rest:any)=>{
