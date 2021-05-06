@@ -27,6 +27,7 @@ export class TavernComponent implements OnInit {
   craftPotions = [];
   craftEquipment=[];
   craftMisc=[];
+  craftedItem=[];
 
   showShopPreview=false;
   showEnchantPreview=false;
@@ -40,6 +41,7 @@ export class TavernComponent implements OnInit {
   craftPotionsClicked = false;
   craftEquipmentClicked = false;
   craftMiscClicked = false;
+  craftedItemSuccess = false;
 
   spinVal = "";
 
@@ -130,6 +132,7 @@ export class TavernComponent implements OnInit {
 
   }
 
+
   shopItemSell(item){
     let url = "/api/tavern/shop/sell";
     this.http.post(url,item).subscribe(
@@ -190,9 +193,9 @@ export class TavernComponent implements OnInit {
     console.log(item);
     this.http.post(url,item).subscribe(
       (rest:any)=>{
-        if(rest == -1){
+        if(rest == null){
           const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
-          shopInfo.innerHTML = "Not Enough Materials!";
+          shopInfo.innerHTML = "Not Enough Materials or Gold!";
           this.renderer.appendChild(this.div.nativeElement, shopInfo);
           this.renderer.removeClass(shopInfo,'attemptPurchase');
           this.renderer.addClass(shopInfo, 'purchaseItemFailedShow');
@@ -201,7 +204,10 @@ export class TavernComponent implements OnInit {
           }, 1400);
         }
         else{
-          this.dataService.gold = rest;
+          this.craftedItem=rest;
+          console.log(this.craftedItem);
+          this.craftedItemSuccess= true;
+          this.dataService.gold = this.dataService.gold-item.gold;
           const shopInfo: HTMLParagraphElement = this.renderer.createElement('p');
           shopInfo.innerHTML = "Item Crafted!";
           this.renderer.appendChild(this.div.nativeElement, shopInfo);
@@ -219,6 +225,8 @@ export class TavernComponent implements OnInit {
     );
 
   }
+
+
 
   luckyWheelSpin(){
 

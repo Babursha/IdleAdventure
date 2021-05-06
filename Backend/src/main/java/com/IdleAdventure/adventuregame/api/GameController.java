@@ -542,11 +542,11 @@ public class GameController {
     }
 
     @RequestMapping("/api/tavern/userCraftEquipment")
-    public double userCraftItemEquipment(@RequestBody CraftEquip item){
+    public ItemEquipment userCraftItemEquipment(@RequestBody CraftEquip item){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
         if(user.getGold() < item.getGold())
-            return -1;
+            return null;
         List<UserCraftMaterial> userMaterials = inventoryRepository.getAllUserMaterials(user.getId());
         boolean craftSuccess = false;
         if(item.getIngredient1() != null){
@@ -558,7 +558,7 @@ public class GameController {
                 }
             }
             if(!craftSuccess)
-                return -1;
+                return null;
         }
         if (item.getIngredient2() != null) {
             for (int j = 0; j < userMaterials.size(); j++) {
@@ -568,7 +568,7 @@ public class GameController {
                 }
             }
             if(!craftSuccess)
-                return -1;
+                return null;
         }
         if (item.getIngredient3() != null) {
             for (int j = 0; j < userMaterials.size(); j++) {
@@ -578,7 +578,7 @@ public class GameController {
                 }
             }
             if(!craftSuccess)
-                return -1;
+                return null;
         }
         if (item.getIngredient4() != null) {
             for (int j = 0; j < userMaterials.size(); j++) {
@@ -588,7 +588,7 @@ public class GameController {
                 }
             }
             if(!craftSuccess)
-                return -1;
+                return null;
         }
         if (item.getIngredient5() != null) {
             for (int j = 0; j < userMaterials.size(); j++) {
@@ -598,16 +598,16 @@ public class GameController {
                 }
             }
             if(!craftSuccess)
-                return -1;
+                return null;
         }
 
-        craftRandomEquip(user,item);
         userRepository.updateGold(user.getId(),(int)user.getGold()-item.getGold());
-        return user.getGold();
+        ItemEquipment result = craftRandomEquip(user,item);
+        return result;
 
     }
 
-    public void craftRandomEquip(GameUser user,CraftEquip item){
+    public ItemEquipment craftRandomEquip(GameUser user,CraftEquip item){
         double rand = Math.random()*100;
         String craftedItem = "Test Sword";
         if(item.getEquip_type().equals("Helmet")) {
@@ -712,6 +712,9 @@ public class GameController {
             inventoryRepository.addNewItemAmount(user.getId(),mysteryCraft.getId(),1);
         else
             inventoryRepository.addItemAmount(user.getId(),mysteryCraft.getId(),1);
+
+        return itemRepository.getEquipStats(mysteryCraft.getId());
+
     }
 
     public String searchCraftArray(List<EquippedItem> craftEquips,String rarity){

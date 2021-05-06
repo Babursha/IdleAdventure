@@ -16,4 +16,8 @@ public interface MonsterRepository extends JpaRepository<Monster,Integer> {
     String GET_DESERT_MONSTERS = "select * from monster where location = 'desert'";
     @Query(value = GET_DESERT_MONSTERS, nativeQuery = true)
     List<Monster> getDesertMonsters();
+
+    String GET_CAVE_MONSTERS = "select * from monster where location = 'cave'";
+    @Query(value = GET_CAVE_MONSTERS, nativeQuery = true)
+    List<Monster> getCaveMonsters();
 }

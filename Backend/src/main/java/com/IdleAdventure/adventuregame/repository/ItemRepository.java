@@ -1,9 +1,6 @@
 package com.IdleAdventure.adventuregame.repository;
 
-import com.IdleAdventure.adventuregame.model.EquippedItem;
-import com.IdleAdventure.adventuregame.model.Item;
-import com.IdleAdventure.adventuregame.model.ItemEquipment;
-import com.IdleAdventure.adventuregame.model.ItemPotion;
+import com.IdleAdventure.adventuregame.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +12,11 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item,Integer> {
     Item findByName(String name);
     Item findById(int id);
+
+
+    String GET_EQUIP_STATS = "SELECT name,price,sell,level,rarity,description,equip_type,hp,attack,defense,crit_chance from item inner join equipment on item.id = equipment.item_id where item.id = :i_id";
+    @Query(value=GET_EQUIP_STATS,nativeQuery = true)
+    ItemEquipment getEquipStats(@Param("i_id")int i_id);
 
     String GET_EQUIPPED_ITEM_DETAILS = "SELECT name,description,level,rarity,sell,attack,crit_chance,defense,hp,equip_type from item inner join equipment on item.id = equipment.item_id where item.id = :i_id";
     @Query(value=GET_EQUIPPED_ITEM_DETAILS,nativeQuery = true)

@@ -28,8 +28,8 @@ public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
     @Query(value = Q_GET_USER_LOOTBAGS,nativeQuery = true)
     List<ItemLootBag> getAllLootBagItems(@Param("u_id") int u_id);
 
-    String Q_GET_ALL_CRAFT_ITEMS = "select name,description,level,item_type,sell,rarity,ingredient1,ingredient1Amount,ingredient2,ingredient2Amount," +
-            "ingredient3,ingredient3Amount,ingredient4,ingredient4Amount,ingredient5,ingredient5Amount,gold from item i inner join craft_item c where i.id = c.item_id";
+    String Q_GET_ALL_CRAFT_ITEMS = "select name,description,level,item_type,gold,sell,rarity,ingredient1,ingredient1Amount,ingredient2,ingredient2Amount," +
+            "ingredient3,ingredient3Amount,ingredient4,ingredient4Amount,ingredient5,ingredient5Amount from item i inner join craft_item c where i.id = c.item_id";
     @Query(value = Q_GET_ALL_CRAFT_ITEMS, nativeQuery = true)
     List<ItemCraftable> getAllCraftableItems();
 

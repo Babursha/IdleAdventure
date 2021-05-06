@@ -4,20 +4,19 @@
   <nav class="navbar navbar-light justify-content-between">
     <div class="buttons">
       <div class="buttonsContainer">
-        <button class="btnMenu effect01" (click)="displayShop()" (mouseenter)="showShopPreview=true" (mouseleave)="displayShopPreview()">Shop</button>
+        <button class="btnMenu effect01" (click)="displayShop()" (mouseenter)="showShopPreview=true" (mouseleave)="displayShopPreview()" [ngClass]="{'active-menu':showShopPreview}">Shop</button>
       </div>
       <div class="buttonsContainer">
-        <button class="btnMenu effect01" (click)="displayCraft()" (mouseenter)="showCraftPreview=true" (mouseleave)="displayCraftPreview()">Craft</button>
+        <button class="btnMenu effect01" (click)="displayCraft()" (mouseenter)="showCraftPreview=true" (mouseleave)="displayCraftPreview()" [ngClass]="{'active-menu':showCraftPreview}">Craft</button>
       </div>
       <div class="buttonsContainer">
-        <button class="btnMenu effect01" (click)="displayEnchant()" (mouseenter)="showEnchantPreview=true" (mouseleave)="displayEnchantPreview()">Enchant</button>
+        <button class="btnMenu effect01" (click)="displayEnchant()" (mouseenter)="showEnchantPreview=true" (mouseleave)="displayEnchantPreview()" [ngClass]="{'active-menu':showEnchantPreview}">Enchant</button>
       </div>
       <div class="buttonsContainer">
-        <button class="btnMenu effect01" (click)="displayLucky()" (mouseenter)="showLuckyPreview=true" (mouseleave)="displayLuckyPreview()">Lucky Wheel</button>
+        <button class="btnMenu effect01" (click)="displayLucky()" (mouseenter)="showLuckyPreview=true" (mouseleave)="displayLuckyPreview()" [ngClass]="{'active-menu':showLuckyPreview}">Lucky Wheel</button>
       </div>
     </div>
   </nav>
-
 
   <div class= "contentBox">
     <!-------Start shop box--------->
@@ -134,6 +133,7 @@
         </div>
       </div>
 
+
 <!---
         <div class="craft-potion-menu" [ngClass]="{'enlarge':showCraftPotions}">
           <button class="btn craft-menu-btn" (click)="controlCraft('potion')">Potions</button>
@@ -192,6 +192,26 @@
 
   </div>
 
+
+
+  <div class="craft-pop-up" *ngIf="craftedItemSuccess">
+    <div class="craft-pop-up-inner" [ngClass]="{'Rare':'rareCraft','Mythic':'mythicCraft','Uncommon':'uncommonCraft', 'Legendary':'legendaryCraft','Common':'commonCraft','Artifact':'artifactCraft'}[craftedItem.rarity]">
+      <button class="btn close-btn" id="close" (click)="craftedItemSuccess=false">x</button>
+      <span id="craft-item-title" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[craftedItem.rarity]">{{craftedItem.name}}</span>
+      <div id = "craft-pop-image"[ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[craftedItem.rarity]">
+           <div [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[craftedItem.equip_type]">
+           </div>
+      </div>
+
+      <div class =craft-pop-up-details>
+        <div class="craft-detail" *ngIf="craftedItem.hp != 0"><img title="hp" src="assets/img/heart.png">&nbsp;&nbsp;&nbsp;{{craftedItem.hp}}</div>
+        <div class="craft-detail" *ngIf="craftedItem.defense != 0"><img title="defense" src="assets/img/shield.png">&nbsp;&nbsp;&nbsp;{{craftedItem.defense}}</div>
+        <div class="craft-detail" *ngIf="craftedItem.attack != 0"><img title="attack" src="assets/img/attack.png">&nbsp;&nbsp;&nbsp;&nbsp;{{craftedItem.attack}}</div>
+        <div class="craft-detail" *ngIf="craftedItem.crit_chance != 0"><img title="crit chance" src="assets/img/crit_attack.png">&nbsp;&nbsp;&nbsp;{{craftedItem.crit_chance}}%</div>
+      </div>
+      <div id="craft-description" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[craftedItem.rarity]">{{craftedItem.description}}</div>
+    </div>
+  </div>
 
 
 
