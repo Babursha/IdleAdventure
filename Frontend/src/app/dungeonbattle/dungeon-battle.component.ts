@@ -165,6 +165,9 @@ export class DungeonBattleComponent implements OnInit {
 
     }
     );
+    if(this.pData.hp <= 0 && this.exit==true){
+      this.exitMessage();
+    }
   }
 
   forestBattle(){
@@ -304,7 +307,7 @@ export class DungeonBattleComponent implements OnInit {
               this.pData.hp = this.pMaxHp;
             else
               this.pData.hp +=10;
-             combatInfo.innerHTML=this.pData.username + "uses a potion and heals for 10 hp!";
+             combatInfo.innerHTML=this.pData.username + " uses a potion and heals for 10 hp!";
               this.renderer.appendChild(this.div.nativeElement, combatInfo);
               this.renderer.addClass(combatInfo, 'playerCrit');
           }
@@ -318,7 +321,7 @@ export class DungeonBattleComponent implements OnInit {
 
       if (d < this.pData.crit_chance){
         if(((this.pData.attack*1.5)-this.mData[this.monsterNum].defense) >= this.mData[this.monsterNum].hp){
-          combatInfo.innerHTML = "**CRITICAL STRIKE** "+ this.pData.username+" attacked the " + this.mData[this.monsterNum].name + " for  " + ((this.pData.attack*1.5)-this.mData[this.monsterNum].defense) + " hp! The monster was defeated and you collect " + this.mData[this.monsterNum].goldDrop + " gold and " + this.mData[this.monsterNum].xpDrop + " xp.";
+          combatInfo.innerHTML = "**CRITICAL STRIKE** "+ this.pData.username+" attacked the " + this.mData[this.monsterNum].name + " for  " + ((Math.ceil(this.pData.attack*1.5))-this.mData[this.monsterNum].defense)+ " hp! The monster was defeated and you collect " + this.mData[this.monsterNum].goldDrop + " gold and " + this.mData[this.monsterNum].xpDrop + " xp.";
           this.renderer.appendChild(this.div.nativeElement, combatInfo);
           this.renderer.addClass(combatInfo, 'playerCrit');
           this.mData[this.monsterNum].hp=0;
@@ -326,7 +329,7 @@ export class DungeonBattleComponent implements OnInit {
           this.pauseOneSecond();
         }
         else{
-          this.mData[this.monsterNum].hp = this.mData[this.monsterNum].hp - ((this.pData.attack*1.5)-this.mData[this.monsterNum].defense);
+          this.mData[this.monsterNum].hp = this.mData[this.monsterNum].hp - ((Math.ceil(this.pData.attack*1.5))-this.mData[this.monsterNum].defense);
           combatInfo.innerHTML = "**CRITICAL STRIKE** "+ this.pData.username+" hit the " + this.mData[this.monsterNum].name + " for  " + ((Math.ceil(this.pData.attack*1.5))-this.mData[this.monsterNum].defense) + " hp!";
           this.renderer.appendChild(this.div.nativeElement, combatInfo);
           this.renderer.addClass(combatInfo, 'playerCrit');
