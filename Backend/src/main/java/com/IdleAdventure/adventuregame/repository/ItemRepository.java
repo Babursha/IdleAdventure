@@ -59,4 +59,5 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
             "item inner join potion on item.id = potion.item_id ORDER BY RAND() LIMIT 2";
     @Query(value = Q_GET_USER_POTIONS,nativeQuery = true)
     List<ItemPotion> getAllPotions();
+
 }

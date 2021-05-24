@@ -18,7 +18,6 @@ public class Inventory {
 
     private int amount;
 
-
     Inventory(){
 
     }
@@ -56,4 +55,5 @@ public class Inventory {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
 }
