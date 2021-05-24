@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 
 @Repository
 public interface UserRepository extends JpaRepository<GameUser,Integer> {
@@ -22,7 +25,13 @@ public interface UserRepository extends JpaRepository<GameUser,Integer> {
     @Query(value= Q_CHANGEPASSWORD,nativeQuery = true)
     void changePassword(@Param("username") String username, @Param("pass") String pass);
 
-    String Q_USER_HOME_DETAILS= "SELECT username,level,xp_current,xp_gained,xp_lvl_up,xp_progress,gold,gold_progress,hp,defense,attack,crit_chance from user INNER JOIN stats ON user.id=stats.user_id WHERE user.id = :u_id";
+    String Q_WHEEL_TIMER = "UPDATE user u set u.start_wheel = :start, u.end_wheel = :end where u.id = :u_id";
+    @Modifying
+    @Transactional
+    @Query(value= Q_WHEEL_TIMER,nativeQuery = true)
+    void spinWheel(@Param("u_id")int u_id, @Param("start") Date start, @Param("end") Date end);
+
+    String Q_USER_HOME_DETAILS= "SELECT username,level,xp_current,xp_gained,xp_lvl_up,xp_progress,gold,gold_progress,hp,defense,attack,crit_chance,end_wheel from user INNER JOIN stats ON user.id=stats.user_id WHERE user.id = :u_id";
     @Query(value = Q_USER_HOME_DETAILS,nativeQuery = true)
     UserHomeDetails getUserDetails(@Param("u_id") int u_id);
 

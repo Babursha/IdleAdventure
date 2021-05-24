@@ -19,15 +19,28 @@ export class TavernComponent implements OnInit {
   showShopSell = false;
   craftSucceed = false;
   craftFailed = false;
+  showEnchantButton = false;
+  hideLetters = false;
 
   shopInventory = [];
   inventory = [];
   user=[];
+  wheelTimer;
+  endTimer = 0;
+  resetTimer = true;
+  countdown;
+
+  modAttack=0;
+  modDefense=0;
+  modHp=0;
+  modCrit=0;
 
   craftPotions = [];
   craftEquipment=[];
   craftMisc=[];
   craftedItem=[];
+  enchantedItem = [];
+  tempEquipment=[];
 
   showShopPreview=false;
   showEnchantPreview=false;
@@ -42,8 +55,10 @@ export class TavernComponent implements OnInit {
   craftEquipmentClicked = false;
   craftMiscClicked = false;
   craftedItemSuccess = false;
+  enchantItemSuccess= false;
 
   spinVal = "";
+  interval;
 
   @ViewChild('div') div: ElementRef;
 
@@ -52,6 +67,9 @@ export class TavernComponent implements OnInit {
   constructor(private http:HttpClient,private router:Router,private renderer: Renderer2,private dataService:DataService) { }
   ngOnInit() {
     this.getUser();
+  }
+  ngOnDestroy(){
+    clearInterval(this.interval);
   }
   wheelInformation(){
   return "Press the yellow button to spin! \n\n 500 Gold: 35% \n 5,000 Gold: 10% \n 20,000 Gold: 5% \n Potion: 17% \n Level up Scroll: 8% \n Enchant Gems: 10% \n Rare Equipment: 5%\n Mystery: 10%";
@@ -90,13 +108,36 @@ export class TavernComponent implements OnInit {
             (rest:any)=>{
               this.dataService.gold=rest.gold;
               this.user = rest;
+              this.endTimer = new Date(rest.end_wheel).getTime();
+              this.wheelTimer = new Date().getTime();
+              console.log(this.endTimer);
+              console.log(this.wheelTimer);
+              console.log((this.endTimer - this.wheelTimer)/1000);
+              console.log(this.countdown);
+              if(this.endTimer != 0 && this.endTimer > this.wheelTimer){
+                this.resetTimer = false;
+                this.countdown = new Date(((this.endTimer - this.wheelTimer)/1000) * 1000).toISOString().substr(11, 8);
+              }
             },
             err=>{
             }
       );
+      if(this.interval == null){
+        this.interval = setInterval(() => {
+        this.wheelTimer = this.wheelTimer + 1000;
+        if(this.wheelTimer >= this.endTimer && this.resetTimer == false){
+          this.resetTimer = true;
+          this.endTimer = 0;
+          }
+          this.countdown = new Date(((this.endTimer - this.wheelTimer)/1000) * 1000).toISOString().substr(11, 8);
+        },1000)
+      }
   }
 
 
+  showTempEquipment(item){
+    this.tempEquipment=item;
+  }
   shopItemBuy(item,index){
     console.log(index);
     let url = '/api/tavern/shop/buyItem';
@@ -154,6 +195,38 @@ export class TavernComponent implements OnInit {
       );
   }
 
+  displayEnchantable(){
+  this.hideLetters = true;
+    let url = "/api/show_inventory";
+       this.http.get<any>(url).subscribe(
+       (rest : any)=>{
+       console.log(rest);
+       this.inventory = rest;
+       },
+       err=>{
+       console.log("failed to get inventory");
+       }
+      );
+  }
+  enchantItem(item){
+    this.enchantedItem = item;
+    let url = "/api/tavern/enchant";
+      this.http.post(url,{'item':item,'enchant':1}).subscribe(
+        (rest:any)=>{
+          console.log(rest);
+          this.modAttack = rest.attack;
+          this.modDefense = rest.defense;
+          this.modHp = rest.hp;
+          this.modCrit = rest.critChance;
+          this.displayEnchantable();
+          this.enchantItemSuccess = true;
+        },
+        err=>{
+        console.log("failed to enchant item");
+        }
+
+      );
+  }
   userCraftItem(item){
     let url = "/api/tavern/userCraftItem";
     console.log(item);
@@ -282,13 +355,13 @@ export class TavernComponent implements OnInit {
       setTimeout(() => {
        this.renderer.removeChild(this.div.nativeElement,shopInfo);
       }, 1400);
+      this.getUser();
     },
     err=>{
 
       console.log("couldn't get prize info");
     }
     );
-
   }
 
   displayShopSell(){

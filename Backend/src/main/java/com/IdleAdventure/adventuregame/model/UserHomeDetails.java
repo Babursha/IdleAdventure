@@ -1,5 +1,7 @@
 package com.IdleAdventure.adventuregame.model;
 
+import java.util.Date;
+
 public interface UserHomeDetails {
     String getUsername();
     Integer getLevel();
@@ -13,4 +15,5 @@ public interface UserHomeDetails {
     Integer getDefense();
     Integer getAttack();
     Integer getCrit_chance();
+    Date getEnd_wheel();
 }

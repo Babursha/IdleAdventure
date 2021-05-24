@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 import static javax.management.Query.value;
@@ -33,6 +35,9 @@ public class GameController {
 
     @Autowired
     private StatsRepository statsRepository;
+
+    @Autowired
+    private ModifyRepository modifyRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -739,6 +744,9 @@ public class GameController {
     public void userWonPrize(@RequestBody String prize){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
+        Date end = new Date();
+        end.setTime(end.getTime()+60 * 60 * 8 * 1000);
+        userRepository.spinWheel(user.getId(), new Date(),end);
         if(prize.equals("500") || prize.equals("20000") || prize.equals("5000")){
             userRepository.updateGold(user.getId(),(Integer.valueOf(prize) +(int) user.getGold()));
         }
@@ -791,6 +799,7 @@ public class GameController {
                 inventoryRepository.addNewItem(user.getId(),16);
         }
 
+
     }
 
     @RequestMapping("/api/tavern/getCraftables")
@@ -812,6 +821,41 @@ public class GameController {
         allCrafts.add(craftEquips);
         allCrafts.add(inventoryRepository.getAllCraftableItems());
         return allCrafts;
+    }
+
+    @RequestMapping("/api/tavern/enchant")
+    public Modify enchantItem(@RequestBody EnchantItem itemAndGem){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        GameUser user = userRepository.findByUsername(username);
+        Item item = itemRepository.findByName(itemAndGem.getItem().getName());
+        ItemEquipment stats = itemRepository.getEquipStats(item.getId());
+        int attack = 0;
+        int defense = 0;
+        int hp = 0;
+        int critChance = 0;
+        if(itemAndGem.getEnchant() == 1){
+            attack =stats.getAttack()+(int)Math.floor(Math.random() * (3 - 0) + 0);
+            defense = stats.getDefense()+(int)Math.floor(Math.random() * 2);
+            hp = stats.getHp()+(int)Math.floor(Math.random() * (6 - 3) + 3);
+            critChance = stats.getCrit_chance()+(int)Math.floor(Math.random() * (6 - 0) + 0);
+        }
+        else if(itemAndGem.getEnchant() == 2){
+            attack = stats.getAttack()+(int)Math.floor(Math.random() * (6 - 2) + 2);
+            defense = stats.getDefense()+ (int)Math.floor(Math.random() * (3 - 1) + 1);
+            hp = stats.getHp()+(int)Math.floor(Math.random() * (11 - 4) + 4);
+            critChance = stats.getCrit_chance()+(int)Math.floor(Math.random() * (11 - 5) + 5);
+        }
+        else if(itemAndGem.getEnchant() == 3){
+            attack = stats.getAttack()+(int)Math.floor(Math.random() * (11 - 5) + 5);
+            defense = stats.getDefense()+(int)Math.floor(Math.random() * (7 - 3) + 3);
+            hp = stats.getHp()+(int)Math.floor(Math.random() * (21 - 10) + 10);
+            critChance = stats.getCrit_chance()+(int)Math.floor(Math.random() * (18 - 10) + 10);
+        }
+        inventoryRepository.removeItemAmount(user.getId(),item.getId(),1);
+        inventoryRepository.deleteEntry(user.getId(),item.getId());
+        modifyRepository.addNewItem(item.getId(),user.getId(),hp,defense,attack,critChance);
+        Modify enchantedItem = new Modify(hp,attack,defense,critChance);
+        return enchantedItem;
     }
 
 }

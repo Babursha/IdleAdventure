@@ -1,6 +1,8 @@
 package com.IdleAdventure.adventuregame.model;
 
 import javax.persistence.*;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name="user")
@@ -20,6 +22,8 @@ public class GameUser {
     private int active;
     private double gold;
     private int goldProgress;
+    private Date startWheel;
+    private Date endWheel;
 
     public int getId() {
         return id;
@@ -81,5 +85,19 @@ public class GameUser {
         this.goldProgress = goldProgress;
     }
 
+    public Date getStartWheel() {
+        return startWheel;
+    }
 
+    public void setStartWheel(Date startWheel) {
+        this.startWheel = startWheel;
+    }
+
+    public Date getEndWheel() {
+        return endWheel;
+    }
+
+    public void setEndWheel(Date endWheel) {
+        this.endWheel = endWheel;
+    }
 }

@@ -32,8 +32,8 @@
       <div class="shopContents rounded hidden" [ngClass]="{'displayShop':showShopBuy,'no-display':showShopSell}">
         <div class ="d-flex flex-row flex-wrap" *ngIf="showShopBuy">
 
-          <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of shopInventory;let i = index">
-            <div class = "p-2 mb-auto justify-content-center align-self-center">{{item.itemName}}</div>
+          <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of shopInventory;let i = index" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+            <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
             <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
               <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
               <div class="shopImg align-self-center" *ngIf="item.item_type==='Potion'" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
@@ -53,8 +53,8 @@
         <div class="shopContents rounded hidden" [ngClass]="{'displayShop':showShopSell,'no-display':showShopBuy}">
           <div class ="d-flex flex-row flex-wrap" *ngIf="showShopSell">
 
-            <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory">
-              <div class = "p-2 mb-auto justify-content-center align-self-center">{{item.itemName}}</div>
+            <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+              <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
               <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
                 <div class="row">
                   <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
@@ -166,7 +166,28 @@
 
     <!-------Start Enchant box--------->
     <div class="inner-context-box" [ngClass]="{'preview-shop':showEnchantPreview}">
-      <img class="box-img-cover" src="/assets/img/enchant.png">
+      <img class="box-img-cover" src="/assets/img/enchant.png" [ngClass]="{'hide-pic':showEnchantPreview}">
+      <div class="letter-container hidden" (mouseenter)="showEnchantButton = true" (mouseleave)="showEnchantButton = false" [ngClass]="{'display-enchant':showEnchantPreview}" *ngIf="!hideLetters">
+        <button class="btn" [ngClass]="{'enchant-menu-btn':showEnchantButton}" (click)="displayEnchantable()">Enchant items</button>
+        <img class="letters1" src="/assets/img/set1.png" [ngClass]="{'pause':showEnchantButton}">
+        <img class="letters2" src="/assets/img/set2.png" [ngClass]="{'pause':showEnchantButton}">
+        <img class="letters3" src="/assets/img/set3.png" [ngClass]="{'pause':showEnchantButton}">
+      </div>
+        <div class="enchant-container hidden" [ngClass]="{'display':showEnchantPreview}">
+          <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+            <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+            <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+              <div class="row">
+                <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+                <div class="sellAmount">x{{item.amount}}</div>
+              </div>
+            </div>
+            <div class ="p-2 align-self-center">
+              <p class="separate-btn"></p>
+              <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+            </div>
+          </div>
+        </div>
     </div>
 
     <!-------Start Lucky box--------->
@@ -178,6 +199,7 @@
            matTooltipClass="wheel-tooltip"
            matTooltip={{wheelInformation()}}>
         </i>
+        <div class="timer" *ngIf="endTimer != 0">{{countdown}}</div>
         <div class="wheel-outer" *ngIf="showLuckyPreview">
           <img class="wheel-frame" src="/assets/img/wheel.png">
         </div>
@@ -185,7 +207,7 @@
           <img class="spin-wheel" [ngClass]="{'500':'spin-500','5000':'spin-5k','20000':'spin-20k','scroll':'spin-scroll','enchant':'spin-enchant','mystery':'spin-mystery','potion':'spin-potion','rare':'spin-rare'}[spinVal]" src="/assets/img/innerwheel2.png">
         </div>
         <div class="wheel-button-container" *ngIf="showLuckyPreview">
-          <button class="btn wheel-button" (click)="luckyWheelSpin()" [disabled]="spinVal != ''"></button>
+          <button class="btn wheel-button" (click)="luckyWheelSpin()" [disabled]="!resetTimer"></button>
         </div>
       </div>
     </div>
@@ -196,7 +218,7 @@
 
   <div class="craft-pop-up" *ngIf="craftedItemSuccess">
     <div class="craft-pop-up-inner" [ngClass]="{'Rare':'rareCraft','Mythic':'mythicCraft','Uncommon':'uncommonCraft', 'Legendary':'legendaryCraft','Common':'commonCraft','Artifact':'artifactCraft'}[craftedItem.rarity]">
-      <button class="btn close-btn" id="close" (click)="craftedItemSuccess=false">x</button>
+      <button class="btn close-btn close" (click)="craftedItemSuccess=false">x</button>
       <span id="craft-item-title" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[craftedItem.rarity]">{{craftedItem.name}}</span>
       <div id = "craft-pop-image"[ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[craftedItem.rarity]">
            <div [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[craftedItem.equip_type]">
@@ -213,9 +235,40 @@
     </div>
   </div>
 
+  <div class="enchant-pop-up" *ngIf="enchantItemSuccess">
+    <div class="enchant-pop-up-inner" [ngClass]="{'Rare':'rareCraft','Mythic':'mythicCraft','Uncommon':'uncommonCraft', 'Legendary':'legendaryCraft','Common':'commonCraft','Artifact':'artifactCraft'}[enchantedItem.rarity]">
+      <button class="btn close-btn close" (click)="enchantItemSuccess=false">x</button>
+      <span id="enchant-item-title" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[enchantedItem.rarity]">{{enchantedItem.name}}</span>
+      <div id = "enchant-pop-image"[ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[enchantedItem.rarity]">
+        <div [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[enchantedItem.equip_type]">
+        </div>
+      </div>
+
+      <div class =craft-pop-up-details>
+        <div class="enchant-detail" *ngIf="modHp != 0"><img title="hp" src="assets/img/heart.png">&nbsp;&nbsp;&nbsp;{{enchantedItem.hp}} <i class="fa fa-arrow-right"></i> <div class="mod">{{modHp}}</div><i class="fa fa-caret-up"></i></div>
+        <div class="enchant-detail" *ngIf="modDefense != 0"><img title="defense" src="assets/img/shield.png">&nbsp;&nbsp;&nbsp;{{enchantedItem.defense}} <i class="fa fa-arrow-right"></i> <div class="mod">{{modDefense}}</div><i class="fa fa-caret-up"></i></div>
+          <div class="enchant-detail" *ngIf="modAttack != 0"><img title="attack" src="assets/img/attack.png">&nbsp;&nbsp;&nbsp;&nbsp;{{enchantedItem.attack}} <i class="fa fa-arrow-right"></i> <div class="mod">{{modAttack}}</div><i class="fa fa-caret-up"></i></div>
+          <div class="enchant-detail" *ngIf="modCrit != 0"><img title="crit chance" src="assets/img/crit_attack.png">&nbsp;&nbsp;&nbsp;{{enchantedItem.crit_chance}}% <i class="fa fa-arrow-right"></i> <div class="mod">{{modCrit}}%</div><i class="fa fa-caret-up"></i></div>
+      </div>
+    </div>
+  </div>
 
 
   <div class = "attemptPurchase" #div>
+
+    <ng-template #equipmentPop>
+      <section id="equipmentPopover">
+        <div  [ngClass]="{'Common':'common', 'Uncommon':'uncommon', 'Rare':'rare', 'Mythic':'mythic', 'Legendary':'legendary', 'Artifact':'artifact'}[tempEquipment.rarity]">
+          <div class="itemName">{{tempEquipment.name}}</div>
+          <div class="popupText">Item Level {{tempEquipment.level}}</div>
+          <div class="popupText" *ngIf="tempEquipment.hp > 0">+{{tempEquipment.hp}} hp</div>
+          <div class="popupText" *ngIf="tempEquipment.defense > 0">+{{tempEquipment.defense}} defense</div>
+          <div class="popupText" *ngIf="tempEquipment.attack > 0">+{{tempEquipment.attack}} attack</div>
+          <div class="popupText" *ngIf="tempEquipment.crit_chance > 0">+{{tempEquipment.crit_chance}}% critical hit chance</div>
+          <div class ="popupText" *ngIf="tempEquipment.item_type === 'Potion' || tempEquipment.item_type === 'Mystery' || tempEquipment.item_type ==='Material'"> {{tempEquipment.description}}</div>
+        </div>
+      </section>
+    </ng-template>
 
   </div>
 
