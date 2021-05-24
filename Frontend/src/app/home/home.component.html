@@ -1,16 +1,16 @@
 <app-navigation></app-navigation>
 <div class ="container">
 
+<div class="grid-container">
 
-    <div class ="header-info">
+    <div class="transparent-box" id="t-box1">
+
+      <div class="usernameBox">
+        {{model.username}}
+      </div>
+
     </div>
-  <div class="transparent-box" id="t-box1">
 
-    <div class="usernameBox">
-      {{model.username}}
-    </div>
-
-  </div>
   <div class="transparent-box" id="t-box2">
 
       <div class="form-row" id="wrappedRow">
@@ -49,6 +49,35 @@
 
     </div>
 
+
+  <div class="transparent-box" id="t-box4">
+
+    <div class="usernameBox">
+      Idle Adventure Guide Book
+    </div>
+    <p class = "separate"></p>
+    <div class="guide-buttons" *ngIf="!showDetails">
+      <button class="btn guide-btn"  (click)="showDungeonGuide()"><div class="text-guide-btn">Dungeons</div></button>
+      <button class="btn guide-btn"  (click)="showCraftingGuide()"><div class="text-guide-btn">Crafting</div></button>
+      <button class="btn guide-btn"  (click)="showBattleGuide()"><div class="text-guide-btn">Battle Mechanics</div></button>
+      <button class="btn guide-btn"  (click)="showEnchantGuide()"><div class="text-guide-btn">Enchant Guide</div></button>
+      <button class="btn guide-btn"  (click)="showItemIndex()"><div class="text-guide-btn">Item Index</div></button>
+      <button class="btn guide-btn"  (click)="showBestiary()"><div class="text-guide-btn">Bestiary</div></button>
+      <button class="btn guide-btn"  (click)="showPassiveGuide()"><div class="text-guide-btn">Passive Gold & Xp</div></button>
+    </div>
+    <div class="guide-text" *ngIf="showDetails">
+      <h4 *ngIf="showDungGuide && showDetails">Dungeons</h4><p id ="dung" *ngIf="showDungGuide && showDetails">{{dungeonTip}}</p>
+      <h4 *ngIf="showCraftGuide && showDetails">Crafting</h4><p id ="craft" *ngIf="showCraftGuide">{{craftingTip}}</p>
+      <h4 *ngIf="showCraftGuide && showDetails">Rates</h4><div id ="craft2" *ngIf="showCraftGuide"><div class="common">Common: 35%</div><div class="uncommon">Uncommon: 25%</div><div class="rare">Rare: 18%</div><div class="mythic">Mythic: 12%</div><div class="legendary">Legendary:7%</div><div class="artifact">Artifact: 3%</div></div>
+      <h4 *ngIf="showBatGuide && showDetails">Battle Mechanics</h4><p id ="battle" *ngIf="showBatGuide">{{battleTip}}</p>
+      <p id ="enchant"></p>
+      <p id ="item"></p>
+      <p id ="mons"></p>
+      <p id ="passive"></p>
+      <button class="btn" *ngIf="showDetails" (click)="resetInfo()"><div id="back"><div id="glow"></div></div></button>
+    </div>
+  </div>
+
     <!--<div id = "dailies" class = "overflow-auto">-->
       <!--<h3>Daily Quest</h3>-->
 
@@ -64,7 +93,7 @@
 
     <div [ngClass]="{'show':showGoldCollected}" class="goldCollect">Gold Collected!</div>
     <div [ngClass]="{'show':showXpCollected}" class="xpCollect">Exp Collected!</div>
-
   </div>
+</div>
 
 
