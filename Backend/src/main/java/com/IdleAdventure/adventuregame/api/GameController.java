@@ -40,6 +40,9 @@ public class GameController {
     private ModifyRepository modifyRepository;
 
     @Autowired
+    private AchievementRepository achievementRepository;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
 /*    *//**
@@ -394,6 +397,9 @@ public class GameController {
     public void collectGold(@RequestBody UserLevelDetails data){
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         GameUser user = userRepository.findByUsername(username);
+        int lvl = userRepository.userLvlCheck(user.getId());
+        int count = data.getLevel()-lvl;
+        userRepository.updateStatPoints(user.getId(),user.getStatPoints()+count);
         userRepository.updateXp(user.getId(),data.getLevel(),data.getXpCurrent(),data.getXpLvlUp());
     }
 
@@ -856,6 +862,42 @@ public class GameController {
         modifyRepository.addNewItem(item.getId(),user.getId(),hp,defense,attack,critChance);
         Modify enchantedItem = new Modify(hp,attack,defense,critChance);
         return enchantedItem;
+    }
+
+    @RequestMapping("/api/achievement")
+    public Badges getUserBadges() throws Exception {
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        int id = this.userRepository.findByUsername(username).getId();
+        return this.achievementRepository.getUserBadges(id);
+    }
+
+    @RequestMapping("/api/dungeons/monstersDefeated")
+    public void updateUserMonstersDefeated(@RequestBody MonstersDefeated data) throws Exception{
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        int id = this.userRepository.findByUsername(username).getId();
+        if(data.getArea().equals("forest")){
+            achievementRepository.updateFMonsters(id,data.getTotal());
+        }
+        else if(data.getArea().equals("desert")){
+            achievementRepository.updateDMonsters(id,data.getTotal());
+        }
+        else if(data.getArea().equals("cave")){
+            achievementRepository.updateCMonsters(id,data.getTotal());
+        }
+        else if(data.getArea().equals("volcano")){
+            achievementRepository.updateVMonsters(id,data.getTotal());
+        }
+        else if(data.getArea().equals("sea")){
+            achievementRepository.updateSMonsters(id,data.getTotal());
+        }
+    }
+
+    @RequestMapping("/api/home/userUsedPoints")
+    public void userUsedPoints(@RequestBody UserStatDetails user){
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        int id = this.userRepository.findByUsername(username).getId();
+        statsRepository.updateStats(user.getAttack(),user.getDefense(),user.getHp(),user.getCrit_chance(),id);
+        userRepository.updateStatPoints(id,user.getStat_points());
     }
 
 }

@@ -24,6 +24,7 @@ public class GameUser {
     private int goldProgress;
     private Date startWheel;
     private Date endWheel;
+    private int statPoints;
 
     public int getId() {
         return id;
@@ -99,5 +100,13 @@ public class GameUser {
 
     public void setEndWheel(Date endWheel) {
         this.endWheel = endWheel;
+    }
+
+    public int getStatPoints() {
+        return statPoints;
+    }
+
+    public void setStatPoints(int statPoints) {
+        this.statPoints = statPoints;
     }
 }
