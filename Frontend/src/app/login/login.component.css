@@ -15,7 +15,7 @@
 .blur-login{
     width: 400px;
     height: 500px;
-    box-shadow: 0 0 200px 0 rgba(0,0,0, 0.3);
+    box-shadow: 0 0 200px 0 rgba(0,0,0, 1);
     border-radius: 5px;
     position:absolute;
     background: inherit;
