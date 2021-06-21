@@ -14,6 +14,10 @@ public class Stats {
     private int defense;
     private int hp;
     private int critChance;
+    private int boostAttack;
+    private int boostHp;
+    private int boostDefense;
+    private int boostCritChance;
     private int xpGained;
     private int xpCurrent;
     private int xpLvlUp;
@@ -35,6 +39,7 @@ public class Stats {
         this.xpLvlUp = xpLvlUp;
         this.xpProgress = xpProgress;
     }
+
 
     public int getUserId() {
         return userId;
@@ -72,6 +77,37 @@ public class Stats {
         this.critChance = critChance;
     }
 
+    public int getBoostAttack() {
+        return boostAttack;
+    }
+
+    public void setBoostAttack(int boostAttack) {
+        this.boostAttack = boostAttack;
+    }
+
+    public int getBoostHp() {
+        return boostHp;
+    }
+
+    public void setBoostHp(int boostHp) {
+        this.boostHp = boostHp;
+    }
+
+    public int getBoostDefense() {
+        return boostDefense;
+    }
+
+    public void setBoostDefense(int boostDefense) {
+        this.boostDefense = boostDefense;
+    }
+
+    public int getBoostCritChance() {
+        return boostCritChance;
+    }
+
+    public void setBoostCritChance(int boostCritChance) {
+        this.boostCritChance = boostCritChance;
+    }
 
     public int getLevel() {
         return level;
