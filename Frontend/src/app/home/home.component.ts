@@ -13,6 +13,11 @@ export class HomeComponent implements OnInit {
   model: User = {
     username:'',
     level:0,
+    attack:0,
+    defense:0,
+    hp:0,
+    crit_chance:0,
+    stat_points:0,
     gold:0,
     gold_progress:0,
     xp_progress:0,
@@ -20,8 +25,8 @@ export class HomeComponent implements OnInit {
     xp_lvl_up:0
   };
 
-  counter:number = 0;
-  counterXp:number = 0;
+  counter = 0;
+  counterXp = 0;
   interval;
   showGoldCollected = false;
   showXpCollected = false;
@@ -34,6 +39,28 @@ export class HomeComponent implements OnInit {
   showPassGuide = false;
   showEnchGuide = false;
   showBatGuide = false;
+  showLock = false;
+  userStatsConfirmed=false;
+
+  forestCheck = false;
+  desertCheck = false;
+  caveCheck = false;
+  volcanoCheck = false;
+  seaCheck = false;
+
+
+  hpStat=0;
+  defenseStat=0;
+  attackStat=0;
+  critStat=0;
+  statPointsChange=0;
+
+  total_f_monsters=0;
+  total_d_monsters=0;
+  total_c_monsters=0;
+  total_v_monsters=0;
+  total_s_monsters=0;
+
   dungeonTip="Battles take place automatically in various different themed areas to acquire loot bags.\n"+
               "'Regular' Loot bags drop at a 25% chance per monster, 'Boss' Loot bags drop at a 5% chance from bosses.\nOpen the loot bags in the 'Inventory'"+
               "tab to receive crafting materials assigned to that type of loot bag.\n Battles in dungeon's will continue infinitely until the user clicks on the 'leave' button.\n"+
@@ -59,6 +86,68 @@ export class HomeComponent implements OnInit {
     this.saveXp();
   }
 
+  updateStats(operation){
+    if(operation === 'hpAdd'){
+      this.hpStat +=1;
+      this.model.stat_points-=1;
+    }
+    else if(operation === 'hpSub'){
+      this.hpStat-=1;
+      this.model.stat_points+=1;
+    }
+    else if(operation === 'defAdd'){
+      this.defenseStat+=1
+      this.model.stat_points-=1;
+    }
+    else if(operation === 'defSub'){
+      this.defenseStat -=1
+      this.model.stat_points+=1;
+    }
+    else if(operation === 'attackAdd'){
+      this.attackStat+=1
+      this.model.stat_points-=1;
+    }
+    else if(operation === 'attackSub'){
+      this.attackStat -=1
+      this.model.stat_points+=1;
+    }
+    else if(operation === 'critAdd'){
+      this.critStat+=1
+      this.model.stat_points-=1;
+    }
+    else if(operation === 'critSub'){
+      this.critStat-=1
+      this.model.stat_points+=1;
+    }
+    if(this.model.stat_points != this.statPointsChange)
+      this.showLock=true;
+    else
+      this.showLock=false;
+
+  }
+  updateUserStats(){
+  let url= '/api/home/userUsedPoints';
+  this.model.hp = this.hpStat;
+  this.model.defense=this.defenseStat;
+  this.model.attack=this.attackStat;
+  this.model.crit_chance=this.critStat;
+  this.statPointsChange = this.model.stat_points;
+  this.showLock=false;
+  this.http.post(url,this.model).subscribe(
+  (rest)=>{
+    console.log("updated user stats");
+    this.userStatsConfirmed= true;
+    setTimeout(() => {
+       this.userStatsConfirmed = false;
+    }, 1900);
+  },
+  err=>{
+
+
+  }
+  );
+
+  }
   getUser(){
     let url = '/api/home';
     this.http.get<any>(url).subscribe(
@@ -66,6 +155,12 @@ export class HomeComponent implements OnInit {
             console.log(rest);
             this.authorized = true;
             this.model = rest;
+            this.hpStat = rest.hp;
+            this.defenseStat=rest.defense;
+            this.attackStat=rest.attack;
+            this.critStat=rest.crit_chance;
+            this.statPointsChange=rest.stat_points;
+            console.log(this.statPointsChange);
             this.dataService.gold=rest.gold;
             this.dataService.counter = this.model.gold_progress * .1;
             this.dataService.counterXp = this.model.xp_progress *.05;
@@ -82,6 +177,40 @@ export class HomeComponent implements OnInit {
           },
           err=>{
           }
+    );
+    url = '/api/achievement';
+    this.http.get<any>(url).subscribe(
+      (rest:any)=>{
+      console.log(rest);
+        if(rest.total_f_monsters >= 1000){
+          this.forestCheck = true;
+          this.total_f_monsters=1000;
+        }
+        else
+          this.total_f_monsters=rest.total_f_monsters;
+        if(rest.total_d_monsters >= 1000){
+          this.desertCheck = true;
+          this.total_d_monsters=1000;
+        }
+        else
+          this.total_d_monsters=rest.total_d_monsters;
+        if(rest.total_c_monsters >= 1000){
+          this.caveCheck = true;
+          this.total_c_monsters=rest.total_c_monsters;
+        }
+        if(rest.total_v_monsters >= 1000){
+          this.volcanoCheck = true;
+          this.total_v_monsters=rest.total_v_monsters;
+        }
+        if(rest.total_s_monsters >= 1000){
+          this.seaCheck = true;
+          this.total_s_monsters=rest.total_s_monsters;
+        }
+      },
+      err=>{
+
+      }
+
     );
   }
   resetInfo(){
@@ -127,7 +256,7 @@ export class HomeComponent implements OnInit {
     this.showGoldCollected= true;
     setTimeout(() => {
        this.showGoldCollected = false;
-    }, 2000);
+    }, 1900);
     let url = "/api/home/collectGold";
     let data = this.model.gold + this.dataService.gold_progress;
     this.http.post(url,data).subscribe(
@@ -150,7 +279,7 @@ export class HomeComponent implements OnInit {
   this.showXpCollected= true;
      setTimeout(() => {
        this.showXpCollected = false;
-  }, 2000);
+  }, 1900);
   let url = "/api/home/collectXp";
   console.log(this.model.xp_current);
   if (this.model.xp_current + this.dataService.xp_progress >= this.model.xp_lvl_up){
@@ -159,6 +288,7 @@ export class HomeComponent implements OnInit {
       this.model.xp_lvl_up = Math.floor((this.model.xp_lvl_up * 2)/1.5);
       this.dataService.xp_progress_max = Math.floor(this.model.xp_lvl_up / 1.5);
       this.model.xp_current = xp_carry;
+      this.getUser();
   }
   else{
       this.model.xp_current = this.model.xp_current+this.dataService.xp_progress;
@@ -212,6 +342,11 @@ export class HomeComponent implements OnInit {
 export interface User{
 username:string;
 level:number;
+attack:number;
+defense:number;
+hp:number;
+crit_chance:number;
+stat_points:number;
 gold:number;
 gold_progress:number;
 xp_progress:number;

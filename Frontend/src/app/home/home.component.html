@@ -1,12 +1,46 @@
 <app-navigation></app-navigation>
-<div class ="container">
+<div class ="container" *ngIf=authorized>
 
 <div class="grid-container">
+
 
     <div class="transparent-box" id="t-box1">
 
       <div class="usernameBox">
         {{model.username}}
+      </div>
+      <p class = "separate"></p>
+      <div class="achievement-box">
+        <div class="forest-badge">
+          <img class="badges locked" [ngClass]="{'unlocked':forestCheck}" src="/assets/img/forest-badge.png">
+          <div class="badge-progress">
+            <div class="badge-progress-bar-f" role="progressbar" style="width:{{total_f_monsters/10}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="desert-badge">
+          <img class="badges locked" [ngClass]="{'unlocked':desertCheck}" src="/assets/img/desert-badge.png">
+          <div class="badge-progress">
+            <div class="badge-progress-bar-d" role="progressbar" style="width:{{total_d_monsters/10}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="cave-badge">
+          <img class="badges locked" [ngClass]="{'unlocked':caveCheck}" src="/assets/img/cave-badge.png">
+          <div class="badge-progress">
+            <div class="badge-progress-bar-d" role="progressbar" style="width:{{total_c_monsters/10}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="volcano-badge">
+          <img class="badges locked" [ngClass]="{'unlocked':volcanoCheck}" src="/assets/img/volcano-badge.png">
+          <div class="badge-progress">
+            <div class="badge-progress-bar-d" role="progressbar" style="width:{{total_v_monsters/10}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="sea-badge">
+          <img class="badges locked" [ngClass]="{'unlocked':seaCheck}" src="/assets/img/sea-badge.png">
+          <div class="badge-progress">
+            <div class="badge-progress-bar-d" role="progressbar" style="width:{{total_s_monsters/10}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -21,6 +55,15 @@
         </div>
       </div>
 
+    <div class ="seperate"></div>
+    <div class="stat-box">
+      <div class="stat-font">Stat points: {{model.stat_points}}</div>
+      <div class="stat-row"><p><img src="/assets/img/heart.png" title="Hp"> {{model.hp}} <div class="hidden-stat" *ngIf="model.hp!=hpStat"><i class="fa fa-caret-right stat-arrow"></i>{{hpStat}}</div><button class="btn stat-btn-add" (click)="updateStats('hpAdd')" [disabled]="model.stat_points<1" ><i class="fa fa-angle-double-up fa-2x add"></i></button><button class="btn stat-btn-sub" (click)="updateStats('hpSub')" [disabled]="model.hp==hpStat"><i class="fa fa-angle-double-down fa-2x sub"></i></button></div>
+      <div class="stat-row"><p><img src="/assets/img/shield.png" title="Defense"> {{model.defense}} <div class="hidden-stat" *ngIf="model.defense!=defenseStat"><i class="fa fa-caret-right stat-arrow"></i>{{defenseStat}}</div><button class="btn stat-btn-add" (click)="updateStats('defAdd')" [disabled]="model.stat_points<1" ><i class="fa fa-angle-double-up fa-2x add"></i></button><button class="btn stat-btn-sub" (click)="updateStats('defSub')" [disabled]="model.defense==defenseStat"><i class="fa fa-angle-double-down fa-2x sub"></i></button></div>
+      <div class="stat-row"><p><img src="/assets/img/attack.png" title="Attack"> {{model.attack}} <div class="hidden-stat" *ngIf="model.attack!=attackStat"><i class="fa fa-caret-right stat-arrow"></i>{{attackStat}}</div><button class="btn stat-btn-add" (click)="updateStats('attackAdd')" [disabled]="model.stat_points<1" ><i class="fa fa-angle-double-up fa-2x add"></i></button><button class="btn stat-btn-sub" (click)="updateStats('attackSub')" [disabled]="model.attack==attackStat"><i class="fa fa-angle-double-down fa-2x sub"></i></button></div>
+      <div class="stat-row"><p><img src="/assets/img/crit_attack.png" title="Critical Hit Chance"> {{model.crit_chance}}% <div class="hidden-stat" *ngIf="model.crit_chance!=critStat"><i class="fa fa-caret-right stat-arrow"></i>{{critStat}}%</div><button class="btn stat-btn-add" (click)="updateStats('critAdd')" [disabled]="model.stat_points<1" ><i class="fa fa-angle-double-up fa-2x add"></i></button><button class="btn stat-btn-sub" (click)="updateStats('critSub')" [disabled]="model.crit_chance==critStat"><i class="fa fa-angle-double-down fa-2x sub"></i></button></div>
+      <div class="stat-font"><button class="btn confirm-stat" [ngClass]="{'confirm-stat-lock':showLock}" [disabled]="!showLock" *ngIf="showLock" (click)="updateUserStats()"><i class="fa fa-lock" *ngIf="showLock"></i></button></div>
+    </div>
   </div>
 
     <div class="transparent-box" id="t-box3">
@@ -74,7 +117,7 @@
       <p id ="item"></p>
       <p id ="mons"></p>
       <p id ="passive"></p>
-      <button class="btn" *ngIf="showDetails" (click)="resetInfo()"><div id="back"><div id="glow"></div></div></button>
+      <button class="btn btn-arrow" *ngIf="showDetails" (click)="resetInfo()"><div id="back"><div id="glow"></div></div></button>
     </div>
   </div>
 
@@ -93,6 +136,7 @@
 
     <div [ngClass]="{'show':showGoldCollected}" class="goldCollect">Gold Collected!</div>
     <div [ngClass]="{'show':showXpCollected}" class="xpCollect">Exp Collected!</div>
+    <div [ngClass]="{'show':userStatsConfirmed}" class="goldCollect">Stats Updated!</div>
   </div>
 </div>
 
