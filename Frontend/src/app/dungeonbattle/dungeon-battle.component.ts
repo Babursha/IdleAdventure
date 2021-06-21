@@ -34,6 +34,7 @@ export class DungeonBattleComponent implements OnInit {
   minorPotionAmount:number = 0;
   intermediatePotionAmount:number = 0;
   majorPotionAmount:number = 0;
+  monsDefeated = 0;
 
   mAttack:boolean =false;
   pAttack:boolean = false;
@@ -106,6 +107,7 @@ export class DungeonBattleComponent implements OnInit {
     if(this.pData.hp <= 0){
       this.goldCollected = Math.floor(this.goldCollected / 2);
       this.xpCollected = Math.floor(this.xpCollected / 2);
+      this.monsDefeated = Math.floor(this.monsDefeated/2);
       this.basic = Math.floor(this.basic / 2);
       this.boss = Math.floor(this.boss / 2);
       combatInfo.innerHTML = "You faint and drop half of your gained loot...";
@@ -150,6 +152,17 @@ export class DungeonBattleComponent implements OnInit {
       },
       err=>{
         console.log("error:couldnt collect xp after dungeons");
+      }
+     );
+
+    url = "/api/dungeons/monstersDefeated";
+    let monsterDefeatedData = {'area':this.area,'total':this.monsDefeated};
+    this.http.post(url,monsterDefeatedData).subscribe(
+      (rest:any)=>{
+        console.log("defeated monsters:",this.monsDefeated);
+      },
+      err=>{
+        console.log("error:couldnt collect monsters defeated.");
       }
      );
 
@@ -315,6 +328,7 @@ export class DungeonBattleComponent implements OnInit {
           this.pauseOneSecond();
         }
     }
+
     playerAttack(){
       const combatInfo: HTMLParagraphElement = this.renderer.createElement('p');
       let d = Math.floor((Math.random() * 100) + 1);
@@ -437,9 +451,9 @@ export class DungeonBattleComponent implements OnInit {
         this.changeText();
       }
       else if(this.mData[this.monsterNum].hp == 0){
+        this.monsDefeated++;
         let d = Math.random() * 100;
         const combatInfo: HTMLParagraphElement = this.renderer.createElement('p');
-
         if(d < 25){
           combatInfo.innerHTML = "A forest loot bag drops."
           this.renderer.appendChild(this.div.nativeElement, combatInfo);

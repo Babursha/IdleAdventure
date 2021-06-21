@@ -38,7 +38,16 @@ height:40px;
 width:40px;
 
 }
+.boss{
+height:40px;
+width:40px;
+margin:10px;
 
+}
+.dungeon-details{
+flex-wrap:wrap;
+justify-content:space-around;
+}
 
 .monsterName{
 text-align:center;
@@ -161,7 +170,9 @@ filter:drop-shadow(0px 0px 2px rgba(0, 100, 255));
 
 .flipCard{
   opacity:0;
+  position:relative;
   visibility:hidden;
+  z-index:-10;
 }
 
  .frontCardForest{
@@ -171,7 +182,7 @@ filter:drop-shadow(0px 0px 2px rgba(0, 100, 255));
   backface-visibility: hidden;
   overflow: hidden;
   border:1px green solid;
-  transition:all 1s ease;
+  transition:all .5s ease;
   cursor:pointer;
 }
 
@@ -182,7 +193,7 @@ filter:drop-shadow(0px 0px 2px rgba(0, 100, 255));
   backface-visibility: hidden;
   overflow: hidden;
   border:1px orange solid;
-  transition:all 1s ease;
+  transition:all .5s ease;
   cursor:pointer;
 }
  .frontCardCave{
@@ -192,7 +203,7 @@ filter:drop-shadow(0px 0px 2px rgba(0, 100, 255));
   backface-visibility: hidden;
   overflow: hidden;
   border:1px grey solid;
-  transition:all 1s ease;
+  transition:all .5s ease;
   cursor:pointer;
 }
  .frontCardVolcano{
@@ -202,7 +213,7 @@ filter:drop-shadow(0px 0px 2px rgba(0, 100, 255));
   backface-visibility: hidden;
   overflow: hidden;
   border:1px red solid;
-  transition:all 1s ease;
+  transition:all .5s ease;
   cursor:pointer;
 }
  .frontCardSea{
@@ -212,7 +223,7 @@ filter:drop-shadow(0px 0px 2px rgba(0, 100, 255));
   backface-visibility: hidden;
   overflow: hidden;
   border:1px #007cff solid;
-  transition:all 1s ease;
+  transition:all .5s ease;
   cursor:pointer;
 }
 
@@ -300,7 +311,7 @@ top: 20px;
 padding:20px;
 }
 .btn{
-margin-top:50px;
+
 }
 
 .btnForest{
@@ -308,6 +319,7 @@ position:relative;
 border:1px rgb(0,128,0) solid;
 transition:all 1s ease;
 color:white;
+margin-top:20px;
 }
 
 
