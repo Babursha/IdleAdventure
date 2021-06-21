@@ -102,7 +102,7 @@ width:175px;
 height:200px;
 margin-right:25px;
 margin-left:35px;
-margin-bottom:20px;
+margin-bottom:30px;
 border-radius:10px;
 color:white;
 box-shadow: 0 3px 8px rgba(0, 0, 0);
@@ -115,7 +115,10 @@ background:linear-gradient(130deg, rgba(0, 0, 0, 0.43) 0%, rgba(248, 0, 255, 0.0
 background-color:#0000003b;
 cursor:pointer;
 }
-
+.shop-container{
+display:grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
 .darker{
 color:white;
 background-color:#212121;
@@ -249,14 +252,26 @@ color:white;
 background-color: #9a00f0;
 border:1px solid white;;
 }
+.enchant-inv-sort{
+display:grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+margin-bottom:auto;
+overflow:auto;
+scrollbar-color: #2E2E2E #212121;
+scrollbar-width: thin;
+padding-right:10px;
+height:600px;
+}
+
 .letter-container{
 display:flex;
 justify-content:center;
 align-items:center;
 margin-left: 50px;
 margin-top: 100px;
-height:50%;
+height:100%;
 width:50%;
+cursor:pointer;
 }
 .letters1{
 filter: drop-shadow(0px 0px 3px rgb(0, 231, 255));
@@ -318,7 +333,7 @@ box-shadow:inset 0px 0px 10px black;
 }
 
 .rare-mystery{
-filter:drop-shadow(10px 5px 10px rgb(0, 255, 0)) drop-shadow(-5px 0px 10px rgba(127,0,255)) drop-shadow(-5px -10px 10px rgb(255, 255, 255)) drop-shadow(-10px -10px 10px rgb(0, 207, 255)) drop-shadow(5px 10px 10px rgb(255, 128, 0)) drop-shadow(0px 10px 10px rgb(204, 0, 0));
+filter:drop-shadow(10px 5px 5px rgb(0, 255, 0)) drop-shadow(-5px 0px 5px rgba(127,0,255)) drop-shadow(-5px -10px 5px rgb(255, 255, 255)) drop-shadow(-10px -10px 5px rgb(0, 207, 255)) drop-shadow(5px 10px 5px rgb(255, 128, 0)) drop-shadow(0px 10px 5px rgb(204, 0, 0));
 }
 .uncommon{
   color: #00FF00;
@@ -354,33 +369,33 @@ filter:drop-shadow(10px 5px 10px rgb(0, 255, 0)) drop-shadow(-5px 0px 10px rgba(
 
 .artifactCraft{
   color:#CC0000;
-  box-shadow: 0px 0px 3px rgba(204,0,0);
+  box-shadow: 0px 0px 50px rgba(204,0,0);
   font-style:italic;
 }
 
 .uncommonCraft{
   color: #00FF00;
-  box-shadow: 0px 0px 3px rgba(0,255,0);
+  box-shadow: 0px 0px 50px rgba(0,255,0);
 }
 
 .commonCraft{
-  box-shadow:0px 0px 3px rgba(255,255,255);
+  box-shadow:0px 0px 50px rgba(255,255,255);
 }
 
 .rareCraft{
   font-style:italic;
-  box-shadow:0px 0px 3px rgba(0,255,255);
+  box-shadow:0px 0px 50px rgba(0,255,255);
   color:cyan;
 }
 
 .mythicCraft{
   color:purple;
-  box-shadow: 0px 0px 3px rgba(127,0,255);
+  box-shadow: 0px 0px 50px rgba(127,0,255);
 }
 
 .legendaryCraft{
   color:#FF8000;
-  box-shadow: 0px 0px 3px rgba(255,128,0);
+  box-shadow: 0px 0px 50px rgba(255,128,0);
 }
 
 
@@ -611,9 +626,21 @@ width:100%;
 display:flex;
 flex-direction:row;
 flex-wrap:wrap;
+justify-content:space-evenly;
 scrollbar-color: #2E2E2E #212121;
 scrollbar-width: thin;
-overflow:auto;
+margin-bottom:auto;
+}
+.enchant-icon{
+filter:drop-shadow(0 0 2px white);
+height:40px;
+}
+.enchant-icon-selected{
+filter:drop-shadow(0 0 5px #db5bff);
+}
+.enchant-icon-btn{
+box-shadow:none;
+
 }
 .inner-craft-box{
 margin-top: 20px;
@@ -631,6 +658,13 @@ height: 1px;
 background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(213, 62, 255, 0.32), rgba(0, 0, 0, 0));
 margin-top:auto;
 margin-bottom:0;
+}
+.separate-enchant{
+height: 1px;
+width:100%;
+background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(247, 0, 255, 0.32), rgba(0, 0, 0, 0));
+margin:15px;
+animation:tempDisplay 1s fowards;
 }
 
 .craft-box{
@@ -703,18 +737,16 @@ transition:1s;
 flex-grow:5;
 }
 .craft-hidden{
-display:flex;
+display:grid;
 height:100%;
-flex-direction:row;
-padding-left:5%;
-padding-right:5%;
-flex-wrap:wrap;
 scrollbar-color: #2E2E2E #212121;
 scrollbar-width: thin;
 overflow:auto;
 transition:1s;
-margin-bottom:auto;
 padding-top:10px;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+padding-left: 25px;
+padding-right: 25px;
 }
 
 .craft-display{
@@ -849,7 +881,7 @@ flex-direction:column;
 #craft-pop-image{
 display:flex;
 justify-content:center;
-
+margin-bottom: 20px;
 }
 #craft-description{
 margin-left: 15px;
@@ -861,7 +893,6 @@ font-size: 15px;
 display: flex;
 justify-content: center;
 margin-bottom: 25px;
-margin-top: -10px;
 }
 .close{
 color:white;

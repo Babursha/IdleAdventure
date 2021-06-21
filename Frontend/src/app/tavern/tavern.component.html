@@ -30,7 +30,7 @@
 
       <!--SHOP OPENED BUY-->
       <div class="shopContents rounded hidden" [ngClass]="{'displayShop':showShopBuy,'no-display':showShopSell}">
-        <div class ="d-flex flex-row flex-wrap" *ngIf="showShopBuy">
+        <div class ="shop-container" *ngIf="showShopBuy">
 
           <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of shopInventory;let i = index" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
             <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
@@ -51,7 +51,7 @@
       </div>
         <!--SHOP OPENED SELL-->
         <div class="shopContents rounded hidden" [ngClass]="{'displayShop':showShopSell,'no-display':showShopBuy}">
-          <div class ="d-flex flex-row flex-wrap" *ngIf="showShopSell">
+          <div class ="shop-container" *ngIf="showShopSell">
 
             <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
               <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
@@ -167,27 +167,118 @@
     <!-------Start Enchant box--------->
     <div class="inner-context-box" [ngClass]="{'preview-shop':showEnchantPreview}">
       <img class="box-img-cover" src="/assets/img/enchant.png" [ngClass]="{'hide-pic':showEnchantPreview}">
-      <div class="letter-container hidden" (mouseenter)="showEnchantButton = true" (mouseleave)="showEnchantButton = false" [ngClass]="{'display-enchant':showEnchantPreview}" *ngIf="!hideLetters">
-        <button class="btn" [ngClass]="{'enchant-menu-btn':showEnchantButton}" (click)="displayEnchantable()">Enchant items</button>
+      <div class="letter-container hidden" (click)="hideLetters = true" [ngClass]="{'display-enchant':showEnchantPreview}" *ngIf="!hideLetters">
+<!--        <button class="btn" [ngClass]="{'enchant-menu-btn':showEnchantButton}" (click)="displayEnchantable()">Enchant items</button>-->
         <img class="letters1" src="/assets/img/set1.png" [ngClass]="{'pause':showEnchantButton}">
         <img class="letters2" src="/assets/img/set2.png" [ngClass]="{'pause':showEnchantButton}">
         <img class="letters3" src="/assets/img/set3.png" [ngClass]="{'pause':showEnchantButton}">
       </div>
-        <div class="enchant-container hidden" [ngClass]="{'display':showEnchantPreview}">
-          <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
-            <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
-            <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
-              <div class="row">
-                <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
-                <div class="sellAmount">x{{item.amount}}</div>
-              </div>
-            </div>
-            <div class ="p-2 align-self-center">
-              <p class="separate-btn"></p>
-              <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+        <div class="enchant-container hidden" *ngIf="showEnchantPreview" [ngClass]="{'display':hideLetters}">
+          <button class="btn enchant-icon-btn" (click)="enchantOptions('sword')"><img class="enchant-icon" [ngClass]="{'enchant-icon-selected':showEnchantSword}" src="/assets/img/sword_shop.png"></button>
+          <button class="btn enchant-icon-btn" (click)="enchantOptions('helm')"><img class="enchant-icon" [ngClass]="{'enchant-icon-selected':showEnchantHelm}" src="/assets/img/helm_shop.png"></button>
+          <button class="btn enchant-icon-btn" (click)="enchantOptions('chest')"><img class="enchant-icon" [ngClass]="{'enchant-icon-selected':showEnchantChest}" src="/assets/img/chest_shop.png"></button>
+          <button class="btn enchant-icon-btn" (click)="enchantOptions('legs')"><img  class="enchant-icon" [ngClass]="{'enchant-icon-selected':showEnchantLegs}" src="/assets/img/legs_shop.png" ></button>
+          <button class="btn enchant-icon-btn" (click)="enchantOptions('boots')"><img  class="enchant-icon" [ngClass]="{'enchant-icon-selected':showEnchantBoots}" src="/assets/img/boots_shop.png"></button>
+          <button class="btn enchant-icon-btn" (click)="enchantOptions('ring')"><img class="enchant-icon" [ngClass]="{'enchant-icon-selected':showEnchantRing}" src="/assets/img/ring_shop.png"></button>
+          <div class="separate-enchant"></div>
+        </div>
+
+      <div class="enchant-inv-sort hidden" *ngIf="showEnchantRing" [ngClass]="{'display':showEnchantPreview}">
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of enchantRing" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+          <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+              <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+              <div class="sellAmount">x{{item.amount}}</div>
             </div>
           </div>
+          <div class ="p-2 align-self-center">
+            <p class="separate-btn"></p>
+            <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+          </div>
         </div>
+      </div>
+
+      <div class="enchant-inv-sort hidden" *ngIf="showEnchantBoots" [ngClass]="{'display':showEnchantPreview}">
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of enchantBoots" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+          <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+              <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+              <div class="sellAmount">x{{item.amount}}</div>
+            </div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <p class="separate-btn"></p>
+            <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="enchant-inv-sort hidden" *ngIf="showEnchantChest" [ngClass]="{'display':showEnchantPreview}">
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of enchantChest" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+          <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+              <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+              <div class="sellAmount">x{{item.amount}}</div>
+            </div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <p class="separate-btn"></p>
+            <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="enchant-inv-sort hidden" *ngIf="showEnchantLegs" [ngClass]="{'display':showEnchantPreview}">
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of enchantLegging" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+          <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+              <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+              <div class="sellAmount">x{{item.amount}}</div>
+            </div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <p class="separate-btn"></p>
+            <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="enchant-inv-sort hidden" *ngIf="showEnchantHelm" [ngClass]="{'display':showEnchantPreview}">
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of enchantHelm" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+          <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+              <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+              <div class="sellAmount">x{{item.amount}}</div>
+            </div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <p class="separate-btn"></p>
+            <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="enchant-inv-sort hidden" *ngIf="showEnchantSword" [ngClass]="{'display':showEnchantPreview}">
+        <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of enchantWeapon" (mouseenter)="showTempEquipment(item)" [ngbPopover]="equipmentPop" #equipmentPopover="ngbPopover" triggers="hover" placement="right">
+          <div class = "p-2 mb-auto justify-content-center align-self-center itemName" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">{{item.name}}</div>
+          <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
+            <div class="row">
+              <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
+              <div class="sellAmount">x{{item.amount}}</div>
+            </div>
+          </div>
+          <div class ="p-2 align-self-center">
+            <p class="separate-btn"></p>
+            <button class="btn btn-sm buy-button" (click)="enchantItem(item)">Enchant</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-------Start Lucky box--------->
@@ -199,7 +290,7 @@
            matTooltipClass="wheel-tooltip"
            matTooltip={{wheelInformation()}}>
         </i>
-        <div class="timer" *ngIf="endTimer != 0">{{countdown}}</div>
+        <div class="timer" *ngIf="endTimer >= 1">{{countdown}}</div>
         <div class="wheel-outer" *ngIf="showLuckyPreview">
           <img class="wheel-frame" src="/assets/img/wheel.png">
         </div>
@@ -236,7 +327,7 @@
   </div>
 
   <div class="enchant-pop-up" *ngIf="enchantItemSuccess">
-    <div class="enchant-pop-up-inner" [ngClass]="{'Rare':'rareCraft','Mythic':'mythicCraft','Uncommon':'uncommonCraft', 'Legendary':'legendaryCraft','Common':'commonCraft','Artifact':'artifactCraft'}[enchantedItem.rarity]">
+    <div class="enchant-pop-up-inner">
       <button class="btn close-btn close" (click)="enchantItemSuccess=false">x</button>
       <span id="enchant-item-title" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[enchantedItem.rarity]">{{enchantedItem.name}}</span>
       <div id = "enchant-pop-image"[ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[enchantedItem.rarity]">
@@ -270,6 +361,7 @@
       </section>
     </ng-template>
 
+
   </div>
 
 <!--  <div [ngClass]="{'show':showBought}" class="purchaseItem">Item bought!</div>
@@ -277,54 +369,3 @@
 <!--  <div [ngClass]="{'show':notEnoughGold}" class="purchaseItemFailed">Not enough gold!</div>-->
 </div>
 
-
-<!--
-<div class = "contentBoxAll" *ngIf="showShop || showShopPreview" [ngClass]="{'preview':showShopPreview,'endPreview':!showShopPreview}">
-  <div class="form-group row">
-    <button class="btn groupBtn rounded-0" (click)="displayShopBuy()">Buy</button>
-    <button class="btn groupBtn rounded-0" (click)="displayShopSell()">Sell</button>
-  </div>
-
-  <div class="shopContents rounded">
-    &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;SHOP OPENED BUY&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-    <div class ="d-flex flex-row flex-wrap" *ngIf="showShopBuy">
-
-      <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of shopInventory;let i = index">
-        <div class = "p-2 mb-auto justify-content-center align-self-center">{{item.itemName}}</div>
-        <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
-          <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
-          <div class="shopImg align-self-center" *ngIf="item.item_type==='Potion'" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
-        </div>
-        <div class="p-2 align-self-center">
-          <div class = "indent">
-            {{item.price}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
-        </div>
-        <div class ="p-2 align-self-center">
-          <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemBuy(item,i)">Buy</button>
-        </div>
-      </div>
-    </div>
-    &lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;SHOP OPENED SELL-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-    <div class ="d-flex flex-row flex-wrap" *ngIf="showShopSell">
-
-      <div class="shopBox d-flex align-items-start flex-column justify-content-center" *ngFor="let item of inventory">
-        <div class = "p-2 mb-auto justify-content-center align-self-center">{{item.itemName}}</div>
-        <div class ="p-2 mb-auto align-self-center" [ngClass]="{'Rare':'rare','Mythic':'mythic','Uncommon':'uncommon', 'Legendary':'legendary','Common':'common','Artifact':'artifact'}[item.rarity]">
-          <div class="row">
-            <div class="shopImg align-self-center" *ngIf="item.item_type==='Equipment'" [ngClass]="{'Weapon':'Weapon','Ring':'Ring','Chest':'Chest','Helmet':'Helmet','Legging':'Legging','Boots':'Boots'}[item.equip_type]"></div>
-            <div class="shopImg align-self-center" *ngIf="item.item_type==='Potion'" [ngClass]="{'Potion':'Potion'}[item.item_type]"></div>
-            <div class="sellAmount">x{{item.amount}}</div>
-          </div>
-        </div>
-        <div class="p-2 align-self-center">
-          <div class = "indent">
-            {{item.sell}}  <img src="assets/img/gold_coin.png" title="Gold"></div>
-        </div>
-        <div class ="p-2 align-self-center">
-          <button class="btn btn-sm btn-outline-dark buyBtn" (click)="shopItemSell(item)">Sell</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>-->

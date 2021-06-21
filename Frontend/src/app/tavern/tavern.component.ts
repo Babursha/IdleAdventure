@@ -24,11 +24,18 @@ export class TavernComponent implements OnInit {
 
   shopInventory = [];
   inventory = [];
+  enchantWeapon=[];
+  enchantHelm=[];
+  enchantChest=[];
+  enchantBoots=[];
+  enchantLegging=[];
+  enchantRing=[];
   user=[];
   wheelTimer;
   endTimer = 0;
   resetTimer = true;
   countdown;
+  loadedEnchant = false;
 
   modAttack=0;
   modDefense=0;
@@ -56,6 +63,13 @@ export class TavernComponent implements OnInit {
   craftMiscClicked = false;
   craftedItemSuccess = false;
   enchantItemSuccess= false;
+
+  showEnchantRing=false;
+  showEnchantSword=false;
+  showEnchantChest=false;
+  showEnchantLegs=false;
+  showEnchantBoots=false;
+  showEnchantHelm=false;
 
   spinVal = "";
   interval;
@@ -195,13 +209,90 @@ export class TavernComponent implements OnInit {
       );
   }
 
+  enchantOptions(type){
+    if(type === "ring"){
+      this.showEnchantRing=true;
+      this.showEnchantSword=false;
+      this.showEnchantChest=false;
+      this.showEnchantLegs=false;
+      this.showEnchantBoots=false;
+      this.showEnchantHelm=false;
+    }
+    if(type === "sword"){
+      this.showEnchantRing=false;
+      this.showEnchantSword=true;
+      this.showEnchantChest=false;
+      this.showEnchantLegs=false;
+      this.showEnchantBoots=false;
+      this.showEnchantHelm=false;
+    }
+    if(type === "chest"){
+      this.showEnchantRing=false;
+      this.showEnchantSword=false;
+      this.showEnchantChest=true;
+      this.showEnchantLegs=false;
+      this.showEnchantBoots=false;
+      this.showEnchantHelm=false;
+    }
+    if(type === "boots"){
+      this.showEnchantRing=false;
+      this.showEnchantSword=false;
+      this.showEnchantChest=false;
+      this.showEnchantLegs=false;
+      this.showEnchantBoots=true;
+      this.showEnchantHelm=false;
+    }
+    if(type === "legs"){
+      this.showEnchantRing=false;
+      this.showEnchantSword=false;
+      this.showEnchantChest=false;
+      this.showEnchantLegs=true;
+      this.showEnchantBoots=false;
+      this.showEnchantHelm=false;
+    }
+    if(type === "helm"){
+      this.showEnchantRing=false;
+      this.showEnchantSword=false;
+      this.showEnchantChest=false;
+      this.showEnchantLegs=false;
+      this.showEnchantBoots=false;
+      this.showEnchantHelm=true;
+    }
+
+  }
+
   displayEnchantable(){
-  this.hideLetters = true;
     let url = "/api/show_inventory";
        this.http.get<any>(url).subscribe(
        (rest : any)=>{
        console.log(rest);
-       this.inventory = rest;
+       let i = 0;
+         this.enchantWeapon=[];
+         this.enchantHelm=[];
+         this.enchantChest=[];
+         this.enchantBoots=[];
+         this.enchantLegging=[];
+         this.enchantRing=[];
+       for(i =0;i <rest.length;i++){
+          if(rest[i].equip_type == "Weapon"){
+            this.enchantWeapon.push(rest[i]);
+          }
+          if(rest[i].equip_type == "Chest"){
+            this.enchantChest.push(rest[i]);
+          }
+          if(rest[i].equip_type == "Legging"){
+            this.enchantLegging.push(rest[i]);
+          }
+          if(rest[i].equip_type == "Boots"){
+            this.enchantBoots.push(rest[i]);
+          }
+          if(rest[i].equip_type == "Helmet"){
+            this.enchantHelm.push(rest[i]);
+          }
+          if(rest[i].equip_type == "Ring"){
+            this.enchantRing.push(rest[i]);
+          }
+        }
        },
        err=>{
        console.log("failed to get inventory");
@@ -409,6 +500,7 @@ export class TavernComponent implements OnInit {
   displayLucky(){
     this.showLucky = true;
     this.showShopPreview = false;
+    this.showShop = false;
     this.showShopBuy = false;
     this.showShopSell = false;
     this.showCraft = false;
@@ -420,17 +512,20 @@ export class TavernComponent implements OnInit {
   displayEnchant(){
     this.showEnchant = true;
     this.showShopPreview = false;
+    this.showShop = false;
     this.showShopBuy = false;
     this.showShopSell = false;
     this.showLucky = false;
     this.showLuckyPreview= false;
     this.showCraft = false;
     this.showCraftPreview=false;
+    this.displayEnchantable();
   }
 
   displayCraft(){
     this.showCraft = true;
     this.showShopPreview = false;
+    this.showShop = false;
     this.showShopBuy = false;
     this.showShopSell = false;
     this.showLucky = false;
