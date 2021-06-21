@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotEmpty;
-import com.IdleAdventure.adventuregame.model.Inventory;
-import com.IdleAdventure.adventuregame.model.Stats;
-import com.IdleAdventure.adventuregame.model.UserHomeDetails;
+
+import com.IdleAdventure.adventuregame.model.*;
 import com.IdleAdventure.adventuregame.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -23,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
-import com.IdleAdventure.adventuregame.model.GameUser;
 
 
 @CrossOrigin
@@ -39,6 +37,9 @@ public class AccountController {
     private StatsRepository statsRepository;
     @Autowired
     private EquippedRepository equippedRepository;
+    @Autowired
+    private AchievementRepository achievementRepository;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -60,6 +61,7 @@ public class AccountController {
             this.userRepository.save(user);
             this.setNewStats(user);
             this.setNewInventory(user);
+            this.setNewAchievements(user);
         }
         return ResponseEntity.ok(HttpEntity.EMPTY);
     }
@@ -77,6 +79,11 @@ public class AccountController {
         starterInv.add(new Inventory(user.getId(), 3, 1));
         starterInv.add(new Inventory(user.getId(),4,50));
         this.inventoryRepository.saveAll(starterInv);
+    }
+
+    private void setNewAchievements(@NotEmpty GameUser user){
+        Achievement userBadges = new Achievement(user.getId(),0,0,0,0,0);
+        this.achievementRepository.save(userBadges);
     }
 
     @RequestMapping("/api/home")
