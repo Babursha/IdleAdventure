@@ -16,4 +16,5 @@ public interface UserHomeDetails {
     Integer getAttack();
     Integer getCrit_chance();
     Date getEnd_wheel();
+    Integer getStat_points();
 }

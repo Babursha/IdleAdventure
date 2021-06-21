@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<GameUser,Integer> {
     @Query(value= Q_WHEEL_TIMER,nativeQuery = true)
     void spinWheel(@Param("u_id")int u_id, @Param("start") Date start, @Param("end") Date end);
 
-    String Q_USER_HOME_DETAILS= "SELECT username,level,xp_current,xp_gained,xp_lvl_up,xp_progress,gold,gold_progress,hp,defense,attack,crit_chance,end_wheel from user INNER JOIN stats ON user.id=stats.user_id WHERE user.id = :u_id";
+    String Q_USER_HOME_DETAILS= "SELECT username,level,xp_current,xp_gained,xp_lvl_up,xp_progress,gold,gold_progress,hp,defense,attack,crit_chance,end_wheel,stat_points from user INNER JOIN stats ON user.id=stats.user_id WHERE user.id = :u_id";
     @Query(value = Q_USER_HOME_DETAILS,nativeQuery = true)
     UserHomeDetails getUserDetails(@Param("u_id") int u_id);
 
@@ -47,11 +47,15 @@ public interface UserRepository extends JpaRepository<GameUser,Integer> {
     @Query(value=Q_COLLECT_XP,nativeQuery = true)
     void updateXp(@Param("u_id")int u_id,@Param("level")int level,@Param("xp_curr") int xp_current,@Param("xp_lvl") int xp_lvl_up);
 
-    String Q_UPDATE_STATS = "UPDATE user u set u.attack = :attack where  iduser = :u_id";
+    String Q_CHECK_USER_LEVEL="SELECT level from stats s where s.user_id=:u_id";
+    @Query(value=Q_CHECK_USER_LEVEL,nativeQuery = true)
+    int userLvlCheck(@Param("u_id") int u_id);
+
+    String Q_UPDATE_STAT_POINTS = "UPDATE user u set u.stat_points = :points where  id = :u_id";
     @Modifying
     @Transactional
-    @Query(value = Q_UPDATE_STATS,nativeQuery = true)
-    void updateStats(@Param("u_id") int u_id, @Param("attack") int attack);
+    @Query(value = Q_UPDATE_STAT_POINTS,nativeQuery = true)
+    void updateStatPoints(@Param("u_id") int u_id, @Param("points") int points);
 
     String Q_UPDATE_LOOT = "UPDATE user u set u.gold = :gold, u.xp_gained = :xpGain, u.xp_current = :xpCurrent,u.xp_lvl_up = :xpLvlUp, u.level = :level where iduser = :u_id";
     @Modifying
